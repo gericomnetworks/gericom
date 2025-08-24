@@ -6,7 +6,7 @@ export default function Header() {
   return (
     <header className="w-full shadow">
       {/* Top Bar */}
-      <div className="bg-red-600 text-white py-2 px-4 flex flex-col md:flex-row items-center justify-between text-sm font-medium">
+      <div className="bg-red-600 text-white py-4 px-4 flex flex-col md:flex-row items-center justify-between text-sm font-medium">
         <p className="text-center">
           You can now register or check your warranty online. Always Buy Genuine Quality Products
         </p>
@@ -19,7 +19,7 @@ export default function Header() {
           </Link>
           <div className="flex items-center border bg-white text-black px-3 py-1 rounded-md text-sm">
             KES, Ksh
-            <Image src="/kenya-flag.png" alt="KES" width={20} height={14} className="ml-2" />
+            <Image src="/kenya-flag.jpeg" alt="KES" width={20} height={14} className="ml-2" />
           </div>
         </div>
       </div>
@@ -61,7 +61,7 @@ export default function Header() {
       </div>
 
       {/* Category Navigation */}
-      <nav className="border-t border-b py-3 px-6 flex flex-wrap justify-center md:justify-start gap-6 text-gray-800 text-sm font-semibold">
+      <nav className="border-t border-b py-3 px-6 flex flex-wrap justify-center gap-6 text-gray-800 text-sm font-semibold">
         <Link href="/category/surveillance" className="flex items-center gap-2">
           <span>📹</span> Surveillance & Security
         </Link>
