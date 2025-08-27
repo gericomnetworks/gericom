@@ -15,7 +15,7 @@ type Product = {
 };
 
 const ALL_PRODUCTS: Product[] = [
-  { id: "p1", name: "DSS7016DR Dahua Dss Pro Digital Surveillance System", brand: "Dahua", price: 498771, status: "instock", image: "https://picsum.photos/seed/cam1/600/400" },
+  { id: "p1", name: "DSS7016DR Dahua Dss Pro Digital Surveillance System", brand: "Dahua", price: 498771, status: "instock", image: "/products/ivs1.jpg" },
  
 ];
 

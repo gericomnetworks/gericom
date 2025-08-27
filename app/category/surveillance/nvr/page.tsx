@@ -15,18 +15,18 @@ type Product = {
 };
 
 const ALL_PRODUCTS: Product[] = [
-  { id: "p1", name: "ADU8712-E-V3 Uniview 12 Channel High Definition Video Decoder", brand: "UNIVIEW", price: 255000, status: "instock", image: "https://picsum.photos/seed/cam1/600/400" },
-  { id: "p2", name: "DS-7608NI-I2/8P Hikvision 8-ch 1U 8 PoE 4K NVR", brand: "HIKVISION", price: 31200, status: "instock", image: "https://picsum.photos/seed/cam2/600/400" },
-  { id: "p3", name: "Longse BMSCTHC200FPEW 5MP Lite Outdoor Full Color Fixed Bullet HD Camera", brand: "Longse", price: 2650, oldPrice: 19500, status: "onsale", image: "https://picsum.photos/seed/cam3/600/400" },
-  { id: "p4", name: "Longse XVRT3008D 8CH Hybrid Video Recorder", brand: "Longse", price: 5300, status: "instock", image: "https://picsum.photos/seed/cam4/600/400" },
-  { id: "p5", name: "NVR302-16S2-P16 Uniview 16 Channel 4K NVR with PoE", brand: "UNIVIEW", price: 27300, status: "instock", image: "https://picsum.photos/seed/cam5/600/400" },
-  { id: "p6", name: "NVR4816-16P-4K Dahua IP NVR / Dvr / Recorder. 16 Channel.", brand: "Dahua", price: 46108, oldPrice: 65869, status: "onsale", image: "https://picsum.photos/seed/cam6/600/400" },
-  { id: "p7", name: "NVR502-32B-P16 Uniview 16 Channel NVR, High Mbps, High Decoding, PoE, NDAA", brand: "UNIVIEW", price: 39000, status: "instock", image: "https://picsum.photos/seed/cam7/600/400" },
-  { id: "p8", name: "Reolink NVS12W 12-Channel Wi-Fi 6 NVR Recorder", brand: "Reolink", price: 26100, status: "instock", image: "https://picsum.photos/seed/cable/600/400" },
-  { id: "p9", name: "Unicorn Video Management Server VMS from Uniview", brand: "UNIVIEW", price: 526500, status: "backorder", image: "https://picsum.photos/seed/decoder/600/400" },
-  { id: "p10", name: "Uniview NVR301-16S3 4K Network Video Recorder", brand: "UNIVIEW", price: 7200, status: "instock", image: "https://picsum.photos/seed/akuvox1/600/400" },
-  { id: "p11", name: "Uniview NVR302-32S 32 Channel 2 HDD NVR", brand: "UNIVIEW", price: 15720, status: "instock", image: "https://picsum.photos/seed/akuvox2/600/400" },
-  { id: "p12", name: "Uniview NVR508-64B UNV 64 Channel 4K NVR up to 12MP, Ultra265, H.265", brand: "UNIVIEW", price: 52500, status: "instock", image: "https://picsum.photos/seed/akuvox3/600/400" },
+  { id: "p1", name: "ADU8712-E-V3 Uniview 12 Channel High Definition Video Decoder", brand: "UNIVIEW", price: 255000, status: "instock", image: "/products/nvr1.jpg" },
+  { id: "p2", name: "DS-7608NI-I2/8P Hikvision 8-ch 1U 8 PoE 4K NVR", brand: "HIKVISION", price: 31200, status: "instock", image: "/products/nvr2.jpg" },
+  { id: "p3", name: "Longse BMSCTHC200FPEW 5MP Lite Outdoor Full Color Fixed Bullet HD Camera", brand: "Longse", price: 2650, oldPrice: 19500, status: "onsale", image: "/products/nvr3.jpg" },
+  { id: "p4", name: "Longse XVRT3008D 8CH Hybrid Video Recorder", brand: "Longse", price: 5300, status: "instock", image: "/products/nvr4.jpg" },
+  { id: "p5", name: "NVR302-16S2-P16 Uniview 16 Channel 4K NVR with PoE", brand: "UNIVIEW", price: 27300, status: "instock", image: "/products/nvr5.jpg" },
+  { id: "p6", name: "NVR4816-16P-4K Dahua IP NVR / Dvr / Recorder. 16 Channel.", brand: "Dahua", price: 46108, oldPrice: 65869, status: "onsale", image: "/products/nvr6.jpg" },
+  { id: "p7", name: "NVR502-32B-P16 Uniview 16 Channel NVR, High Mbps, High Decoding, PoE, NDAA", brand: "UNIVIEW", price: 39000, status: "instock", image: "/products/nvr7.jpg" },
+  { id: "p8", name: "Reolink NVS12W 12-Channel Wi-Fi 6 NVR Recorder", brand: "Reolink", price: 26100, status: "instock", image: "/products/nvr8.jpg" },
+  { id: "p9", name: "Unicorn Video Management Server VMS from Uniview", brand: "UNIVIEW", price: 526500, status: "backorder", image: "/products/nvr9.jpg" },
+  { id: "p10", name: "Uniview NVR301-16S3 4K Network Video Recorder", brand: "UNIVIEW", price: 7200, status: "instock", image: "/products/nvr10.jpg" },
+  { id: "p11", name: "Uniview NVR302-32S 32 Channel 2 HDD NVR", brand: "UNIVIEW", price: 15720, status: "instock", image: "/products/nvr11.jpg" },
+  { id: "p12", name: "Uniview NVR508-64B UNV 64 Channel 4K NVR up to 12MP, Ultra265, H.265", brand: "UNIVIEW", price: 52500, status: "instock", image: "/products/nvr12.jpg" },
  
 ];
 

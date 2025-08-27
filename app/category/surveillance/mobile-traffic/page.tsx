@@ -15,7 +15,7 @@ type Product = {
 };
 
 const ALL_PRODUCTS: Product[] = [
-  { id: "p1", name: "MPT300WA MPt HD Mobile Portable Terminal MPt300", brand: "MPT", price: 123505, status: "instock", image: "https://picsum.photos/seed/cam1/600/400" },
+  { id: "p1", name: "MPT300WA MPt HD Mobile Portable Terminal MPt300", brand: "MPT", price: 123505, status: "instock", image: "/products/mobile1.jpg" },
  
 ];
 

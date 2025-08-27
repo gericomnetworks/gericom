@@ -15,10 +15,10 @@ type Product = {
 };
 
 const ALL_PRODUCTS: Product[] = [
-  { id: "p1", name: "Dash Camera (G300H Pro)", brand: "Botslab", price: 8993, status: "instock", image: "https://picsum.photos/seed/cam1/600/400" },
-  { id: "p2", name: "Dash camera (G500H Pro)", brand: "Botslab", price: 11600, status: "instock", image: "https://picsum.photos/seed/cam2/600/400" },
-  { id: "p3", name: "Dash Camera (G980H) with 64 GB SD Card", brand: "Botslab", price: 16293,status: "onsale", image: "https://picsum.photos/seed/cam3/600/400" },
-  { id: "p4", name: "Dash Camera (HK30 Pro)", brand: "Botslab", price: 5856, status: "instock", image: "https://picsum.photos/seed/cam4/600/400" },
+  { id: "p1", name: "Dash Camera (G300H Pro)", brand: "Botslab", price: 8993, status: "instock", image: "/products/dash1.jpg" },
+  { id: "p2", name: "Dash camera (G500H Pro)", brand: "Botslab", price: 11600, status: "instock", image: "/products/dash2.jpg" },
+  { id: "p3", name: "Dash Camera (G980H) with 64 GB SD Card", brand: "Botslab", price: 16293,status: "onsale", image: "/products/dash3.jpg" },
+  { id: "p4", name: "Dash Camera (HK30 Pro)", brand: "Botslab", price: 5856, status: "instock", image: "/products/dash4.jpg" },
  
 ];
 

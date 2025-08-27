@@ -15,7 +15,7 @@ type Product = {
 };
 
 const ALL_PRODUCTS: Product[] = [
-  { id: "p1", name: "ESS1508C Dahua Disk Array 48 TB", brand: "Dahua", price: 34914, oldPrice: 49877, status: "onsale", image: "https://picsum.photos/seed/colorvu/600/400" },
+  { id: "p1", name: "ESS1508C Dahua Disk Array 48 TB", brand: "Dahua", price: 34914, oldPrice: 49877, status: "onsale", image: "/products/storage1.jpg" },
  
 ];
 

@@ -15,14 +15,13 @@ type Product = {
 };
 
 const PRODUCTS: Product[] = [
-  { id: "ptz1", name: "Dahua PTZ1C200UE-GN 2MP Starlight IR PTZ Network Camera", brand: "Dahua", oldPrice: 82500, price: 75700, status: "onsale", image: "https://picsum.photos/seed/ptz1/600/400" },
-  { id: "ptz2", name: "IPC6252SR-X22UG Uniview Outdoor PTZ IP Security Camera", brand: "UNIVIEW", price: 92630, status: "instock", image: "https://picsum.photos/seed/ptz2/600/400" },
-  { id: "ptz3", name: "IPC6252SL-X33UP Uniview 2MP Starlight Laser IR Network PTZ Dome", brand: "UNIVIEW", price: 226430, status: "instock", image: "https://picsum.photos/seed/ptz3/600/400" },
-  { id: "ptz4", name: "IPC6852SR-X44U Uniview 2MP 44X Starlight Network PTZ Dome", brand: "UNIVIEW", price: 226430, status: "instock", image: "https://picsum.photos/seed/ptz4/600/400" },
-  { id: "ptz5", name: "IPC7622ER-X44-VF 2MP 44X Lighthunter Network Positioning System", brand: "UNIVIEW", price: 273000, status: "instock", image: "https://picsum.photos/seed/ptz5/600/400" },
-  { id: "ptz6", name: "SD6AL245U-HNI Dahua 2MP 45X Starlight Laser PTZ Network Camera", brand: "Dahua", oldPrice: 186500, price: 166260, status: "onsale", image: "https://picsum.photos/seed/ptz6/600/400" },
-  { id: "ptz7", name: "SD6AW230-HNI Dahua 2MP PTZ Dome Camera", brand: "Dahua", oldPrice: 66000, price: 59600, status: "onsale", image: "https://picsum.photos/seed/ptz7/600/400" },
-  { id: "ptz8", name: "Dahua PTZ2C200-UE 2MP Outdoor PTZ", brand: "Dahua", price: 97500, status: "instock", image: "https://picsum.photos/seed/ptz8/600/400" },
+  { id: "ptz1", name: "Dahua PTZ1C200UE-GN 2MP Starlight IR PTZ Network Camera", brand: "Dahua", oldPrice: 82500, price: 75700, status: "onsale", image: "/products/ptz1.jpg" },
+  { id: "ptz2", name: "IPC6252SR-X22UG Uniview Outdoor PTZ IP Security Camera", brand: "UNIVIEW", price: 92630, status: "instock", image: "/products/ptz2.jpg" },
+  { id: "ptz3", name: "IPC6252SL-X33UP Uniview 2MP Starlight Laser IR Network PTZ Dome", brand: "UNIVIEW", price: 226430, status: "instock", image: "/products/ptz3.jpg" },
+  { id: "ptz4", name: "IPC6852SR-X44U Uniview 2MP 44X Starlight Network PTZ Dome", brand: "UNIVIEW", price: 226430, status: "instock", image: "/products/ptz4.jpg" },
+  { id: "ptz5", name: "IPC7622ER-X44-VF 2MP 44X Lighthunter Network Positioning System", brand: "UNIVIEW", price: 273000, status: "instock", image: "/products/ptz5.jpg" },
+  { id: "ptz6", name: "SD6AL245U-HNI Dahua 2MP 45X Starlight Laser PTZ Network Camera", brand: "Dahua", oldPrice: 186500, price: 166260, status: "onsale", image: "/products/ptz6.jpg" },
+  { id: "ptz7", name: "SD6AW230-HNI Dahua 2MP PTZ Dome Camera", brand: "Dahua", oldPrice: 66000, price: 59600, status: "onsale", image: "/products/ptz7.jpg" },
 ];
 
 function formatKES(n: number) {
