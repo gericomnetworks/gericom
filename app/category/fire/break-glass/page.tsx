@@ -15,42 +15,18 @@ type Product = {
 };
 
 const ALL_PRODUCTS: Product[] = [
-  { id: "p1", name: "4MP Fixed IR Dome Camera", brand: "Tiandy", price: 12900, status: "instock", image: "https://picsum.photos/seed/cam1/600/400" },
-  { id: "p2", name: "4MP Fixed IR Bullet Camera", brand: "Tiandy", price: 14300, status: "instock", image: "https://picsum.photos/seed/cam2/600/400" },
-  { id: "p3", name: "4MP Motorized IR Bullet Camera", brand: "Tiandy", price: 17880, oldPrice: 19500, status: "onsale", image: "https://picsum.photos/seed/cam3/600/400" },
-  { id: "p4", name: "4MP Motorized IR Dome Camera", brand: "Tiandy", price: 17600, status: "instock", image: "https://picsum.photos/seed/cam4/600/400" },
-  { id: "p5", name: "5MP Motorized Starlight IR Camera", brand: "Tiandy", price: 21250, status: "instock", image: "https://picsum.photos/seed/cam5/600/400" },
-  { id: "p6", name: "5MP Super Starlight Motorized IR Bullet Camera", brand: "Tiandy", price: 26500, oldPrice: 28900, status: "onsale", image: "https://picsum.photos/seed/cam6/600/400" },
-  { id: "p7", name: "5MP Super Starlight Motorized IR Dome Camera", brand: "Tiandy", price: 23200, status: "instock", image: "https://picsum.photos/seed/cam7/600/400" },
-  { id: "p8", name: "6 Core Alarm Cable White 100m", brand: "Generic", price: 6900, status: "instock", image: "https://picsum.photos/seed/cable/600/400" },
-  { id: "p9", name: "ADX812-16 V3 16ch HD Video Decoder", brand: "Generic", price: 41800, status: "backorder", image: "https://picsum.photos/seed/decoder/600/400" },
-  { id: "p10", name: "Akuvox A05S Commercial Access Control (Face + QR)", brand: "Akuvox", price: 94300, status: "instock", image: "https://picsum.photos/seed/akuvox1/600/400" },
-  { id: "p11", name: "Akuvox C319 10\" Android Indoor Monitor (Video Intercom)", brand: "Akuvox", price: 134500, status: "instock", image: "https://picsum.photos/seed/akuvox2/600/400" },
-  { id: "p12", name: "Akuvox E12 Single-Button Video Doorbell", brand: "Akuvox", price: 26500, status: "instock", image: "https://picsum.photos/seed/akuvox3/600/400" },
-  { id: "p13", name: "Akuvox E16C Face Recognition Door Phone", brand: "Akuvox", price: 176000, status: "backorder", image: "https://picsum.photos/seed/akuvox4/600/400" },
-  // fill out to mimic a full catalog grid
-  { id: "p14", name: "2MP Fixed IR Dome Camera", brand: "Dahua", price: 9200, status: "instock", image: "https://picsum.photos/seed/dome2mp/600/400" },
-  { id: "p15", name: "2MP Fixed IR Bullet Camera", brand: "Dahua", price: 9800, status: "instock", image: "https://picsum.photos/seed/bullet2mp/600/400" },
-  { id: "p16", name: "8MP Motorized Varifocal Dome", brand: "Hikvision", price: 46350, status: "instock", image: "https://picsum.photos/seed/hik8mp/600/400" },
-  { id: "p17", name: "8MP ColorVu Bullet Camera", brand: "Hikvision", price: 38990, oldPrice: 41990, status: "onsale", image: "https://picsum.photos/seed/colorvu/600/400" },
-  { id: "p18", name: "4MP LightHunter Bullet", brand: "UNIVIEW", price: 22460, status: "instock", image: "https://picsum.photos/seed/unv4mp/600/400" },
-  { id: "p19", name: "4MP LightHunter Dome", brand: "UNIVIEW", price: 21990, status: "instock", image: "https://picsum.photos/seed/unv4mp2/600/400" },
-  { id: "p20", name: "EZVIZ C3TN 2MP Outdoor", brand: "EZVIZ", price: 6550, status: "instock", image: "https://picsum.photos/seed/ezviz1/600/400" },
-  { id: "p21", name: "EZVIZ C8C 2MP Pan & Tilt", brand: "EZVIZ", price: 11500, status: "instock", image: "https://picsum.photos/seed/ezviz2/600/400" },
-  { id: "p22", name: "BDCOM PoE Switch 16-Port", brand: "BDCOM", price: 28500, status: "instock", image: "https://picsum.photos/seed/bdcom/600/400" },
-  { id: "p23", name: "Cat6 UTP Cable 305m", brand: "Generic", price: 16900, status: "instock", image: "https://picsum.photos/seed/cat6/600/400" },
-  { id: "p24", name: "Network Video Recorder 16CH", brand: "Generic", price: 55900, status: "backorder", image: "https://picsum.photos/seed/nvr16/600/400" },
+  { id: "p1", name: "KAC MCP1A-Y470SG-14 Yellow Extinguishant Release Call Point", brand: "Honeywell", price: 2646, status: "instock", image: "https://picsum.photos/seed/cam1/600/400" },
+  { id: "p2", name: "MCP1A-R470FG-01 Honeywell Conventional Flush Call Point Notifier", brand: "Honeywell", price: 2692, status: "instock", image: "https://picsum.photos/seed/cam2/600/400" },
+  { id: "p3", name: "MCP1A-R470FG-01 Honeywell Conventional Flush Call Point Notifier", brand: "Honeywell", price: 10500, status: "onsale", image: "https://picsum.photos/seed/cam3/600/400" },
+  { id: "p4", name: "PS200 KAC – Fire Alarm Call Point Cover", brand: "Honeywell", price: 927, status: "instock", image: "https://picsum.photos/seed/cam4/600/400" },
+  { id: "p5", name: "SR1T Morley Call Point Backbox For Surface Mounting", brand: "Honeywell", price: 713, status: "instock", image: "https://picsum.photos/seed/cam5/600/400" },
+  { id: "p6", name: "W5A-RPO5SF-K013 Morley IAS Addressable Glass Weatherproof Call Point", brand: "Honeywell", price: 15750, oldPrice: 22169, status: "onsale", image: "https://picsum.photos/seed/cam6/600/400" },
+
 ];
 
 const ALL_BRANDS = [
-  "BDCOM",
-  "Hikvision",
-  "Dahua",
-  "Tiandy",
-  "EZVIZ",
-  "UNIVIEW",
-  "Akuvox",
-  "Generic",
+  "Honeywell",
+  
 ] as const;
 
 function formatKES(x: number) {
@@ -159,8 +135,8 @@ export default function Page() {
       <div className="bg-[url('https://images.unsplash.com/photo-1569235182173-379ecd0bba77?q=80&w=2400&auto=format&fit=crop')] bg-cover bg-center">
         <div className="bg-red-600/85">
           <div className="mx-auto max-w-7xl px-4 py-10 text-white">
-            <h1 className="text-4xl font-extrabold">Surveillance &amp; Security</h1>
-            <p className="mt-1 opacity-90">Network Cameras / IP Cameras</p>
+            <h1 className="text-4xl font-extrabold">Break Glass</h1>
+            
           </div>
         </div>
       </div>

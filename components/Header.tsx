@@ -47,6 +47,9 @@ const categories: Category[] = [
     icon: "🛡",
     href: "/category/anti-theft",
     image: "https://imaxcameras.com/wp-content/uploads/2024/01/ic31-150x150.png",
+    children: [
+      { name: "Anti-Theft Systems", href: "/category/anti-theft" },
+    ],
   },
   {
     name: "Fire",
@@ -72,14 +75,13 @@ const categories: Category[] = [
     ],
   },
   {
-    name: "Public Address (P.A)",
+    name: "Intercom",
     icon: "🔊",
-    href: "/category/public-address",
+    href: "/category/intercom",
     image: "https://imaxcameras.com/wp-content/uploads/2024/01/ic27-150x150.png",
     children: [
-      { name: "Amplifiers", href: "/category/public-address/amplifiers" },
-      { name: "Speakers", href: "/category/public-address/speakers" },
-      { name: "Voice Evacuation", href: "/category/public-address/voice-evacuation" },
+      { name: "Intercom", href: "/category/intercom" },
+    
     ],
   },
 ];

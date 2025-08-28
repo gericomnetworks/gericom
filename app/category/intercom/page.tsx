@@ -15,42 +15,40 @@ type Product = {
 };
 
 const ALL_PRODUCTS: Product[] = [
-  { id: "p1", name: "4MP Fixed IR Dome Camera", brand: "Tiandy", price: 12900, status: "instock", image: "https://picsum.photos/seed/cam1/600/400" },
-  { id: "p2", name: "4MP Fixed IR Bullet Camera", brand: "Tiandy", price: 14300, status: "instock", image: "https://picsum.photos/seed/cam2/600/400" },
-  { id: "p3", name: "4MP Motorized IR Bullet Camera", brand: "Tiandy", price: 17880, oldPrice: 19500, status: "onsale", image: "https://picsum.photos/seed/cam3/600/400" },
-  { id: "p4", name: "4MP Motorized IR Dome Camera", brand: "Tiandy", price: 17600, status: "instock", image: "https://picsum.photos/seed/cam4/600/400" },
-  { id: "p5", name: "5MP Motorized Starlight IR Camera", brand: "Tiandy", price: 21250, status: "instock", image: "https://picsum.photos/seed/cam5/600/400" },
-  { id: "p6", name: "5MP Super Starlight Motorized IR Bullet Camera", brand: "Tiandy", price: 26500, oldPrice: 28900, status: "onsale", image: "https://picsum.photos/seed/cam6/600/400" },
-  { id: "p7", name: "5MP Super Starlight Motorized IR Dome Camera", brand: "Tiandy", price: 23200, status: "instock", image: "https://picsum.photos/seed/cam7/600/400" },
-  { id: "p8", name: "6 Core Alarm Cable White 100m", brand: "Generic", price: 6900, status: "instock", image: "https://picsum.photos/seed/cable/600/400" },
-  { id: "p9", name: "ADX812-16 V3 16ch HD Video Decoder", brand: "Generic", price: 41800, status: "backorder", image: "https://picsum.photos/seed/decoder/600/400" },
-  { id: "p10", name: "Akuvox A05S Commercial Access Control (Face + QR)", brand: "Akuvox", price: 94300, status: "instock", image: "https://picsum.photos/seed/akuvox1/600/400" },
-  { id: "p11", name: "Akuvox C319 10\" Android Indoor Monitor (Video Intercom)", brand: "Akuvox", price: 134500, status: "instock", image: "https://picsum.photos/seed/akuvox2/600/400" },
-  { id: "p12", name: "Akuvox E12 Single-Button Video Doorbell", brand: "Akuvox", price: 26500, status: "instock", image: "https://picsum.photos/seed/akuvox3/600/400" },
-  { id: "p13", name: "Akuvox E16C Face Recognition Door Phone", brand: "Akuvox", price: 176000, status: "backorder", image: "https://picsum.photos/seed/akuvox4/600/400" },
+  { id: "p1", name: "Akuvox A05C commercial-grade access control terminal, access control via AI-powered face recognition", brand: "Akuvox", price: 21000, status: "instock", image: "https://picsum.photos/seed/cam1/600/400" },
+  { id: "p2", name: "Akuvox C319 10” Android indoor monitor with built-in voice assistant", brand: "Akuvox", price: 33450, status: "instock", image: "https://picsum.photos/seed/cam2/600/400" },
+  { id: "p3", name: "Akuvox E12 single-button SIP video door phone, mobile access and wireless communication", brand: "Akuvox", price: 9900, status: "onsale", image: "https://picsum.photos/seed/cam3/600/400" },
+  { id: "p4", name: "Akuvox E16C Face recognition, mobile access, temperature measurement, and mask detection in one device.", brand: "Akuvox", price: 41250, status: "instock", image: "https://picsum.photos/seed/cam4/600/400" },
+  { id: "p5", name: "Akuvox E18C 7″ with face recognition featuring touchless building access and wireless communication", brand: "Akuvox", price: 56550, status: "instock", image: "https://picsum.photos/seed/cam5/600/400" },
+  { id: "p6", name: "Akuvox IP Video Intercom Kit ,Wi-Fi video door phone ,a touchscreen monitor", brand: "Akuvox", price: 21450,  status: "onsale", image: "https://picsum.photos/seed/cam6/600/400" },
+  { id: "p7", name: "Akuvox R20A SIP door intercom with 120 degree Wide-angle Video camera, Flush-mount casing", brand: "Akuvox", price: 21378, status: "instock", image: "https://picsum.photos/seed/cam7/600/400" },
+  { id: "p8", name: "Akuvox R20BX5 IP Video Intercom with 5 keys and RFID", brand: "Akuvox", price: 22485, status: "instock", image: "https://picsum.photos/seed/cable/600/400" },
+  { id: "p9", name: "Akuvox R20K SIP Video Door Phone with Numeric Keypad", brand: "Akuvox", price: 29294, status: "backorder", image: "https://picsum.photos/seed/decoder/600/400" },
+  { id: "p10", name: "Akuvox R27A IP video intercom with keypad (RFID card reader)", brand: "Akuvox", price: 39585, status: "instock", image: "https://picsum.photos/seed/akuvox1/600/400" },
+  { id: "p11", name: "Akuvox R28A IP Video Intercom (2MP camera, H.265 & H.264 decoding, 4.3 inch color display, RFID card reader, keypad)", brand: "Akuvox", price: 52500, status: "instock", image: "https://picsum.photos/seed/akuvox2/600/400" },
+  { id: "p12", name: "Akuvox R29CT IP video door phone, touch display, dual camera, Facial Recognition, Finger Print, RFID card reader, pin code & Bluetooth", brand: "Akuvox", price: 120000, status: "instock", image: "https://picsum.photos/seed/akuvox3/600/400" },
+  { id: "p13", name: "Akuvox S562 7″ Linux indoor monitor with compact body and stylish design", brand: "Akuvox", price: 9300, status: "backorder", image: "https://picsum.photos/seed/akuvox4/600/400" },
   // fill out to mimic a full catalog grid
-  { id: "p14", name: "2MP Fixed IR Dome Camera", brand: "Dahua", price: 9200, status: "instock", image: "https://picsum.photos/seed/dome2mp/600/400" },
-  { id: "p15", name: "2MP Fixed IR Bullet Camera", brand: "Dahua", price: 9800, status: "instock", image: "https://picsum.photos/seed/bullet2mp/600/400" },
-  { id: "p16", name: "8MP Motorized Varifocal Dome", brand: "Hikvision", price: 46350, status: "instock", image: "https://picsum.photos/seed/hik8mp/600/400" },
-  { id: "p17", name: "8MP ColorVu Bullet Camera", brand: "Hikvision", price: 38990, oldPrice: 41990, status: "onsale", image: "https://picsum.photos/seed/colorvu/600/400" },
-  { id: "p18", name: "4MP LightHunter Bullet", brand: "UNIVIEW", price: 22460, status: "instock", image: "https://picsum.photos/seed/unv4mp/600/400" },
-  { id: "p19", name: "4MP LightHunter Dome", brand: "UNIVIEW", price: 21990, status: "instock", image: "https://picsum.photos/seed/unv4mp2/600/400" },
-  { id: "p20", name: "EZVIZ C3TN 2MP Outdoor", brand: "EZVIZ", price: 6550, status: "instock", image: "https://picsum.photos/seed/ezviz1/600/400" },
-  { id: "p21", name: "EZVIZ C8C 2MP Pan & Tilt", brand: "EZVIZ", price: 11500, status: "instock", image: "https://picsum.photos/seed/ezviz2/600/400" },
-  { id: "p22", name: "BDCOM PoE Switch 16-Port", brand: "BDCOM", price: 28500, status: "instock", image: "https://picsum.photos/seed/bdcom/600/400" },
-  { id: "p23", name: "Cat6 UTP Cable 305m", brand: "Generic", price: 16900, status: "instock", image: "https://picsum.photos/seed/cat6/600/400" },
-  { id: "p24", name: "Network Video Recorder 16CH", brand: "Generic", price: 55900, status: "backorder", image: "https://picsum.photos/seed/nvr16/600/400" },
+  { id: "p14", name: "Akuvox SP-R50P advanced telephony", brand: "Akuvox", price: 5550, status: "instock", image: "https://picsum.photos/seed/dome2mp/600/400" },
+  { id: "p15", name: "ARA10-W Dahua Technology Dhi- WIReless SIRen", brand: "Dahua", price: 3603, oldPrice: 5146, status: "instock", image: "https://picsum.photos/seed/bullet2mp/600/400" },
+  { id: "p16", name: "ARC5408B-CW Dahua Network Video Alarm Controller", brand: "Dahua", price: 17292,  oldPrice: 24702,status: "instock", image: "https://picsum.photos/seed/hik8mp/600/400" },
+  { id: "p17", name: "ARC5808C-C Dahua Intelligent Building Security Alarm Controller", brand: "Dahua", price: 31500, status: "onsale", image: "https://picsum.photos/seed/colorvu/600/400" },
+  { id: "p18", name: "ARD1231-W Dahua WIReless PIR Motion Detector Bi-DIRectional Dahua AIRfly", brand: "Dahua", price: 3169, status: "instock", image: "https://picsum.photos/seed/unv4mp/600/400" },
+  { id: "p19", name: "ARD311-W Dahua WIReless Door/Window Contact", brand: "Dahua", price: 2161, status: "instock", image: "https://picsum.photos/seed/unv4mp2/600/400" },
+  { id: "p20", name: "ARK20C-MW Dahua 1Km Transmit Distance WIReless Alarm Keypad", brand: "Dahua", price: 3603, status: "instock", image: "https://picsum.photos/seed/ezviz1/600/400" },
+  { id: "p21", name: "DS-KAB10-D Hikvision Video Intercom Housing", brand: "Hikvision", price: 8560, status: "instock", image: "https://picsum.photos/seed/ezviz2/600/400" },
+  { id: "p22", name: "E21A VANDAL RESISTANT EMERGENCY INTERCOM", brand: "Akuvox", price: 27710, status: "instock", image: "https://picsum.photos/seed/bdcom/600/400" },
+  { id: "p23", name: "HAP200 Dahua Technology High-Fidelity Pickup Microphone", brand: "Dahua", price: 3603, status: "instock", image: "https://picsum.photos/seed/cat6/600/400" },
+  { id: "p24", name: "HAT200-N2 Dahua Window Intercom", brand: "Dahua", price: 21615, status: "backorder", image: "https://picsum.photos/seed/nvr16/600/400" },
 ];
 
 const ALL_BRANDS = [
-  "BDCOM",
+  
   "Hikvision",
   "Dahua",
-  "Tiandy",
-  "EZVIZ",
   "UNIVIEW",
   "Akuvox",
-  "Generic",
+  
 ] as const;
 
 function formatKES(x: number) {
@@ -159,8 +157,8 @@ export default function Page() {
       <div className="bg-[url('https://images.unsplash.com/photo-1569235182173-379ecd0bba77?q=80&w=2400&auto=format&fit=crop')] bg-cover bg-center">
         <div className="bg-red-600/85">
           <div className="mx-auto max-w-7xl px-4 py-10 text-white">
-            <h1 className="text-4xl font-extrabold">Surveillance &amp; Security</h1>
-            <p className="mt-1 opacity-90">Network Cameras / IP Cameras</p>
+            <h1 className="text-4xl font-extrabold">Intercom</h1>
+            
           </div>
         </div>
       </div>
