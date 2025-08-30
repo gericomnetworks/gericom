@@ -15,8 +15,8 @@ type Product = {
 };
 
 const ALL_PRODUCTS: Product[] = [
-  { id: "p1", name: "BDCOM WAP2100-T630B Wi-Fi Broadcast", brand: "BDCOM", price: 8222, status: "instock", image: "https://picsum.photos/seed/cam1/600/400" },
-  { id: "p2", name: "WI-R2 WI-TEK WiFi Router", brand: "Witek", price: 3346, status: "instock", image: "https://picsum.photos/seed/cam2/600/400" },
+  { id: "p1", name: "BDCOM WAP2100-T630B Wi-Fi Broadcast", brand: "BDCOM", price: 8222, status: "instock", image: "/products/network1.jpg" },
+  { id: "p2", name: "WI-R2 WI-TEK WiFi Router", brand: "Witek", price: 3346, status: "instock", image: "/products/network2.jpg" },
 
 ];
 

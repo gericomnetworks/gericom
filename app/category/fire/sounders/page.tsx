@@ -15,12 +15,12 @@ type Product = {
 };
 
 const ALL_PRODUCTS: Product[] = [
-  { id: "p1", name: "74430-88NM Enscape Conventional Sounders", brand: "Honeywell", price: 5543, status: "instock", image: "https://picsum.photos/seed/cam1/600/400" },
-  { id: "p2", name: "CWSO-RR-S1 Honeywell Sounder, Red", brand: "Honeywell", price: 5543, status: "instock", image: "https://picsum.photos/seed/cam2/600/400" },
-  { id: "p3", name: "MI-BSO-DD-N KAC Intelligent Detector Base Sounder Strobe", brand: "Honeywell", price: 7127, status: "onsale", image: "https://picsum.photos/seed/cam3/600/400" },
-  { id: "p4", name: "MI-WSO-PR-N Morley IAS Wall Mounted Sounder – Addressable – Red", brand: "Honeywell", price: 7839, status: "instock", image: "https://picsum.photos/seed/cam4/600/400" },
-  { id: "p5", name: "MI-WSS-PR-N Morley Intelligent Wall Mounted Sounder Strobe", brand: "Honeywell", price: 15360, status: "instock", image: "https://picsum.photos/seed/cam5/600/400" },
-  { id: "p6", name: "WRR Morley Intelligent Loop Sounder Base", brand: "Honeywell", price: 1109, status: "onsale", image: "https://picsum.photos/seed/cam6/600/400" },
+  { id: "p1", name: "74430-88NM Enscape Conventional Sounders", brand: "Honeywell", price: 5543, status: "instock", image: "/products/sound1.jpg" },
+  { id: "p2", name: "CWSO-RR-S1 Honeywell Sounder, Red", brand: "Honeywell", price: 5543, status: "instock", image: "/products/sound2.jpg" },
+  { id: "p3", name: "MI-BSO-DD-N KAC Intelligent Detector Base Sounder Strobe", brand: "Honeywell", price: 7127, status: "onsale", image: "/products/sound3.jpg" },
+  { id: "p4", name: "MI-WSO-PR-N Morley IAS Wall Mounted Sounder – Addressable – Red", brand: "Honeywell", price: 7839, status: "instock", image: "/products/sound4.jpg" },
+  { id: "p5", name: "MI-WSS-PR-N Morley Intelligent Wall Mounted Sounder Strobe", brand: "Honeywell", price: 15360, status: "instock", image: "/products/sound5.jpg" },
+  { id: "p6", name: "WRR Morley Intelligent Loop Sounder Base", brand: "Honeywell", price: 1109, status: "onsale", image: "/products/sound6.jpg" },
  
 ];
 

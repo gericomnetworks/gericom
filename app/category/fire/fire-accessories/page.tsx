@@ -15,24 +15,24 @@ type Product = {
 };
 
 const ALL_PRODUCTS: Product[] = [
-  { id: "p1", name: "795-072-100 Morley Loop Driver Card For Morley IAS Protocol", brand: "Honeywell", price: 28501, status: "instock", image: "https://picsum.photos/seed/cam1/600/400" },
-  { id: "p2", name: "795-077-060 Morley ZX 60 Zone Led Card", brand: "Honeywell", price: 53045, status: "instock", image: "https://picsum.photos/seed/cam2/600/400" },
-  { id: "p3", name: "795-111 Morley Two Loop Module For Extension For DXC2", brand: "Honeywell", price: 36419, status: "onsale", image: "https://picsum.photos/seed/cam3/600/400" },
-  { id: "p4", name: "BEAMLRK System Sensor Long Range Kit", brand: "Honeywell", price: 12668, status: "instock", image: "https://picsum.photos/seed/cam4/600/400" },
-  { id: "p5", name: "BEAMMMK System Sensor Mounting Kit", brand: "Honeywell", price: 71253, status: "instock", image: "https://picsum.photos/seed/cam5/600/400" },
-  { id: "p6", name: "FP200 Prysmian FIRe Resistant Cable", brand: "Prysmian", price: 31668,  status: "onsale", image: "https://picsum.photos/seed/cam6/600/400" },
-  { id: "p7", name: "M200E-SMB Morley Surface Mounting Box", brand: "Honeywell", price: 951, status: "instock", image: "https://picsum.photos/seed/cam7/600/400" },
-  { id: "p8", name: "MI-D240CM0 Morley Single 240 V Ac Relay Module", brand: "Honeywell", price: 13460, status: "instock", image: "https://picsum.photos/seed/cable/600/400" },
-  { id: "p9", name: "MI-DCZRM Morley Non-Addressable Zone Monitor Module", brand: "Honeywell", price: 15834, status: "backorder", image: "https://picsum.photos/seed/decoder/600/400" },
-  { id: "p10", name: "MI-DISO Morley IAS Loop Isolation Module", brand: "Honeywell", price: 4914, status: "instock", image: "https://picsum.photos/seed/akuvox1/600/400" },
-  { id: "p11", name: "MI-DMM21 Morley 2-Input Monitor Module", brand: "Honeywell", price: 8709, status: "instock", image: "https://picsum.photos/seed/akuvox2/600/400" },
-  { id: "p12", name: "MI-DMMI Morley Interface – Single Input Monitor Module", brand: "Honeywell", price: 7521, status: "instock", image: "https://picsum.photos/seed/akuvox3/600/400" },
-  { id: "p13", name: "Morley IAS MI-D2ICMO Dual Input Single Output Module", brand: "Honeywell", price: 18527, status: "backorder", image: "https://picsum.photos/seed/akuvox4/600/400" },
+  { id: "p1", name: "795-072-100 Morley Loop Driver Card For Morley IAS Protocol", brand: "Honeywell", price: 28501, status: "instock", image: "/products/fire1.jpg" },
+  { id: "p2", name: "795-077-060 Morley ZX 60 Zone Led Card", brand: "Honeywell", price: 53045, status: "instock", image: "/products/fire2.jpg" },
+  { id: "p3", name: "795-111 Morley Two Loop Module For Extension For DXC2", brand: "Honeywell", price: 36419, status: "onsale", image: "/products/fire3.jpg" },
+  { id: "p4", name: "BEAMLRK System Sensor Long Range Kit", brand: "Honeywell", price: 12668, status: "instock", image: "/products/fire4.jpg" },
+  { id: "p5", name: "BEAMMMK System Sensor Mounting Kit", brand: "Honeywell", price: 71253, status: "instock", image: "/products/fire5.jpg" },
+  { id: "p6", name: "FP200 Prysmian FIRe Resistant Cable", brand: "Prysmian", price: 31668,  status: "onsale", image: "/products/fire6.jpg" },
+  { id: "p7", name: "M200E-SMB Morley Surface Mounting Box", brand: "Honeywell", price: 951, status: "instock", image: "/products/fire7.jpg" },
+  { id: "p8", name: "MI-D240CM0 Morley Single 240 V Ac Relay Module", brand: "Honeywell", price: 13460, status: "instock", image: "/products/fire8.jpg" },
+  { id: "p9", name: "MI-DCZRM Morley Non-Addressable Zone Monitor Module", brand: "Honeywell", price: 15834, status: "backorder", image: "/products/fire9.jpg" },
+  { id: "p10", name: "MI-DISO Morley IAS Loop Isolation Module", brand: "Honeywell", price: 4914, status: "instock", image: "/products/fire10.jpg" },
+  { id: "p11", name: "MI-DMM21 Morley 2-Input Monitor Module", brand: "Honeywell", price: 8709, status: "instock", image: "/products/fire11.jpg" },
+  { id: "p12", name: "MI-DMMI Morley Interface – Single Input Monitor Module", brand: "Honeywell", price: 7521, status: "instock", image: "/products/fire12.jpg" },
+  { id: "p13", name: "Morley IAS MI-D2ICMO Dual Input Single Output Module", brand: "Honeywell", price: 18527, status: "backorder", image: "/products/fire13.jpg" },
   // fill out to mimic a full catalog grid
-  { id: "p14", name: "Morley-IAS MI-DCMO", brand: "Honeywell", price: 8709, status: "instock", image: "https://picsum.photos/seed/dome2mp/600/400" },
-  { id: "p15", name: "MUS156 Spare En54-11 Glass Pack For Mcp", brand: "Honeywell", price: 390, status: "instock", image: "https://picsum.photos/seed/bullet2mp/600/400" },
-  { id: "p16", name: "RA100Z System Sensor Remote Annunciator", brand: "Honeywell", price: 3168, status: "instock", image: "https://picsum.photos/seed/hik8mp/600/400" },
-  { id: "p17", name: "System Sensor Metal SaMPling Tube, 8 Ft. To 12 Ft. Width", brand: "Honeywell", price: 4750, status: "onsale", image: "https://picsum.photos/seed/colorvu/600/400" },
+  { id: "p14", name: "Morley-IAS MI-DCMO", brand: "Honeywell", price: 8709, status: "instock", image: "/products/fire14.jpg" },
+  { id: "p15", name: "MUS156 Spare En54-11 Glass Pack For Mcp", brand: "Honeywell", price: 390, status: "instock", image: "/products/fire15.jpg" },
+  { id: "p16", name: "RA100Z System Sensor Remote Annunciator", brand: "Honeywell", price: 3168, status: "instock", image: "/products/fire16.jpg" },
+  { id: "p17", name: "System Sensor Metal SaMPling Tube, 8 Ft. To 12 Ft. Width", brand: "Honeywell", price: 4750, status: "onsale", image: "/products/fire17.jpg" },
 
 ];
 

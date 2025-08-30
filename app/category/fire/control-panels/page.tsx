@@ -15,11 +15,11 @@ type Product = {
 };
 
 const ALL_PRODUCTS: Product[] = [
-  { id: "p1", name: "714-001-222 Morley DXC2 2 Loop Addressable Control Panel (Multi-Protocol)", brand: "Honeywell", price: 150000, status: "instock", image: "https://picsum.photos/seed/cam1/600/400" },
-  { id: "p2", name: "HRZ2E Morley 2 Zone Conventional FIRe Alarm Control Panel", brand: "Honeywell", price: 42179, status: "instock", image: "https://picsum.photos/seed/cam2/600/400" },
-  { id: "p3", name: "HRZ4E Morley 4 Zone Conventional FIRe Alarm Control Panel", brand: "Honeywell", price: 27000, oldPrice: 48184, status: "onsale", image: "https://picsum.photos/seed/cam3/600/400" },
-  { id: "p4", name: "HRZ8E Morley 8 Zone Conventional FIRe Alarm Control Panel", brand: "Honeywell", price: 34500,oldPrice: 77669, status: "instock", image: "https://picsum.photos/seed/cam4/600/400" },
-  { id: "p5", name: "ZX5SE Morley 1-5 Loop Control Panel", brand: "Honeywell", price: 330000,oldPrice: 503685, status: "instock", image: "https://picsum.photos/seed/cam5/600/400" },
+  { id: "p1", name: "714-001-222 Morley DXC2 2 Loop Addressable Control Panel (Multi-Protocol)", brand: "Honeywell", price: 150000, status: "instock", image: "/products/cont1.jpg" },
+  { id: "p2", name: "HRZ2E Morley 2 Zone Conventional FIRe Alarm Control Panel", brand: "Honeywell", price: 42179, status: "instock", image: "/products/cont2.jpg" },
+  { id: "p3", name: "HRZ4E Morley 4 Zone Conventional FIRe Alarm Control Panel", brand: "Honeywell", price: 27000, oldPrice: 48184, status: "onsale", image: "/products/cont3.jpg" },
+  { id: "p4", name: "HRZ8E Morley 8 Zone Conventional FIRe Alarm Control Panel", brand: "Honeywell", price: 34500,oldPrice: 77669, status: "instock", image: "/products/cont4.jpg" },
+  { id: "p5", name: "ZX5SE Morley 1-5 Loop Control Panel", brand: "Honeywell", price: 330000,oldPrice: 503685, status: "instock", image: "/products/cont5.jpg" },
  
 ];
 

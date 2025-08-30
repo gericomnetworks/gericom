@@ -15,17 +15,17 @@ type Product = {
 };
 
 const ALL_PRODUCTS: Product[] = [
-  { id: "p1", name: "B501AP-IV Detector Base", brand: "Pelco", price: 951, status: "instock", image: "https://picsum.photos/seed/cam1/600/400" },
-  { id: "p2", name: "EC01003 System Sensor Conventional Optical Smoke Detector", brand: "Honeywell", price: 3168, status: "instock", image: "https://picsum.photos/seed/cam2/600/400" },
-  { id: "p3", name: "EC01005 Honeywell TeMPerature Heat Detector", brand: "Tiandy", price: 3168, oldPrice: 19500, status: "onsale", image: "https://picsum.photos/seed/cam3/600/400" },
-  { id: "p4", name: "ECO1002 System Sensor Conventional Multi-Sensor Detector – Smoke & Heat", brand: "Honeywell", price: 3168, status: "instock", image: "https://picsum.photos/seed/cam4/600/400" },
-  { id: "p5", name: "HM-PSE-S2 Morley Smoke Detector", brand: "Honeywell", price: 5542, status: "instock", image: "https://picsum.photos/seed/cam5/600/400" },
-  { id: "p6", name: "HM-RHSE Honeywell Addressable Heat Detector Hna-360-H2", brand: "Honeywell", price: 5544, status: "onsale", image: "https://picsum.photos/seed/cam6/600/400" },
-  { id: "p7", name: "MI-PSE-S2-IV Morley Smoke Detector Optical Analogue Addressable", brand: "Honeywell", price: 5542, status: "instock", image: "https://picsum.photos/seed/cam7/600/400" },
-  { id: "p8", name: "MI-PTSE-S2-IV Morley IAS Multi Detector", brand: "Honeywell", price: 4750, status: "instock", image: "https://picsum.photos/seed/cable/600/400" },
-  { id: "p9", name: "MI-RHSE-S2-IV Morley Thermal Rate Of Rise Detector", brand: "Honeywell", price: 4434, status: "backorder", image: "https://picsum.photos/seed/decoder/600/400" },
-  { id: "p10", name: "System Sensor D2 Duct Smoke Detector, 2-WIRe, Photoelectric", brand: "Honeywell", price: 22643, status: "instock", image: "https://picsum.photos/seed/akuvox1/600/400" },
-  { id: "p11", name: "System Sensor Dnre Smoke Detector", brand: "Honeywell", price: 23751, status: "instock", image: "https://picsum.photos/seed/akuvox2/600/400" },
+  { id: "p1", name: "B501AP-IV Detector Base", brand: "Pelco", price: 951, status: "instock", image: "product/s/det1.jpg" },
+  { id: "p2", name: "EC01003 System Sensor Conventional Optical Smoke Detector", brand: "Honeywell", price: 3168, status: "instock", image: "/products/det2.jpg" },
+  { id: "p3", name: "EC01005 Honeywell TeMPerature Heat Detector", brand: "Tiandy", price: 3168, oldPrice: 19500, status: "onsale", image: "/products/det3.jpg" },
+  { id: "p4", name: "ECO1002 System Sensor Conventional Multi-Sensor Detector – Smoke & Heat", brand: "Honeywell", price: 3168, status: "instock", image: "/products/det4.jpg" },
+  { id: "p5", name: "HM-PSE-S2 Morley Smoke Detector", brand: "Honeywell", price: 5542, status: "instock", image: "/products/det5.jpg" },
+  { id: "p6", name: "HM-RHSE Honeywell Addressable Heat Detector Hna-360-H2", brand: "Honeywell", price: 5544, status: "onsale", image: "/products/det6.jpg" },
+  { id: "p7", name: "MI-PSE-S2-IV Morley Smoke Detector Optical Analogue Addressable", brand: "Honeywell", price: 5542, status: "instock", image: "/products/det7.jpg" },
+  { id: "p8", name: "MI-PTSE-S2-IV Morley IAS Multi Detector", brand: "Honeywell", price: 4750, status: "instock", image: "/products/det8.jpg" },
+  { id: "p9", name: "MI-RHSE-S2-IV Morley Thermal Rate Of Rise Detector", brand: "Honeywell", price: 4434, status: "backorder", image: "/products/det9.jpg" },
+  { id: "p10", name: "System Sensor D2 Duct Smoke Detector, 2-WIRe, Photoelectric", brand: "Honeywell", price: 22643, status: "instock", image: "/products/det10.jpg" },
+  { id: "p11", name: "System Sensor Dnre Smoke Detector", brand: "Honeywell", price: 23751, status: "instock", image: "/products/det11.jpg" },
 
 ];
 

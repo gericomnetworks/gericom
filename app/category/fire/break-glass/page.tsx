@@ -15,12 +15,12 @@ type Product = {
 };
 
 const ALL_PRODUCTS: Product[] = [
-  { id: "p1", name: "KAC MCP1A-Y470SG-14 Yellow Extinguishant Release Call Point", brand: "Honeywell", price: 2646, status: "instock", image: "https://picsum.photos/seed/cam1/600/400" },
-  { id: "p2", name: "MCP1A-R470FG-01 Honeywell Conventional Flush Call Point Notifier", brand: "Honeywell", price: 2692, status: "instock", image: "https://picsum.photos/seed/cam2/600/400" },
-  { id: "p3", name: "MCP1A-R470FG-01 Honeywell Conventional Flush Call Point Notifier", brand: "Honeywell", price: 10500, status: "onsale", image: "https://picsum.photos/seed/cam3/600/400" },
-  { id: "p4", name: "PS200 KAC – Fire Alarm Call Point Cover", brand: "Honeywell", price: 927, status: "instock", image: "https://picsum.photos/seed/cam4/600/400" },
-  { id: "p5", name: "SR1T Morley Call Point Backbox For Surface Mounting", brand: "Honeywell", price: 713, status: "instock", image: "https://picsum.photos/seed/cam5/600/400" },
-  { id: "p6", name: "W5A-RPO5SF-K013 Morley IAS Addressable Glass Weatherproof Call Point", brand: "Honeywell", price: 15750, oldPrice: 22169, status: "onsale", image: "https://picsum.photos/seed/cam6/600/400" },
+  { id: "p1", name: "KAC MCP1A-Y470SG-14 Yellow Extinguishant Release Call Point", brand: "Honeywell", price: 2646, status: "instock", image: "/products/break1.jpg" },
+  { id: "p2", name: "MCP1A-R470FG-01 Honeywell Conventional Flush Call Point Notifier", brand: "Honeywell", price: 2692, status: "instock", image: "/products/break2.jpg" },
+  { id: "p3", name: "MCP1A-R470FG-01 Honeywell Conventional Flush Call Point Notifier", brand: "Honeywell", price: 10500, status: "onsale", image: "/products/break3.jpg" },
+  { id: "p4", name: "PS200 KAC – Fire Alarm Call Point Cover", brand: "Honeywell", price: 927, status: "instock", image: "/products/break4.jpg" },
+  { id: "p5", name: "SR1T Morley Call Point Backbox For Surface Mounting", brand: "Honeywell", price: 713, status: "instock", image: "/products/break5.jpg" },
+  { id: "p6", name: "W5A-RPO5SF-K013 Morley IAS Addressable Glass Weatherproof Call Point", brand: "Honeywell", price: 15750, oldPrice: 22169, status: "onsale", image: "/products/break6.jpg" },
 
 ];
 
