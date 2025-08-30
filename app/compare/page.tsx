@@ -6,7 +6,7 @@ export default function Compare() {
   return (
     <section className="min-h-screen bg-gray-50 ">
       {/* Red header */}
-<div className="bg-red-600 py-12 px-6 flex justify-between items-center">
+<div className="bg-gray-800 py-12 px-6 flex justify-between items-center">
   <h1 className="text-white text-4xl font-bold">Compare</h1>
   <p className="text-white/80 text-sm">Home / Compare</p>
 </div>
@@ -23,7 +23,7 @@ export default function Compare() {
         {/* Return to shop button */}
         <Link
           href="/shop"
-          className="bg-red-600 hover:bg-red-700 text-white px-6 py-3 rounded-lg font-medium transition"
+          className="bg-gray-800 hover:bg-red-700 text-white px-6 py-3 rounded-lg font-medium transition"
         >
           Return to shop
         </Link>

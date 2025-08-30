@@ -185,7 +185,7 @@ export default function ProductGrid() {
                 </CardContent>
 
                 <CardFooter className="p-4">
-                  <Button className="w-full bg-red-600 hover:bg-red-700 rounded-full">
+                  <Button className="w-full bg-gray-800 hover:bg-red-700 rounded-full">
                     Add to Quote
                   </Button>
                 </CardFooter>
@@ -209,21 +209,6 @@ export default function ProductGrid() {
       />
 
     </section>
-      {/* Category Offers */}
-      <section className="grid grid-cols-1 md:grid-cols-3 gap-4 w-full max-w-7xl p-4">
-        <Card className="p-6 bg-red-100 text-center rounded-2xl">
-          <h3 className="text-lg font-semibold">Power Backup</h3>
-          <Button variant="secondary" className="mt-3 rounded-xl">Explore</Button>
-        </Card>
-        <Card className="p-6 bg-red-100 text-center rounded-2xl">
-          <h3 className="text-lg font-semibold">Surveillance & Security</h3>
-          <Button variant="secondary" className="mt-3 rounded-xl">Explore</Button>
-        </Card>
-        <Card className="p-6 bg-red-100 text-center rounded-2xl">
-          <h3 className="text-lg font-semibold">Intercom</h3>
-          <Button variant="secondary" className="mt-3 rounded-xl">Explore</Button>
-        </Card>
-      </section>
 
       {/* High Quality Products */}
 <section className="w-full py-12">
@@ -258,7 +243,7 @@ export default function ProductGrid() {
                 </CardContent>
 
                 <CardFooter className="p-4">
-                  <Button className="w-full bg-red-600 hover:bg-red-700 rounded-full">
+                  <Button className="w-full bg-gray-800 hover:bg-red-700 rounded-full">
                     Add to Quote
                   </Button>
                 </CardFooter>

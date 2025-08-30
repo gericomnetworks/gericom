@@ -97,7 +97,7 @@ export default function Header() {
   return (
     <header className="w-full shadow">
       {/* Top Bar */}
-      <div className="bg-red-600 text-white py-4 px-4 flex flex-col md:flex-row items-center justify-between text-sm font-medium">
+      <div className="bg-gray-800 text-white py-4 px-4 flex flex-col md:flex-row items-center justify-between text-sm font-medium">
         <p className="text-center">
           You can now register or check your warranty online. Always Buy Genuine Quality Products
         </p>
@@ -176,7 +176,7 @@ export default function Header() {
         <div className="flex items-center justify-between px-6 py-4 max-w-7xl mx-auto ">
           {/* Logo */}
           <Link href="/">
-            <Image src="/logo.png" alt="Imax Cameras" width={150} height={60} />
+            <Image src="/gericom.jpeg" alt="Imax Cameras" width={150} height={60} />
           </Link>
           {/* Search Bar */}
           <div className="flex-1 max-w-2xl mx-6">
@@ -186,7 +186,7 @@ export default function Header() {
                 placeholder="Search for products"
                 className="flex-grow px-4 py-2 text-black outline-none"
               />
-              <button className="px-4 bg-red-600 text-white">Search</button>
+              <button className="px-4 bg-gray-800 text-white">Search</button>
             </form>
           </div>
           {/* Right Icons */}

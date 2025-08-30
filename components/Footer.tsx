@@ -9,55 +9,36 @@ export default function Footer() {
         <h2 className="text-2xl md:text-3xl font-bold text-white mb-6">
           We are located
         </h2>
-        <div className="max-w-6xl mx-auto grid md:grid-cols-2 gap-6 px-6">
-          {/* Nextgen Mall */}
-          <div>
-            <p className="mb-4 text-lg text-gray-200">
-              Nextgen Mall, along Mombasa Road<br />
-              Mezzanine floor, shop number 14
-            </p>
-            <iframe
-              src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3988.7892245241073!2d36.834174!3d-1.326132!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x182f13c1d9e16a01%3A0xd3b1d3ef3f2f31d1!2sNextgen%20Mall!5e0!3m2!1sen!2ske!4v1700000000000"
-              width="100%"
-              height="250"
-              style={{ border: 0 }}
-              allowFullScreen
-              loading="lazy"
-            ></iframe>
-          </div>
-
-          {/* Gallant Mall */}
-          <div>
-            <p className="mb-4 text-lg text-gray-200">
-              Gallant Mall, Parklands road, Westlands<br />
-              Shop number 2, next to Art Caffe
-            </p>
-            <iframe
-              src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3988.8300413099873!2d36.817563!3d-1.264574!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x182f17c5f8a3a6ff%3A0xf4e68d81a1d1a4a6!2sGallant%20Mall!5e0!3m2!1sen!2ske!4v1700000000001"
-              width="100%"
-              height="250"
-              style={{ border: 0 }}
-              allowFullScreen
-              loading="lazy"
-            ></iframe>
-          </div>
+        <div className="max-w-4xl mx-auto px-6">
+          <p className="mb-4 text-lg text-gray-200">
+            Ronald Ngala Street, Royal Palms Mall<br />
+            Shop BG27
+          </p>
+          <p className="mb-2 text-gray-200">
+            📞 <a href="tel:0723809057" className="hover:underline">0723809057</a>
+          </p>
+          <p className="mb-6 text-gray-200">
+            📧 <a href="mailto:info@gericomnetworks.com" className="hover:underline">info@gericomnetworks.com</a>
+          </p>
+          <iframe
+            src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3988.841111111111!2d36.8270!3d-1.2833!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x182f173b1b111111%3A0x123456789abcdef!2sRoyal%20Palms%20Mall%20-%20Ronald%20Ngala!5e0!3m2!1sen!2ske!4v1700000000002"
+            width="100%"
+            height="250"
+            style={{ border: 0 }}
+            allowFullScreen
+            loading="lazy"
+          ></iframe>
         </div>
       </section>
 
       {/* Bottom Footer */}
       <div className="border-t border-gray-700 py-6 text-center text-sm">
-        <p>Copyright © {new Date().getFullYear()} Imax Camera Ltd. All rights reserved.</p>
-        <p>
-          Crafted by{" "}
-          <Link href="https://digitaltailor.agency" className="text-red-500 hover:underline">
-            Digital Tailor Agency
-          </Link>
-        </p>
+        <p>Copyright © {new Date().getFullYear()} Gericom Networks. All rights reserved.</p>
       </div>
 
       {/* Floating WhatsApp Button */}
       <a
-        href="https://wa.me/254700000000" // replace with your WhatsApp number
+        href="https://wa.me/254723809057"
         target="_blank"
         className="fixed bottom-6 left-6 bg-green-500 text-white px-4 py-3 rounded-full flex items-center gap-2 shadow-lg hover:bg-green-600 transition"
       >
