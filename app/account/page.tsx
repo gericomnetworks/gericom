@@ -8,7 +8,7 @@ export default function AccountPage() {
   return (
     <section className="min-h-screen bg-gray-50">
       {/* Red header */}
-<div className="bg-red-600 py-12 px-6 flex justify-between items-center">
+      <div className="bg-red-600 py-12 px-6 flex justify-between items-center">
         <h1 className="text-white text-4xl font-bold">My account</h1>
         <p className="text-white/80 mt-2 text-sm">Home / My account</p>
       </div>
@@ -92,7 +92,7 @@ export default function AccountPage() {
           </h2>
           <p className="text-sm text-gray-600 mb-6">
             Registering for this site allows you to access your order status and
-            history. Just fill in the fields below, and we'll get a new account
+            history. Just fill in the fields below, and we&apos;ll get a new account
             set up for you in no time. We will only ask you for information
             necessary to make the purchase process faster and easier.
           </p>
