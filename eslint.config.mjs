@@ -19,6 +19,10 @@ const eslintConfig = [
       "build/**",
       "next-env.d.ts",
     ],
+    rules: {
+      "react/no-unescaped-entities": "off",   // 🚫 allow apostrophes
+      "@next/next/no-img-element": "off",     // 🚫 allow <img> tags
+    },
   },
 ];
 

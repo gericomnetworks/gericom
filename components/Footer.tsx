@@ -33,12 +33,18 @@ export default function Footer() {
 
       {/* Bottom Footer */}
       <div className="border-t border-gray-700 py-6 text-center text-sm">
-        <p>Copyright © {new Date().getFullYear()} Gericom Networks. All rights reserved.</p>
+        <p>Copyright © {new Date().getFullYear()} Imax Camera Ltd. All rights reserved.</p>
+        <p>
+          Crafted by{" "}
+          <Link href="https://digitaltailor.agency" className="text-red-500 hover:underline">
+            Digital Tailor Agency
+          </Link>
+        </p>
       </div>
 
       {/* Floating WhatsApp Button */}
       <a
-        href="https://wa.me/254723809057"
+        href="https://wa.me/254700000000" // replace with your WhatsApp number
         target="_blank"
         className="fixed bottom-6 left-6 bg-green-500 text-white px-4 py-3 rounded-full flex items-center gap-2 shadow-lg hover:bg-green-600 transition"
       >
