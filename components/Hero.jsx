@@ -33,7 +33,7 @@ export default function Hero() {
             />
             <div className="absolute inset-0 flex items-center justify-center bg-black/40">
               <h1 className="text-white text-4xl md:text-6xl font-bold">
-                Genuine Gericom Cameras
+                Gericom Links Networks
               </h1>
             </div>
           </div>

@@ -5,44 +5,28 @@ export default function Footer() {
   return (
     <footer className="bg-black text-gray-300 relative">
       {/* Location Section */}
-      <section className="text-center py-12 bg-[url('/footer-bg.jpg')] bg-cover bg-center">
-        <h2 className="text-2xl md:text-3xl font-bold text-white mb-6">
-          We are located
-        </h2>
-        <div className="max-w-6xl mx-auto grid md:grid-cols-2 gap-6 px-6">
-          {/* Nextgen Mall */}
-          <div>
-            <p className="mb-4 text-lg text-gray-200">
-              Nextgen Mall, along Mombasa Road<br />
-              Mezzanine floor, shop number 14
-            </p>
-            <iframe
-              src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3988.7892245241073!2d36.834174!3d-1.326132!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x182f13c1d9e16a01%3A0xd3b1d3ef3f2f31d1!2sNextgen%20Mall!5e0!3m2!1sen!2ske!4v1700000000000"
-              width="100%"
-              height="250"
-              style={{ border: 0 }}
-              allowFullScreen
-              loading="lazy"
-            ></iframe>
-          </div>
+   <section className="text-center py-12 bg-[url('/footer-bg.jpg')] bg-cover bg-center">
+  <h2 className="text-2xl md:text-3xl font-bold text-white mb-6">
+    We are located
+  </h2>
 
-          {/* Gallant Mall */}
-          <div>
-            <p className="mb-4 text-lg text-gray-200">
-              Gallant Mall, Parklands road, Westlands<br />
-              Shop number 2, next to Art Caffe
-            </p>
-            <iframe
-              src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3988.8300413099873!2d36.817563!3d-1.264574!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x182f17c5f8a3a6ff%3A0xf4e68d81a1d1a4a6!2sGallant%20Mall!5e0!3m2!1sen!2ske!4v1700000000001"
-              width="100%"
-              height="250"
-              style={{ border: 0 }}
-              allowFullScreen
-              loading="lazy"
-            ></iframe>
-          </div>
-        </div>
-      </section>
+  <div className="max-w-3xl mx-auto flex flex-col items-center px-6">
+    <p className="mb-4 text-lg text-gray-200 text-center">
+      Royal Palms Mall, along Ronald Ngala<br />
+      Shop number BG27
+    </p>
+
+    <iframe
+      src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3023.2300172338764!2d36.82590412820139!3d-1.286215090213219!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x182f110024a06def%3A0xa9bef302739c8ecf!2sROYAL%20PALMS%20MALL!5e0!3m2!1sen!2ske!4v1756581218727!5m2!1sen!2ske"
+      width="100%"
+      height="300"
+      style={{ border: 0 }}
+      allowFullScreen
+      loading="lazy"
+      className="rounded-lg shadow-lg max-w-lg"
+    />
+  </div>
+</section>
 
       {/* Bottom Footer */}
       <div className="border-t border-gray-700 py-6 text-center text-sm">
