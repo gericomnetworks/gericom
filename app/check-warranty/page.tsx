@@ -20,7 +20,7 @@ export default function CheckWarranty() {
   return (
     <section className="min-h-screen bg-gray-50">
       {/* Header */}
-      <div className="bg-red-600 py-12 px-6 flex justify-between items-center">
+      <div className="bg-gray-800 py-12 px-6 flex justify-between items-center">
         <h1 className="text-white text-4xl font-bold">Check Warranty Registration</h1>
         <p className="text-white/80 mt-2 text-sm">Home / Check Warranty</p>
       </div>
@@ -49,7 +49,7 @@ export default function CheckWarranty() {
           {/* Submit */}
           <button
             type="submit"
-            className="w-full bg-red-600 hover:bg-red-700 text-white font-medium py-3 rounded-lg transition"
+            className="w-full bg-gray-800 hover:bg-red-700 text-white font-medium py-3 rounded-lg transition"
           >
             Check
           </button>

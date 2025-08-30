@@ -33,8 +33,8 @@ export default function Footer() {
         <p>Copyright © {new Date().getFullYear()} Gericom Links Networks. All rights reserved.</p>
         <p>
           Crafted by{" "}
-          <Link href="https://digitaltailor.agency" className="text-red-500 hover:underline">
-            Digital Tailor Agency
+          <Link href="https://www.deeptrack.io/" className="text-red-500 hover:underline">
+            deeptrack
           </Link>
         </p>
       </div>

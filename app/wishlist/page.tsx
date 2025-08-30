@@ -6,10 +6,10 @@ export default function Wishlist() {
   return (
     <section className="min-h-screen bg-gray-50 ">
       {/* Red header */}
-      <div className="bg-red-600 py-12 px-6 flex justify-between items-center">
-        <h1 className="text-white text-4xl font-bold">Wishlist</h1>
-        <p className="text-white/80 text-sm">Home / Wishlist</p>
-      </div>
+<div className="bg-red-600 py-12 px-6 flex justify-between items-center">
+  <h1 className="text-white text-4xl font-bold">Wishlist</h1>
+  <p className="text-white/80 text-sm">Home / Wishlist</p>
+</div>
 
       {/* Empty wishlist message */}
       <div className="flex flex-col items-center justify-center py-20 px-4 text-center">
@@ -24,7 +24,7 @@ export default function Wishlist() {
         {/* Return to shop button */}
         <Link
           href="/shop"
-          className="bg-red-600 hover:bg-red-700 text-white px-6 py-3 rounded-lg font-medium transition"
+          className="bg-gray-800 hover:bg-red-700 text-white px-6 py-3 rounded-lg font-medium transition"
         >
           Return to shop
         </Link>

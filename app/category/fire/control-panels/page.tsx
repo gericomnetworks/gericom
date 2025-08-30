@@ -132,7 +132,7 @@ export default function Page() {
     <div className="min-h-screen bg-gray-50">
       {/* Banner */}
       <div className="bg-[url('https://images.unsplash.com/photo-1569235182173-379ecd0bba77?q=80&w=2400&auto=format&fit=crop')] bg-cover bg-center">
-        <div className="bg-red-600/85">
+        <div className="bg-gray-800/85">
           <div className="mx-auto max-w-7xl px-4 py-10 text-white">
             <h1 className="text-4xl font-extrabold">Control Panels</h1>
             
@@ -237,7 +237,7 @@ export default function Page() {
               <p className="text-sm text-gray-600 mt-1">
                 Reliable brands for professional surveillance.
               </p>
-              <button className="mt-4 rounded-xl bg-red-600 px-4 py-2 text-white hover:bg-red-700">
+              <button className="mt-4 rounded-xl bg-gray-800 px-4 py-2 text-white hover:bg-red-700">
                 Shop Now
               </button>
             </div>
@@ -303,7 +303,7 @@ export default function Page() {
 
               {/* Quote bubble */}
               <div className="ml-1 text-sm">
-                <span className="rounded-full bg-red-600 px-2 py-1 font-semibold text-white">
+                <span className="rounded-full bg-gray-800 px-2 py-1 font-semibold text-white">
                   Quote: {quoteCount}
                 </span>
               </div>
@@ -351,7 +351,7 @@ export default function Page() {
                       </div>
                       <button
                         onClick={() => addToQuote(p.id)}
-                        className="mt-2 w-full rounded-full bg-red-600 px-4 py-2 text-sm font-semibold text-white hover:bg-red-700"
+                        className="mt-2 w-full rounded-full bg-gray-800 px-4 py-2 text-sm font-semibold text-white hover:bg-red-700"
                       >
                         Add to Quote
                       </button>
@@ -375,7 +375,7 @@ export default function Page() {
               <button
                 key={n}
                 onClick={() => setPage(n)}
-                className={`h-9 w-9 rounded-lg border text-sm ${page === n ? "bg-red-600 font-semibold text-white" : "bg-white hover:bg-gray-50"}`}
+                className={`h-9 w-9 rounded-lg border text-sm ${page === n ? "bg-gray-800 font-semibold text-white" : "bg-white hover:bg-gray-50"}`}
               >
                 {n}
               </button>
