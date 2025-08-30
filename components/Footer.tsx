@@ -5,46 +5,43 @@ export default function Footer() {
   return (
     <footer className="bg-black text-gray-300 relative">
       {/* Location Section */}
-      <section className="text-center py-12 bg-[url('/footer-bg.jpg')] bg-cover bg-center">
-        <h2 className="text-2xl md:text-3xl font-bold text-white mb-6">
-          We are located
-        </h2>
-        <div className="max-w-4xl mx-auto px-6">
-          <p className="mb-4 text-lg text-gray-200">
-            Ronald Ngala Street, Royal Palms Mall<br />
-            Shop BG27
-          </p>
-          <p className="mb-2 text-gray-200">
-            📞 <a href="tel:0723809057" className="hover:underline">0723809057</a>
-          </p>
-          <p className="mb-6 text-gray-200">
-            📧 <a href="mailto:info@gericomnetworks.com" className="hover:underline">info@gericomnetworks.com</a>
-          </p>
-          <iframe
-            src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3988.841111111111!2d36.8270!3d-1.2833!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x182f173b1b111111%3A0x123456789abcdef!2sRoyal%20Palms%20Mall%20-%20Ronald%20Ngala!5e0!3m2!1sen!2ske!4v1700000000002"
-            width="100%"
-            height="250"
-            style={{ border: 0 }}
-            allowFullScreen
-            loading="lazy"
-          ></iframe>
-        </div>
-      </section>
+   <section className="text-center py-12 bg-[url('/footer-bg.jpg')] bg-cover bg-center">
+  <h2 className="text-2xl md:text-3xl font-bold text-white mb-6">
+    We are located
+  </h2>
+
+  <div className="max-w-3xl mx-auto flex flex-col items-center px-6">
+    <p className="mb-4 text-lg text-gray-200 text-center">
+      Royal Palms Mall, along Ronald Ngala<br />
+      Shop number BG27
+    </p>
+
+    <iframe
+      src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3023.2300172338764!2d36.82590412820139!3d-1.286215090213219!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x182f110024a06def%3A0xa9bef302739c8ecf!2sROYAL%20PALMS%20MALL!5e0!3m2!1sen!2ske!4v1756581218727!5m2!1sen!2ske"
+      width="100%"
+      height="300"
+      style={{ border: 0 }}
+      allowFullScreen
+      loading="lazy"
+      className="rounded-lg shadow-lg max-w-lg"
+    />
+  </div>
+</section>
 
       {/* Bottom Footer */}
       <div className="border-t border-gray-700 py-6 text-center text-sm">
-        <p>Copyright © {new Date().getFullYear()} Imax Camera Ltd. All rights reserved.</p>
+        <p>Copyright © {new Date().getFullYear()} Gericom Links Networks. All rights reserved.</p>
         <p>
           Crafted by{" "}
-          <Link href="https://digitaltailor.agency" className="text-red-500 hover:underline">
-            Digital Tailor Agency
+          <Link href="https://www.deeptrack.io/" className="text-red-500 hover:underline">
+            deeptrack
           </Link>
         </p>
       </div>
 
       {/* Floating WhatsApp Button */}
       <a
-        href="https://wa.me/254700000000" // replace with your WhatsApp number
+        href="https://wa.me/254723809057" 
         target="_blank"
         className="fixed bottom-6 left-6 bg-green-500 text-white px-4 py-3 rounded-full flex items-center gap-2 shadow-lg hover:bg-green-600 transition"
       >
