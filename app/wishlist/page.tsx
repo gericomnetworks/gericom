@@ -5,8 +5,7 @@ import Link from "next/link"
 export default function Wishlist() {
   return (
     <section className="min-h-screen bg-gray-50 ">
-      {/* Red header */}
-<div className="bg-red-600 py-12 px-6 flex justify-between items-center">
+<div className="bg-gray-800 py-12 px-6 flex justify-between items-center">
   <h1 className="text-white text-4xl font-bold">Wishlist</h1>
   <p className="text-white/80 text-sm">Home / Wishlist</p>
 </div>

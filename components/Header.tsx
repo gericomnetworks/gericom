@@ -96,14 +96,11 @@ export default function Header() {
       {/* Top Bar */}
       <div className="bg-gray-800 text-white py-4 px-4 flex flex-col md:flex-row items-center justify-between text-sm font-medium">
         <p className="text-center">
-          You can now register or check your warranty online. Always Buy Genuine Quality Products
+      Make secure payments and confirm your purchase online. Always Buy Genuine Quality Products.
         </p>
         <div className="flex items-center gap-4 mt-2 md:mt-0">
-          <Link href="/register-warranty" className="bg-white text-black px-4 py-1 rounded-full text-sm font-semibold">
-            Register Warranty
-          </Link>
-          <Link href="/check-warranty" className="bg-white text-black px-4 py-1 rounded-full text-sm font-semibold">
-            Check Warranty
+          <Link href="/contact" className="bg-white text-black px-4 py-1 rounded-full text-sm font-semibold">
+            Contact Us
           </Link>
           <div className="relative">
             {/* Current currency */}
