@@ -46,7 +46,7 @@ export default function Footer() {
 
       {/* Bottom Footer */}
       <div className="border-t border-gray-700 py-6 text-center text-sm">
-        <p>Copyright © {new Date().getFullYear()} Imax Camera Ltd. All rights reserved.</p>
+        <p>Copyright © {new Date().getFullYear()} Gericom Links Networks. All rights reserved.</p>
         <p>
           Crafted by{" "}
           <Link href="https://digitaltailor.agency" className="text-red-500 hover:underline">

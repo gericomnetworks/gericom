@@ -176,7 +176,7 @@ export default function Header() {
         <div className="flex items-center justify-between px-6 py-4 max-w-7xl mx-auto ">
           {/* Logo */}
           <Link href="/">
-            <Image src="/logo.png" alt="Imax Cameras" width={150} height={60} />
+            <Image src="/logo.jpg" alt="Gericom Cameras" width={150} height={60} />
           </Link>
           {/* Search Bar */}
           <div className="flex-1 max-w-2xl mx-6">
@@ -270,7 +270,7 @@ export default function Header() {
       {/* Mobile Header */}
       <div className="flex items-center justify-between p-4 md:hidden">
         <Link href="/">
-          <Image src="/logo.png" alt="Logo" width={120} height={50} />
+          <Image src="/logo.jpg" alt="Logo" width={120} height={50} />
         </Link>
 
         {/* Hamburger */}
