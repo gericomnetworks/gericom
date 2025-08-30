@@ -57,7 +57,7 @@ export default function Footer() {
 
       {/* Floating WhatsApp Button */}
       <a
-        href="https://wa.me/254700000000" // replace with your WhatsApp number
+        href="https://wa.me/254723809057" 
         target="_blank"
         className="fixed bottom-6 left-6 bg-green-500 text-white px-4 py-3 rounded-full flex items-center gap-2 shadow-lg hover:bg-green-600 transition"
       >
