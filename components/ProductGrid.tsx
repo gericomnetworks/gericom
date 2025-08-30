@@ -161,7 +161,7 @@ export default function ProductGrid() {
                   </CardContent>
 
                   <CardFooter className="p-4">
-                    <Button className="w-full bg-red-600 hover:bg-red-700 rounded-full">
+                    <Button className="w-full bg-gray-800 hover:bg-gray-900 rounded-full">
                       Add to Quote
                     </Button>
                   </CardFooter>
@@ -217,7 +217,7 @@ export default function ProductGrid() {
                   </CardContent>
 
                   <CardFooter className="p-4">
-                    <Button className="w-full bg-red-600 hover:bg-red-700 rounded-full">
+                    <Button className="w-full bg-gray-800 hover:bg-gray-900 rounded-full">
                       Add to Quote
                     </Button>
                   </CardFooter>
