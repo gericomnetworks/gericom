@@ -8,7 +8,7 @@ export default function AccountPage() {
   return (
     <section className="min-h-screen bg-gray-50">
       {/* Red header */}
-      <div className="bg-red-600 py-12 px-6 flex justify-between items-center">
+      <div className="bg-gray-800 py-12 px-6 flex justify-between items-center">
         <h1 className="text-white text-4xl font-bold">My account</h1>
         <p className="text-white/80 mt-2 text-sm">Home / My account</p>
       </div>
@@ -40,7 +40,7 @@ export default function AccountPage() {
 
                 <button
                   type="submit"
-                  className="w-full bg-red-600 text-white py-2 rounded hover:bg-red-700"
+                  className="w-full bg-gray-800 text-white py-2 rounded hover:bg-red-700"
                 >
                   Log in
                 </button>
@@ -76,7 +76,7 @@ export default function AccountPage() {
                 </p>
                 <button
                   type="submit"
-                  className="w-full bg-red-600 text-white py-2 rounded hover:bg-red-700"
+                  className="w-full bg-gray-800 text-white py-2 rounded hover:bg-red-700"
                 >
                   Register
                 </button>
