@@ -13,14 +13,12 @@ const currencies = [
   { code: "ETB", symbol: "Br", label: "ETB, Br", flag: "/flags/ethiopia.jpeg" },
 ]
 
-
-
 type Category = {
   name: string;
   icon?: string;
   href: string;
   image?: string;
-  children?: Category[]; // 👈 optional recursive children
+  children?: Category[];
 };
 
 const categories: Category[] = [
@@ -81,7 +79,6 @@ const categories: Category[] = [
     image: "https://imaxcameras.com/wp-content/uploads/2024/01/ic27-150x150.png",
     children: [
       { name: "Intercom", href: "/category/intercom" },
-    
     ],
   },
 ];
@@ -97,7 +94,7 @@ export default function Header() {
   return (
     <header className="w-full shadow">
       {/* Top Bar */}
-      <div className="bg-gray-800 text-white py-4 px-4 flex flex-col md:flex-row items-center justify-between text-sm font-medium">
+      <div className="bg-red-600 text-white py-4 px-4 flex flex-col md:flex-row items-center justify-between text-sm font-medium">
         <p className="text-center">
           You can now register or check your warranty online. Always Buy Genuine Quality Products
         </p>
@@ -126,9 +123,8 @@ export default function Header() {
 
             {/* Dropdown */}
             {isOpen && (
-              <div className="fixed inset-0 z-51 flex items-center justify-center bg-black/40">
+              <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/40">
                 <div className="bg-white border shadow-lg rounded-lg w-80 p-4 relative">
-                  {/* Close button */}
                   <div className="flex justify-between items-center mb-2">
                     <span className="font-semibold text-gray-700">Select Currency:</span>
                     <button onClick={() => setIsOpen(false)}>
@@ -170,14 +166,15 @@ export default function Header() {
           </div>
         </div>
       </div>
-      { /* Desktop Header */}
+
+      {/* Desktop Header */}
       <div className="hidden md:block border-b">
-        {/* Main Header */}
-        <div className="flex items-center justify-between px-6 py-4 max-w-7xl mx-auto ">
+        <div className="flex items-center justify-between px-6 py-4 max-w-7xl mx-auto">
           {/* Logo */}
           <Link href="/">
-            <Image src="/gericom.jpeg" alt="Imax Cameras" width={150} height={60} />
+            <Image src="/logo.jpg" alt="Gericom Cameras" width={150} height={60} />
           </Link>
+
           {/* Search Bar */}
           <div className="flex-1 max-w-2xl mx-6">
             <form className="flex border border-gray-300 rounded-full overflow-hidden">
@@ -186,27 +183,23 @@ export default function Header() {
                 placeholder="Search for products"
                 className="flex-grow px-4 py-2 text-black outline-none"
               />
-              <button className="px-4 bg-gray-800 text-white">Search</button>
+              <button className="px-4 bg-red-600 text-white">Search</button>
             </form>
           </div>
+
           {/* Right Icons */}
           <div className="flex items-center gap-6 text-sm font-medium">
-            <Link href="/compare" className="flex items-center gap-1">
-              <span>⇄</span> {/* Replace with an icon */}
-            </Link>
-            <Link href="/wishlist" className="flex items-center gap-1">
-              <span>♡</span>
-            </Link>
-            <Link href="/account" className="flex items-center gap-1">
-              Login / Register
-            </Link>
-            <Link href="/cart" className="flex items-center gap-1 bg-black text-white px-3 py-1 rounded-full">
+            <Link href="/compare">⇄</Link>
+            <Link href="/wishlist">♡</Link>
+            <Link href="/account">Login / Register</Link>
+            <Link href="/cart" className="bg-black text-white px-3 py-1 rounded-full">
               🛒 Ksh0.00
             </Link>
           </div>
         </div>
 
-        <nav className="bg-white border-b px-6 py-3 text-sm font-medium relative z-50 border-t border-b py-3 px-6 flex flex-wrap justify-center gap-6 text-gray-800 text-sm font-semibold ">
+        {/* Nav Categories */}
+        <nav className="bg-white border-t px-6 py-3 text-sm font-semibold flex justify-center gap-6 text-gray-800">
           <ul className="flex gap-8">
             {categories.map((cat) => (
               <li
@@ -219,7 +212,7 @@ export default function Header() {
                   {cat.name}
                   <ChevronDown size={14} />
                 </button>
-                {/* First level dropdown */}
+
                 {open === cat.name && cat.children && (
                   <ul className="absolute left-0 mt-2 w-60 bg-white rounded-md shadow-lg p-2"
                     onMouseLeave={() => {
@@ -241,23 +234,6 @@ export default function Header() {
                           {sub.name}
                           {sub.children && <ChevronDown size={12} />}
                         </Link>
-                        {/* Second level dropdown */}
-                        {sub.children && subOpen === sub.name && (
-                          <ul className="absolute top-0 left-full ml-2 w-56 bg-white rounded-md shadow-lg p-2"
-                            onMouseLeave={() => setSubOpen(null)}
-                          >
-                            {sub.children.map((child) => (
-                              <li key={child.name}>
-                                <Link
-                                  href={child.href}
-                                  className="block px-3 py-2 rounded hover:bg-gray-100 hover:text-red-600 transition"
-                                >
-                                  {child.name}
-                                </Link>
-                              </li>
-                            ))}
-                          </ul>
-                        )}
                       </li>
                     ))}
                   </ul>
@@ -267,13 +243,12 @@ export default function Header() {
           </ul>
         </nav>
       </div>
+
       {/* Mobile Header */}
       <div className="flex items-center justify-between p-4 md:hidden">
         <Link href="/">
           <Image src="/logo.jpg" alt="Logo" width={120} height={50} />
         </Link>
-
-        {/* Hamburger */}
         <button onClick={() => setMobileOpen(true)}>
           <Menu className="w-7 h-7 text-gray-800" />
         </button>
@@ -283,7 +258,6 @@ export default function Header() {
       {mobileOpen && (
         <div className="fixed inset-0 z-50 bg-black/50">
           <div className="absolute left-0 top-0 w-80 h-full bg-white shadow-lg flex flex-col">
-            {/* Header inside drawer */}
             <div className="flex justify-between items-center p-4 border-b">
               <input
                 type="text"
@@ -295,25 +269,21 @@ export default function Header() {
               </button>
             </div>
 
-            {/* Tabs */}
             <div className="flex border-b">
               <button
                 onClick={() => setActiveTab("categories")}
-                className={`flex-1 p-3 text-sm font-medium ${activeTab === "categories" ? "border-b-2 border-red-600 text-red-600" : ""
-                  }`}
+                className={`flex-1 p-3 text-sm font-medium ${activeTab === "categories" ? "border-b-2 border-red-600 text-red-600" : ""}`}
               >
                 Categories
               </button>
               <button
                 onClick={() => setActiveTab("menu")}
-                className={`flex-1 p-3 text-sm font-medium ${activeTab === "menu" ? "border-b-2 border-red-600 text-red-600" : ""
-                  }`}
+                className={`flex-1 p-3 text-sm font-medium ${activeTab === "menu" ? "border-b-2 border-red-600 text-red-600" : ""}`}
               >
                 Menu
               </button>
             </div>
 
-            {/* Categories List */}
             {activeTab === "categories" && (
               <div className="flex-1 overflow-y-auto">
                 <ul>
@@ -348,35 +318,17 @@ export default function Header() {
               </div>
             )}
 
-            {/* Menu List */}
             {activeTab === "menu" && (
               <ul className="flex-1 overflow-y-auto">
-                <li>
-                  <Link href="/" className="block px-4 py-3 border-b text-gray-800">
-                    Home
-                  </Link>
-                </li>
-                <li>
-                  <Link href="/check-warranty" className="block px-4 py-3 border-b text-gray-800">
-                    Check Warranty
-                  </Link>
-                </li>
-                <li>
-                  <Link href="/register-warranty" className="block px-4 py-3 border-b text-gray-800">
-                    Register Warranty
-                  </Link>
-                </li>
-                <li>
-                  <Link href="/shop" className="block px-4 py-3 border-b text-gray-800">
-                    Shop
-                  </Link>
-                </li>
+                <li><Link href="/" className="block px-4 py-3 border-b text-gray-800">Home</Link></li>
+                <li><Link href="/check-warranty" className="block px-4 py-3 border-b text-gray-800">Check Warranty</Link></li>
+                <li><Link href="/register-warranty" className="block px-4 py-3 border-b text-gray-800">Register Warranty</Link></li>
+                <li><Link href="/shop" className="block px-4 py-3 border-b text-gray-800">Shop</Link></li>
               </ul>
             )}
           </div>
         </div>
       )}
-
     </header>
   )
 }
