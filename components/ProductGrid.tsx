@@ -184,62 +184,6 @@ export default function ProductGrid() {
         />
       </section>
 
-<<<<<<< HEAD
-                <CardContent className="p-4 flex flex-col items-center">
-                  <Image
-                    src={product.image}
-                    alt={product.name}
-                    width={160}
-                    height={120}
-                    className="object-contain mb-4"
-                  />
-                  <h3 className="text-sm font-medium text-center line-clamp-2">{product.name}</h3>
-                  <p className="text-red-600 font-semibold mt-2">{product.price}</p>
-                </CardContent>
-
-                <CardFooter className="p-4">
-                  <Button className="w-full bg-gray-800 hover:bg-red-700 rounded-full">
-                    Add to Quote
-                  </Button>
-                </CardFooter>
-              </Card>
-            </div>
-          ))}
-        </div>
-      </div>
-    </section>
-
-    {/* Video Section */}
-    <section className="relative w-full h-[500px] overflow-hidden">
-      {/* Background video */}
-      <video
-        className="absolute top-0 left-0 w-full h-full object-cover"
-        src="/videos/showcase.mp4" // <-- put your video file in /public/videos/
-        autoPlay
-        loop
-        muted
-        playsInline
-      />
-
-    </section>
-=======
-      {/* Category Offers */}
-      <section className="grid grid-cols-1 md:grid-cols-3 gap-4 w-full max-w-7xl p-4">
-        <Card className="p-6 bg-red-100 text-center rounded-2xl">
-          <h3 className="text-lg font-semibold">Power Backup</h3>
-          <Button variant="secondary" className="mt-3 rounded-xl">Explore</Button>
-        </Card>
-        <Card className="p-6 bg-red-100 text-center rounded-2xl">
-          <h3 className="text-lg font-semibold">Surveillance & Security</h3>
-          <Button variant="secondary" className="mt-3 rounded-xl">Explore</Button>
-        </Card>
-        <Card className="p-6 bg-red-100 text-center rounded-2xl">
-          <h3 className="text-lg font-semibold">Intercom</h3>
-          <Button variant="secondary" className="mt-3 rounded-xl">Explore</Button>
-        </Card>
-      </section>
->>>>>>> 1ac56724e10cb04962cfe469b342da1732b0646c
-
       {/* High Quality Products */}
       <section className="w-full py-12">
         <div className="max-w-7xl mx-auto px-4">
@@ -291,31 +235,9 @@ export default function ProductGrid() {
             <CardContent className="p-8">
               <h2 className="text-2xl font-bold text-center">Shopping by brands</h2>
               <p className="text-gray-500 text-center mt-2">
-                Discover lots products from popular brands
+                Discover lots of products from popular brands
               </p>
 
-<<<<<<< HEAD
-                <CardContent className="p-4 flex flex-col items-center">
-                  <Image
-                    src={product.image}
-                    alt={product.name}
-                    width={160}
-                    height={120}
-                    className="object-contain mb-4"
-                  />
-                  <h3 className="text-sm font-medium text-center line-clamp-2">{product.name}</h3>
-                  <p className="text-red-600 font-semibold mt-2">{product.price}</p>
-                </CardContent>
-
-                <CardFooter className="p-4">
-                  <Button className="w-full bg-gray-800 hover:bg-red-700 rounded-full">
-                    Add to Quote
-                  </Button>
-                </CardFooter>
-              </Card>
-            </div>
-          ))}
-=======
               <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-5 lg:grid-cols-7 gap-10 mt-10 items-center justify-center">
                 {mockBrands.map((brand, idx) => (
                   <div key={idx} className="flex justify-center">
@@ -331,7 +253,6 @@ export default function ProductGrid() {
               </div>
             </CardContent>
           </Card>
->>>>>>> 1ac56724e10cb04962cfe469b342da1732b0646c
         </div>
       </section>
     </div>
