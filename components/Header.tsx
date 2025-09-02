@@ -70,7 +70,7 @@ const categories: Category[] = [
     image: "https://imaxcameras.com/wp-content/uploads/2024/01/ic26-150x150.png",
     children: [
       { name: "Wireless Routers", href: "/category/network/wireless-routers" },
-      { name: "Network", href: "/category/network/network" },
+      { name: "Switches", href: "/category/network/switches" },
     ],
   },
   {

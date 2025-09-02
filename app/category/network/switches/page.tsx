@@ -15,17 +15,17 @@ type Product = {
 };
 
 const ALL_PRODUCTS: Product[] = [
-  { id: "p1", name: "BDCOM S1200-16P2G1S 16-Port Unmanaged PoE Switch with SFP and 180W PoE Budget", brand: "BDCOM", price: 9265, status: "instock", image: "/products/break1.jpg" },
-  { id: "p2", name: "BDCOM S1200-24P2G1S 24-Port Unmanaged PoE Switch with SFP and 280W PoE Budget", brand: "BDCOM", price: 11745, status: "instock", image: "/products/break2.jpg" },
-  { id: "p3", name: "BDCOM S1200-24P2G1S-370 24-Port Unmanaged PoE Switch with SFP and 370W PoE Budget", brand: "BDCOM", price: 13705, status: "onsale", image: "/products/break3.jpg" },
-  { id: "p4", name: "BDCOM S1500-16P2S 16-Port Unmanaged PoE Switch with SFP and 180W PoE Budget", brand: "BDCOM", price: 13965, status: "instock", image: "/products/break4.jpg" },
-  { id: "p5", name: "BDCOM S1500-24P2S-370 24-Port Unmanaged PoE Switch with SFP and 370W PoE Budget", brand: "BDCOM", price: 17620, status: "instock", image: "/products/break5.jpg" },
-  { id: "p6", name: "BDCOM S1500-8P2G 8-Port Unmanaged PoE Switch with RJ45 and 90W PoE Budget", brand: "BDCOM", price: 5220, status: "onsale", image: "/products/break6.jpg" },
-   { id: "p7", name: "BDCOM S1508D Switch unmanaged 8 ports 1000M TX", brand: "BDCOM", price: 2480, status: "instock", image: "/products/break1.jpg" },
-  { id: "p8", name: "Commercial Switch", brand: "Himax", price: 4200, status: "instock", image: "/products/break2.jpg" },
-  { id: "p9", name: "Commercial Switch", brand: "Himax", price: 13650, status: "onsale", image: "/products/break3.jpg" },
-  { id: "p10", name: "Commercial Switch", brand: "Himax", price: 17550, status: "instock", image: "/products/break4.jpg" },
-  { id: "p11", name: "Indoor Access Point", brand: "Himax", price: 3600, status: "instock", image: "/products/break5.jpg" },
+  { id: "p1", name: "BDCOM S1200-16P2G1S 16-Port Unmanaged PoE Switch with SFP and 180W PoE Budget", brand: "BDCOM", price: 9265, status: "instock", image: "/products/switch1.jpg" },
+  { id: "p2", name: "BDCOM S1200-24P2G1S 24-Port Unmanaged PoE Switch with SFP and 280W PoE Budget", brand: "BDCOM", price: 11745, status: "instock", image: "/products/switch2.jpg" },
+  { id: "p3", name: "BDCOM S1200-24P2G1S-370 24-Port Unmanaged PoE Switch with SFP and 370W PoE Budget", brand: "BDCOM", price: 13705, status: "onsale", image: "/products/switch3.jpg" },
+  { id: "p4", name: "BDCOM S1500-16P2S 16-Port Unmanaged PoE Switch with SFP and 180W PoE Budget", brand: "BDCOM", price: 13965, status: "instock", image: "/products/switch4.jpg" },
+  { id: "p5", name: "BDCOM S1500-24P2S-370 24-Port Unmanaged PoE Switch with SFP and 370W PoE Budget", brand: "BDCOM", price: 17620, status: "instock", image: "/products/switch5.jpg" },
+  { id: "p6", name: "BDCOM S1500-8P2G 8-Port Unmanaged PoE Switch with RJ45 and 90W PoE Budget", brand: "BDCOM", price: 5220, status: "onsale", image: "/products/switch6.jpg" },
+   { id: "p7", name: "BDCOM S1508D Switch unmanaged 8 ports 1000M TX", brand: "BDCOM", price: 2480, status: "instock", image: "/products/switch7.jpg" },
+  { id: "p8", name: "Commercial Switch", brand: "Himax", price: 4200, status: "instock", image: "/products/switch8.jpg" },
+  { id: "p9", name: "Commercial Switch", brand: "Himax", price: 13650, status: "onsale", image: "/products/switch9.jpg" },
+  { id: "p10", name: "Commercial Switch", brand: "Himax", price: 17550, status: "instock", image: "/products/switch10.jpg" },
+  { id: "p11", name: "Indoor Access Point", brand: "Himax", price: 3600, status: "instock", image: "/products/switch11.jpg" },
 
 ];
 
