@@ -7,7 +7,7 @@ type CartItem = {
   id: string;
   name: string;
   price: number;
-  image?: string;
+  image: string;
 };
 
 type CartContextType = {
@@ -26,10 +26,13 @@ export function CartProvider({ children }: { children: React.ReactNode }) {
   const [cart, setCart] = useState<CartItem[]>([]);
   const [isOpen, setIsOpen] = useState(false);
 
-  const addToCart = (product: CartItem) => {
-    setCart((prev) => [...prev, product]);
-    setIsOpen(true); // 👈 open drawer automatically
-  };
+const addToCart = (product: CartItem) => {
+  const uniqueId = `${product.id}-${Date.now()}-${Math.random()}`;
+  const productWithUniqueId = { ...product, id: uniqueId };
+
+  setCart((prev) => [...prev, productWithUniqueId]);
+  setIsOpen(true); // open drawer automatically
+};
 
   const removeFromCart = (id: string) => {
     setCart((prev) => prev.filter((item) => item.id !== id));
