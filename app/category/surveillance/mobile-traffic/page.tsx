@@ -1,6 +1,7 @@
 "use client";
 
 import * as React from "react";
+import { useCart } from "@/app/CartProvider";
 
 type StockStatus = "onsale" | "instock" | "backorder";
 
@@ -54,7 +55,6 @@ export default function Page() {
   const [page, setPage] = React.useState(1);
   const [sort, setSort] = React.useState("default"); // default|price-asc|price-desc|name-asc|name-desc
   const [wishlist, setWishlist] = React.useState<Record<string, boolean>>({});
-  const [quoteIds, setQuoteIds] = React.useState<Record<string, number>>({}); // id -> qty
 
   // Derived products after filters
   const filtered = React.useMemo(() => {
@@ -114,11 +114,7 @@ export default function Page() {
     setWishlist((w) => ({ ...w, [id]: !w[id] }));
   }
 
-  function addToQuote(id: string) {
-    setQuoteIds((q) => ({ ...q, [id]: (q[id] ?? 0) + 1 }));
-  }
-
-  const quoteCount = Object.values(quoteIds).reduce((a, b) => a + b, 0);
+ const { addToCart } = useCart();
 
   // small helpers
   const showingFrom = filtered.length === 0 ? 0 : (page - 1) * perPage + 1;
@@ -297,12 +293,6 @@ export default function Page() {
                 />
               </div>
 
-              {/* Quote bubble */}
-              <div className="ml-1 text-sm">
-                <span className="rounded-full bg-gray-800 px-2 py-1 font-semibold text-white">
-                  Quote: {quoteCount}
-                </span>
-              </div>
             </div>
           </div>
 
@@ -345,12 +335,17 @@ export default function Page() {
                         {onSale && <span className="text-sm text-gray-400 line-through">{formatKES(p.oldPrice!)}</span>}
                         <span className="text-base font-semibold text-red-600">{formatKES(p.price)}</span>
                       </div>
-                      <button
-                        onClick={() => addToQuote(p.id)}
-                        className="mt-2 w-full rounded-full bg-gray-800 px-4 py-2 text-sm font-semibold text-white hover:bg-red-700"
-                      >
-                        Add to Quote
-                      </button>
+<button
+  onClick={() => addToCart({
+    id: p.id,
+    name: p.name,
+    price: p.price,
+    image: p.image,
+  })}
+  className="mt-2 w-full rounded-full bg-gray-800 px-4 py-2 text-sm font-semibold text-white hover:bg-red-700"
+>
+  Add to Cart
+</button>
                     </div>
                   </div>
                 );

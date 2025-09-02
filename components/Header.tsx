@@ -3,6 +3,8 @@ import Image from "next/image"
 import Link from "next/link";
 import { useState } from "react";
 import { ChevronDown, X, Menu } from "lucide-react"
+import CartDrawer from "./CartDrawer";
+import { useCart } from "@/app/CartProvider";
 
 const currencies = [
   { code: "USD", symbol: "$", label: "USD, $", flag: "/flags/us.jpeg" },
@@ -91,6 +93,8 @@ export default function Header() {
   const [isOpen, setIsOpen] = useState(false)
   const [mobileOpen, setMobileOpen] = useState(false)
   const [activeTab, setActiveTab] = useState<"categories" | "menu">("categories")
+  const { cart, openCart } = useCart();
+  const total = cart.reduce((sum, item) => sum + item.price, 0);
 
   return (
     <header className="w-full shadow">
@@ -195,13 +199,19 @@ export default function Header() {
             <Link href="/account" className="flex items-center gap-1">
               Login / Register
             </Link>
-            <Link href="/cart" className="flex items-center gap-1 bg-black text-white px-3 py-1 rounded-full">
-              🛒 Ksh0.00
-            </Link>
-          </div>
+ <button
+        onClick={openCart}
+        className="flex items-center gap-1 bg-black text-white px-3 py-1 rounded-full"
+      >
+        🛒 Ksh{total.toFixed(2)}
+      </button>
+
+      {/* Drawer is mounted globally */}
+      <CartDrawer />
+                </div>
         </div>
 
-        <nav className="bg-white border-b px-6 py-3 text-sm font-medium relative z-50 border-t border-b py-3 px-6 flex flex-wrap justify-center gap-6 text-gray-800 text-sm font-semibold ">
+        <nav className="bg-white border-b px-6 py-3 text-sm font-medium relative z-40 border-t border-b py-3 px-6 flex flex-wrap justify-center gap-6 text-gray-800 text-sm font-semibold ">
           <ul className="flex gap-8">
             {categories.map((cat) => (
               <li
