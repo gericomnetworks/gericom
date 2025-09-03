@@ -6,6 +6,7 @@ import Image from "next/image";
 import { Heart } from "lucide-react"
 import { useKeenSlider } from "keen-slider/react"
 import "keen-slider/keen-slider.min.css"
+import { useCart } from "@/app/CartProvider";
 
 const mockBrands = [
   "/brands/honeywell.png",
@@ -29,78 +30,78 @@ const mockBrands = [
 
 const newArrivals = [
   {
-    id: 1,
+    id: "1",
     name: "BDCOM S1200-24P2G1S-370 24-Port Unmanaged PoE Switch with SFP and 370W PoE Budget",
-    price: "Ksh13,702.50",
+    price: 13702.50,
     image: "/products/switch.jpg",
   },
   {
-    id: 2,
+    id: "2",
     name: "Reolink TrackMix Series G770 Smart WiFi Battery Camera with Auto-Zoom Tracking",
-    price: "Ksh26,547.50",
+    price: 26547.50,
     image: "/products/reolink-camera.jpg",
   },
   {
-    id: 3,
+    id: "3",
     name: "Reolink NVS12W 12-Channel Wi-Fi 6 NVR Recorder",
-    price: "Ksh26,100.00",
+    price: 2610000.00,
     image: "/products/reolink-nvr.jpg",
   },
   {
-    id: 4,
+    id: "4",
     name: "BDCOM WAP2100-T630B Wi-Fi Broadcast",
-    price: "Ksh8,221.50",
+    price: 8221.50,
     image: "/products/wap2100.jpg",
   },
   {
-    id: 5,
+    id: "5",
     name: "BDCOM GSFP-LX-20-D 1.25G SFP Optical Module",
-    price: "Ksh913.50",
+    price: 913.50,
     image: "/products/sfp-module.jpg",
   },
   {
-    id: 6,
+    id: "6",
     name: "BDCOM S1508D Switch unmanaged 8 ports 1000M TX",
-    price: "Ksh2,479.50",
+    price: 2479.50,
     image: "/products/s1508d.jpg",
   },
 ]
 
 const qualityProducts = [
   {
-    id: 1,
+    id: "1",
     name: "Hikvision DS-2CD2043G0-I 4MP IR Fixed Dome Network Camera",
-    price: "Ksh15,000.00",
+    price: 1500000.00,
     image: "/products/reolink-camera.jpg",
   },
   {
-    id: 2,
+    id: "2",
     name: "Dahua N52A Series 5MP Starlight HDCVI Bullet Camera",
-    price: "Ksh12,500.00",
+    price: 1250000.00,
     image: "/products/reolink-camera.jpg",
   },
   {
-    id: 3,
+    id: "3",
     name: "Bosch NBN-73023BA 1080p Indoor Dome Camera",
-    price: "Ksh25,000.00",
+    price: 2500000.00,
     image: "/products/reolink-camera.jpg",
   },
   {
-    id: 4,
+    id: "4",
     name: "Hikvision DS-2CE16D0T-IT3F 5MP Turbo HD Bullet Camera",
-    price: "Ksh8,500.00",
+    price: 850000.00,
     image: "/products/reolink-camera.jpg",
   },
   {
-    id: 5,
+    id: "5",
     name: "Dahua N52A Series 5MP Starlight HDCVI Turret Camera",
-    price: "Ksh11,000.00",
+    price: 1100000.00,
     image: "/products/reolink-camera.jpg",
   },
   {
-    id: 6,
+    id: "6",
     name: "Bosch NBN-73023BA 1080p Indoor Dome Camera",
-    price: "Ksh25,000.00",
+    price: 2500000.00,
     image: "/products/reolink-camera.jpg",
   },
 ]
@@ -115,6 +116,9 @@ export default function ProductGrid() {
       "(max-width: 480px)": { slides: { perView: 1, spacing: 8 } },
     },
   })
+
+  const { addToCart } = useCart();
+
 
   return (
     <div className="w-full flex flex-col items-center">
@@ -161,10 +165,17 @@ export default function ProductGrid() {
                   </CardContent>
 
                   <CardFooter className="p-4">
-                    <Button className="w-full bg-gray-800 hover:bg-gray-900 rounded-full">
-                      Add to Quote
-                    </Button>
-                  </CardFooter>
+<Button
+  onClick={() => addToCart({
+    id: product.id,
+    name: product.name,
+    price: product.price,
+    image: product.image,
+  })}
+  className="mt-2 w-full rounded-full bg-gray-800 px-4 py-2 text-sm font-semibold text-white hover:bg-red-700"
+>
+  Add to Cart
+</Button>                  </CardFooter>
                 </Card>
               </div>
             ))}
@@ -217,10 +228,17 @@ export default function ProductGrid() {
                   </CardContent>
 
                   <CardFooter className="p-4">
-                    <Button className="w-full bg-gray-800 hover:bg-gray-900 rounded-full">
-                      Add to Quote
-                    </Button>
-                  </CardFooter>
+<Button
+  onClick={() => addToCart({
+    id: product.id,
+    name: product.name,
+    price: product.price,
+    image: product.image,
+  })}
+  className="mt-2 w-full rounded-full bg-gray-800 px-4 py-2 text-sm font-semibold text-white hover:bg-red-700"
+>
+  Add to Cart
+</Button>                  </CardFooter>
                 </Card>
               </div>
             ))}
