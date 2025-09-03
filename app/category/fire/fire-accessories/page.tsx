@@ -2,6 +2,8 @@
 
 import * as React from "react";
 import { useCart } from "@/app/CartProvider";
+import { useWishlist } from "@/app/WishlistProvider";
+import { Heart as HeartIcon } from "lucide-react";
 
 type StockStatus = "onsale" | "instock" | "backorder";
 
@@ -21,7 +23,7 @@ const ALL_PRODUCTS: Product[] = [
   { id: "p3", name: "795-111 Morley Two Loop Module For Extension For DXC2", brand: "Honeywell", price: 36419, status: "onsale", image: "/products/fire3.jpg" },
   { id: "p4", name: "BEAMLRK System Sensor Long Range Kit", brand: "Honeywell", price: 12668, status: "instock", image: "/products/fire4.jpg" },
   { id: "p5", name: "BEAMMMK System Sensor Mounting Kit", brand: "Honeywell", price: 71253, status: "instock", image: "/products/fire5.jpg" },
-  { id: "p6", name: "FP200 Prysmian FIRe Resistant Cable", brand: "Prysmian", price: 31668,  status: "onsale", image: "/products/fire6.jpg" },
+  { id: "p6", name: "FP200 Prysmian FIRe Resistant Cable", brand: "Prysmian", price: 31668, status: "onsale", image: "/products/fire6.jpg" },
   { id: "p7", name: "M200E-SMB Morley Surface Mounting Box", brand: "Honeywell", price: 951, status: "instock", image: "/products/fire7.jpg" },
   { id: "p8", name: "MI-D240CM0 Morley Single 240 V Ac Relay Module", brand: "Honeywell", price: 13460, status: "instock", image: "/products/fire8.jpg" },
   { id: "p9", name: "MI-DCZRM Morley Non-Addressable Zone Monitor Module", brand: "Honeywell", price: 15834, status: "backorder", image: "/products/fire9.jpg" },
@@ -47,21 +49,6 @@ function formatKES(x: number) {
   return `Ksh${x.toLocaleString("en-KE", { maximumFractionDigits: 0 })}`;
 }
 
-function Heart({ filled }: { filled?: boolean }) {
-  return (
-    <svg
-      aria-hidden
-      viewBox="0 0 24 24"
-      className={`h-5 w-5 ${filled ? "fill-red-500 stroke-red-500" : "fill-transparent stroke-gray-400"} transition`}
-    >
-      <path
-        strokeWidth="2"
-        d="M16.5 3.75c-1.79 0-3.34.97-4.5 2.44C10.84 4.72 9.29 3.75 7.5 3.75A4.75 4.75 0 0 0 2.75 8.5c0 6.28 8.08 10.33 9.07 10.8a.75.75 0 0 0 .36.09.75.75 0 0 0 .36-.09c.99-.47 9.07-4.52 9.07-10.8A4.75 4.75 0 0 0 16.5 3.75Z"
-      />
-    </svg>
-  );
-}
-
 export default function Page() {
   // UI state
   const [query, setQuery] = React.useState("");
@@ -72,7 +59,6 @@ export default function Page() {
   const [perPage, setPerPage] = React.useState(12);
   const [page, setPage] = React.useState(1);
   const [sort, setSort] = React.useState("default"); // default|price-asc|price-desc|name-asc|name-desc
-  const [wishlist, setWishlist] = React.useState<Record<string, boolean>>({});
 
   // Derived products after filters
   const filtered = React.useMemo(() => {
@@ -128,11 +114,9 @@ export default function Page() {
     setPriceMax(max);
   }
 
-  function toggleWish(id: string) {
-    setWishlist((w) => ({ ...w, [id]: !w[id] }));
-  }
+  const { wishlist, toggleWish } = useWishlist();
 
-const { addToCart } = useCart();
+  const { addToCart } = useCart();
 
   // small helpers
   const showingFrom = filtered.length === 0 ? 0 : (page - 1) * perPage + 1;
@@ -145,7 +129,7 @@ const { addToCart } = useCart();
         <div className="bg-gray-800/85">
           <div className="mx-auto max-w-7xl px-4 py-10 text-white">
             <h1 className="text-4xl font-extrabold">Fire Accessories</h1>
-     
+
           </div>
         </div>
       </div>
@@ -322,20 +306,28 @@ const { addToCart } = useCart();
           ) : (
             <div className="grid grid-cols-1 gap-5 sm:grid-cols-2 lg:grid-cols-3">
               {current.map((p) => {
-                const wished = !!wishlist[p.id];
                 const onSale = p.status === "onsale" && p.oldPrice && p.oldPrice > p.price;
 
                 return (
                   <div key={p.id} className="group relative rounded-2xl border bg-white p-4 shadow-sm transition hover:shadow-md">
                     {/* Wishlist */}
                     <button
-                      onClick={() => toggleWish(p.id)}
-                      className="absolute right-3 top-3 rounded-full bg-white/90 p-2 shadow hover:bg-white"
+                      onClick={() =>
+                        toggleWish({
+                          id: p.id,
+                          name: p.name,
+                          price: p.price,
+                          image: p.image,
+                        })
+                      }
+                      className="absolute right-3 top-3 z-10  rounded-full bg-white/90 p-2 shadow hover:bg-white"
                       aria-label="Toggle wishlist"
-                    >
-                      <Heart filled={wished} />
-                    </button>
-
+                    ><HeartIcon
+                        className="w-5 h-5"
+                        strokeWidth={1.5}
+                        fill={wishlist[p.id] ? "red" : "transparent"}
+                        stroke={wishlist[p.id] ? "red" : "gray"}
+                      /></button>
                     {/* Sale badge */}
                     {onSale && (
                       <div className="absolute left-3 top-3 rounded-md bg-red-500 px-2 py-1 text-xs font-semibold text-white">
@@ -353,17 +345,17 @@ const { addToCart } = useCart();
                         {onSale && <span className="text-sm text-gray-400 line-through">{formatKES(p.oldPrice!)}</span>}
                         <span className="text-base font-semibold text-red-600">{formatKES(p.price)}</span>
                       </div>
-<button
-  onClick={() => addToCart({
-    id: p.id,
-    name: p.name,
-    price: p.price,
-    image: p.image,
-  })}
-  className="mt-2 w-full rounded-full bg-gray-800 px-4 py-2 text-sm font-semibold text-white hover:bg-red-700"
->
-  Add to Cart
-</button>                    </div>
+                      <button
+                        onClick={() => addToCart({
+                          id: p.id,
+                          name: p.name,
+                          price: p.price,
+                          image: p.image,
+                        })}
+                        className="mt-2 w-full rounded-full bg-gray-800 px-4 py-2 text-sm font-semibold text-white hover:bg-red-700"
+                      >
+                        Add to Cart
+                      </button>                    </div>
                   </div>
                 );
               })}

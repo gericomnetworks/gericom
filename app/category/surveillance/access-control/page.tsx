@@ -2,6 +2,8 @@
 
 import * as React from "react";
 import { useCart } from "@/app/CartProvider";
+import { useWishlist } from "@/app/WishlistProvider";
+import { Heart as HeartIcon } from "lucide-react";
 
 type StockStatus = "onsale" | "instock" | "backorder";
 
@@ -18,29 +20,29 @@ type Product = {
 const ALL_PRODUCTS: Product[] = [
   { id: "p1", name: "Akuvox A05C commercial-grade access control terminal, access control via AI-powered face recognition", brand: "Akuvox", price: 21000, status: "instock", image: "/products/access1.jpg" },
   { id: "p2", name: "Akuvox C319 10” Android indoor monitor with built-in voice assistant", brand: "Akuvox", price: 33450, status: "instock", image: "/products/access2.jpg" },
-  { id: "p3", name: "Akuvox E12 single-button SIP video door phone, mobile access and wireless communication", brand: "Akuvox", price: 9900,  status: "onsale", image: "/products/access3.jpg" },
+  { id: "p3", name: "Akuvox E12 single-button SIP video door phone, mobile access and wireless communication", brand: "Akuvox", price: 9900, status: "onsale", image: "/products/access3.jpg" },
   { id: "p4", name: "Akuvox E16C Face recognition, mobile access, temperature measurement, and mask detection in one device.", brand: "Akuvox", price: 41250, status: "instock", image: "/products/access4.jpg" },
   { id: "p5", name: "Akuvox E18C 7″ with face recognition featuring touchless building access and wireless communication", brand: "Akuvox", price: 56550, status: "instock", image: "/products/access5.jpg" },
-  { id: "p6", name: "Akuvox R20A SIP door intercom with 120 degree Wide-angle Video camera, Flush-mount casing", brand: "Akuvox", price: 21376,  status: "onsale", image: "/products/access6.jpg" },
+  { id: "p6", name: "Akuvox R20A SIP door intercom with 120 degree Wide-angle Video camera, Flush-mount casing", brand: "Akuvox", price: 21376, status: "onsale", image: "/products/access6.jpg" },
   { id: "p7", name: "Akuvox R20BX5 IP Video Intercom with 5 keys and RFID", brand: "Akuvox", price: 22485, status: "instock", image: "/products/access7.jpg" },
   { id: "p8", name: "Akuvox R29CT IP video door phone, touch display, dual camera, Facial Recognition, Finger Print, RFID card reader, pin code & Bluetooth", brand: "Akuvox", price: 120000, status: "instock", image: "/products/access8.jpg" },
   { id: "p9", name: "Akuvox SP-R50P advanced telephony", brand: "Akuvox", price: 5550, status: "backorder", image: "/products/access9.jpg" },
   { id: "p10", name: "ASA1222E Dahua Dhi- Biometric Standalone Time Attendance Recorder", brand: "Dahua", price: 6484, status: "instock", image: "/products/access10.jpg" },
-  { id: "p11", name: "ASH100 Dahua Smart Lock Pda", brand: "Dahua", price: 28818, status: "instock", image: "/products/access11.jpg"},
+  { id: "p11", name: "ASH100 Dahua Smart Lock Pda", brand: "Dahua", price: 28818, status: "instock", image: "/products/access11.jpg" },
   { id: "p12", name: "ASM200 Dahua Card Reader/Writer", brand: "Dahua", price: 14409, status: "instock", image: "/products/access12.jpg" },
   { id: "p13", name: "ASR1102A Dahua Fingerprint Reader + RFID", brand: "Dahua", price: 7050, status: "backorder", image: "/products/access13.jpg" },
   // fill out to mimic a full catalog grid
   { id: "p14", name: "DS-K1107MK Hikvision Card Reader", brand: "Hikvision", price: 4669, status: "instock", image: "/products/access14.jpg" },
   { id: "p15", name: "DS-K2210 ELEVATOR CONTROLLER", brand: "Hikvision", price: 42015, status: "instock", image: "/products/access15.jpg" },
   { id: "p16", name: "DS-K2602T Hikvision Two-Door Access Controller", brand: "Hikvision", price: 32679, status: "instock", image: "/products/access16.jpg" },
-  { id: "p17", name: "DS-K2604T Hikvision Two-Door Access Controller", brand: "Hikvision", price: 37347,  status: "onsale", image: "/products/access17.jpg" },
+  { id: "p17", name: "DS-K2604T Hikvision Two-Door Access Controller", brand: "Hikvision", price: 37347, status: "onsale", image: "/products/access17.jpg" },
   { id: "p18", name: "DS-K2M0016A ELEVATOR CONTROLLER", brand: "Hikvision", price: 49018, status: "instock", image: "/products/access18.jpg" },
   { id: "p19", name: "Exit Switch", brand: "generic", price: 666, status: "instock", image: "/products/access19.jpg" },
- 
+
 ];
 
 const ALL_BRANDS = [
- 
+
   "Hikvision",
   "Dahua",
   "Akuvox",
@@ -51,20 +53,6 @@ function formatKES(x: number) {
   return `Ksh${x.toLocaleString("en-KE", { maximumFractionDigits: 0 })}`;
 }
 
-function Heart({ filled }: { filled?: boolean }) {
-  return (
-    <svg
-      aria-hidden
-      viewBox="0 0 24 24"
-      className={`h-5 w-5 ${filled ? "fill-red-500 stroke-red-500" : "fill-transparent stroke-gray-400"} transition`}
-    >
-      <path
-        strokeWidth="2"
-        d="M16.5 3.75c-1.79 0-3.34.97-4.5 2.44C10.84 4.72 9.29 3.75 7.5 3.75A4.75 4.75 0 0 0 2.75 8.5c0 6.28 8.08 10.33 9.07 10.8a.75.75 0 0 0 .36.09.75.75 0 0 0 .36-.09c.99-.47 9.07-4.52 9.07-10.8A4.75 4.75 0 0 0 16.5 3.75Z"
-      />
-    </svg>
-  );
-}
 
 export default function Page() {
   // UI state
@@ -76,7 +64,6 @@ export default function Page() {
   const [perPage, setPerPage] = React.useState(12);
   const [page, setPage] = React.useState(1);
   const [sort, setSort] = React.useState("default"); // default|price-asc|price-desc|name-asc|name-desc
-  const [wishlist, setWishlist] = React.useState<Record<string, boolean>>({});
 
   // Derived products after filters
   const filtered = React.useMemo(() => {
@@ -132,10 +119,7 @@ export default function Page() {
     setPriceMax(max);
   }
 
-  function toggleWish(id: string) {
-    setWishlist((w) => ({ ...w, [id]: !w[id] }));
-  }
-
+  const { wishlist, toggleWish } = useWishlist();
   const { addToCart } = useCart();
   // small helpers
   const showingFrom = filtered.length === 0 ? 0 : (page - 1) * perPage + 1;
@@ -148,7 +132,7 @@ export default function Page() {
         <div className="bg-gray-800/85">
           <div className="mx-auto max-w-7xl px-4 py-10 text-white">
             <h1 className="text-4xl font-extrabold">Access Control</h1>
-          
+
           </div>
         </div>
       </div>
@@ -325,23 +309,31 @@ export default function Page() {
           ) : (
             <div className="grid grid-cols-1 gap-5 sm:grid-cols-2 lg:grid-cols-3">
               {current.map((p) => {
-                const wished = !!wishlist[p.id];
                 const onSale = p.status === "onsale" && p.oldPrice && p.oldPrice > p.price;
 
                 return (
                   <div key={p.id} className="group relative rounded-2xl border bg-white p-4 shadow-sm transition hover:shadow-md">
                     {/* Wishlist */}
                     <button
-                      onClick={() => toggleWish(p.id)}
+                      onClick={() =>
+                        toggleWish({
+                          id: p.id,
+                          name: p.name,
+                          price: p.price,
+                          image: p.image,
+                        })
+                      }
                       className="absolute right-3 top-3 rounded-full bg-white/90 p-2 shadow hover:bg-white"
                       aria-label="Toggle wishlist"
-                    >
-                      <Heart filled={wished} />
-                    </button>
-
+                    ><HeartIcon
+                        className="w-5 h-5"
+                        strokeWidth={1.5}
+                        fill={wishlist[p.id] ? "red" : "transparent"}
+                        stroke={wishlist[p.id] ? "red" : "gray"}
+                      /></button>
                     {/* Sale badge */}
                     {onSale && (
-                      <div className="absolute left-3 top-3 rounded-md bg-red-500 px-2 py-1 text-xs font-semibold text-white">
+                      <div className="absolute right-3 top-3 z-10 rounded-md bg-red-500 px-2 py-1 text-xs font-semibold text-white">
                         -{Math.round(((p.oldPrice! - p.price) / p.oldPrice!) * 100)}%
                       </div>
                     )}
@@ -356,17 +348,17 @@ export default function Page() {
                         {onSale && <span className="text-sm text-gray-400 line-through">{formatKES(p.oldPrice!)}</span>}
                         <span className="text-base font-semibold text-red-600">{formatKES(p.price)}</span>
                       </div>
-<button
-  onClick={() => addToCart({
-    id: p.id,
-    name: p.name,
-    price: p.price,
-    image: p.image,
-  })}
-  className="mt-2 w-full rounded-full bg-gray-800 px-4 py-2 text-sm font-semibold text-white hover:bg-red-700"
->
-  Add to Cart
-</button>
+                      <button
+                        onClick={() => addToCart({
+                          id: p.id,
+                          name: p.name,
+                          price: p.price,
+                          image: p.image,
+                        })}
+                        className="mt-2 w-full rounded-full bg-gray-800 px-4 py-2 text-sm font-semibold text-white hover:bg-red-700"
+                      >
+                        Add to Cart
+                      </button>
                     </div>
                   </div>
                 );

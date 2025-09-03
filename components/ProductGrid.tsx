@@ -7,6 +7,7 @@ import { Heart } from "lucide-react"
 import { useKeenSlider } from "keen-slider/react"
 import "keen-slider/keen-slider.min.css"
 import { useCart } from "@/app/CartProvider";
+import { useWishlist } from "@/app/WishlistProvider";
 
 const mockBrands = [
   "/brands/honeywell.png",
@@ -30,37 +31,37 @@ const mockBrands = [
 
 const newArrivals = [
   {
-    id: "1",
+    id: "new1",
     name: "BDCOM S1200-24P2G1S-370 24-Port Unmanaged PoE Switch with SFP and 370W PoE Budget",
     price: 13702.50,
     image: "/products/switch.jpg",
   },
   {
-    id: "2",
+    id: "new2",
     name: "Reolink TrackMix Series G770 Smart WiFi Battery Camera with Auto-Zoom Tracking",
     price: 26547.50,
     image: "/products/reolink-camera.jpg",
   },
   {
-    id: "3",
+    id: "new3",
     name: "Reolink NVS12W 12-Channel Wi-Fi 6 NVR Recorder",
     price: 2610000.00,
     image: "/products/reolink-nvr.jpg",
   },
   {
-    id: "4",
+    id: "new4",
     name: "BDCOM WAP2100-T630B Wi-Fi Broadcast",
     price: 8221.50,
     image: "/products/wap2100.jpg",
   },
   {
-    id: "5",
+    id: "new5",
     name: "BDCOM GSFP-LX-20-D 1.25G SFP Optical Module",
     price: 913.50,
     image: "/products/sfp-module.jpg",
   },
   {
-    id: "6",
+    id: "new6",
     name: "BDCOM S1508D Switch unmanaged 8 ports 1000M TX",
     price: 2479.50,
     image: "/products/s1508d.jpg",
@@ -118,6 +119,7 @@ export default function ProductGrid() {
   })
 
   const { addToCart } = useCart();
+  const { wishlist, toggleWish } = useWishlist();
 
 
   return (
@@ -148,9 +150,25 @@ export default function ProductGrid() {
               <div key={product.id} className="keen-slider__slide">
                 <Card className="relative rounded-xl shadow-sm hover:shadow-md transition h-full">
                   {/* Wishlist Icon */}
-                  <button className="absolute top-3 right-3 text-gray-400 hover:text-red-500">
-                    <Heart className="w-5 h-5" />
-                  </button>
+                  <button
+                    onClick={() =>
+                      toggleWish({
+                        id: product.id,
+                        name: product.name,
+                        price: product.price,
+                        image: product.image,
+                      })
+                    }
+                    className="absolute right-3 top-3 rounded-full bg-white/90 p-2 shadow hover:bg-white"
+                    aria-label="Toggle wishlist"
+                  >
+                    <Heart
+                      className="w-5 h-5"
+                      strokeWidth={1.5}
+                      fill={wishlist[product.id] ? "red" : "transparent"}
+                      stroke={wishlist[product.id] ? "red" : "gray"}
+                    /></button>
+
 
                   <CardContent className="p-4 flex flex-col items-center">
                     <Image
@@ -165,17 +183,17 @@ export default function ProductGrid() {
                   </CardContent>
 
                   <CardFooter className="p-4">
-<Button
-  onClick={() => addToCart({
-    id: product.id,
-    name: product.name,
-    price: product.price,
-    image: product.image,
-  })}
-  className="mt-2 w-full rounded-full bg-gray-800 px-4 py-2 text-sm font-semibold text-white hover:bg-red-700"
->
-  Add to Cart
-</Button>                  </CardFooter>
+                    <Button
+                      onClick={() => addToCart({
+                        id: product.id,
+                        name: product.name,
+                        price: product.price,
+                        image: product.image,
+                      })}
+                      className="mt-2 w-full rounded-full bg-gray-800 px-4 py-2 text-sm font-semibold text-white hover:bg-red-700"
+                    >
+                      Add to Cart
+                    </Button>                  </CardFooter>
                 </Card>
               </div>
             ))}
@@ -210,10 +228,24 @@ export default function ProductGrid() {
             {qualityProducts.map((product) => (
               <div key={product.id} className="keen-slider__slide">
                 <Card className="relative rounded-xl shadow-sm hover:shadow-md transition h-full">
-                  {/* Wishlist Icon */}
-                  <button className="absolute top-3 right-3 text-gray-400 hover:text-red-500">
-                    <Heart className="w-5 h-5" />
-                  </button>
+                  <button
+                    onClick={() =>
+                      toggleWish({
+                        id: product.id,
+                        name: product.name,
+                        price: product.price,
+                        image: product.image,
+                      })
+                    }
+                    className="absolute right-3 top-3 rounded-full bg-white/90 p-2 shadow hover:bg-white"
+                    aria-label="Toggle wishlist"
+                  ><Heart
+                      className="w-5 h-5"
+                      strokeWidth={1.5}
+                      fill={wishlist[product.id] ? "red" : "transparent"}
+                      stroke={wishlist[product.id] ? "red" : "gray"}
+                    /></button>
+
 
                   <CardContent className="p-4 flex flex-col items-center">
                     <Image
@@ -228,17 +260,17 @@ export default function ProductGrid() {
                   </CardContent>
 
                   <CardFooter className="p-4">
-<Button
-  onClick={() => addToCart({
-    id: product.id,
-    name: product.name,
-    price: product.price,
-    image: product.image,
-  })}
-  className="mt-2 w-full rounded-full bg-gray-800 px-4 py-2 text-sm font-semibold text-white hover:bg-red-700"
->
-  Add to Cart
-</Button>                  </CardFooter>
+                    <Button
+                      onClick={() => addToCart({
+                        id: product.id,
+                        name: product.name,
+                        price: product.price,
+                        image: product.image,
+                      })}
+                      className="mt-2 w-full rounded-full bg-gray-800 px-4 py-2 text-sm font-semibold text-white hover:bg-red-700"
+                    >
+                      Add to Cart
+                    </Button>                  </CardFooter>
                 </Card>
               </div>
             ))}
