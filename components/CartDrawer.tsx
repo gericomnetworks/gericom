@@ -2,11 +2,18 @@
 
 import Image from "next/image";
 import { useCart } from "@/app/CartProvider";
+import { useRouter } from "next/navigation";
 
 export default function CartDrawer() {
-  const { cart, removeFromCart, clearCart, isOpen, closeCart } = useCart();
+  const { cart, removeFromCart, isOpen, closeCart } = useCart();
+  const router = useRouter();
 
   const total = cart.reduce((sum, item) => sum + item.price, 0);
+
+  const handleCheckout = () => {
+    closeCart();              // close the drawer
+    router.push("/checkout"); // go to Scenario 2 checkout page
+  };
 
   return (
     <>
@@ -65,19 +72,20 @@ export default function CartDrawer() {
         <div className="p-4 border-t">
           <p className="mb-2 font-semibold">Total: Ksh{total.toFixed(2)}</p>
           <button
-            onClick={clearCart}
-            className="w-full bg-black text-white py-2 rounded-md"
+            onClick={handleCheckout}
+            disabled={cart.length === 0}
+            className="w-full bg-black text-white py-2 rounded-md disabled:bg-gray-400"
           >
             Checkout
           </button>
         </div>
       </div>
-      
-      {/* Background overlay with blur */}
+
+      {/* Background overlay */}
       {isOpen && (
         <div
           onClick={closeCart}
-          className="fixed inset-0 bg-black/40  z-49"
+          className="fixed inset-0 bg-black/40 z-40"
         />
       )}
     </>
