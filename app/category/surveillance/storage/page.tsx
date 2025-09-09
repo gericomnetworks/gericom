@@ -218,7 +218,7 @@ export default function Page() {
           {/* Promo */}
           <section className="rounded-2xl border bg-white overflow-hidden shadow-sm">
             <img
-              src="https://images.unsplash.com/photo-1580906855280-95e535b1341c?q=80&w=1200&auto=format&fit=crop"
+              src="/products/promo.jpg"
               alt="Promo"
               className="h-44 w-full object-cover"
             />

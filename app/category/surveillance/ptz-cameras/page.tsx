@@ -105,7 +105,7 @@ export default function Page() {
       <div className="mx-auto max-w-7xl px-4 py-8 grid grid-cols-12 gap-6">
         {/* Sidebar (mobile toggle) */}
         <aside
-          className={`fixed inset-y-0 left-0 z-40 w-72 bg-white p-5 overflow-y-auto transform transition-transform md:static md:col-span-3 md:block md:translate-x-0 ${
+          className={`fixed inset-y-0 left-0 w-72 bg-white p-5 overflow-y-auto transform transition-transform md:static md:col-span-3 md:block md:translate-x-0 ${
             showFilters ? "translate-x-0" : "-translate-x-full"
           }`}
         >
@@ -184,14 +184,16 @@ export default function Page() {
           {/* Promo */}
           <section className="rounded-2xl border bg-white overflow-hidden shadow-sm">
             <img
-              src="https://images.unsplash.com/photo-1518770660439-4636190af475?q=80&w=1200&auto=format&fit=crop"
+              src="/products/promo.jpg"
               alt="Promo"
               className="h-44 w-full object-cover"
             />
             <div className="p-5">
               <h4 className="text-lg font-semibold">High Quality Products</h4>
-              <p className="text-sm text-gray-600 mt-1">PTZ solutions for every scenario.</p>
-              <button className="mt-4 w-full rounded-xl bg-gray-800 px-4 py-2 text-white hover:bg-red-700">
+              <p className="text-sm text-gray-600 mt-1">
+                Reliable brands for professional surveillance.
+              </p>
+              <button className="mt-4 rounded-xl bg-gray-800 px-4 py-2 text-white hover:bg-red-700">
                 Shop Now
               </button>
             </div>

@@ -182,8 +182,7 @@ export default function Header() {
             </form>
           </div>
           <div className="flex items-center gap-4 lg:gap-6 text-xs lg:text-sm font-medium">
-            <Link href="/compare" className="flex items-center gap-1">⇄</Link>
-            <Link href="/wishlist" className="flex items-center gap-1">♡</Link>
+            <Link href="/wishlist" className="flex items-center gap-1">Wishlist ♡</Link>
             <Link href="/account" className="flex items-center gap-1">Login / Register</Link>
             <button
               onClick={openCart}
@@ -194,7 +193,7 @@ export default function Header() {
             <CartDrawer />
           </div>
         </div>
-        <nav className="bg-white border-t border-b px-4 lg:px-6 py-2 lg:py-3 text-xs lg:text-sm font-medium relative z-40">
+        <nav className="bg-white border-t border-b px-4 lg:px-6 py-2 lg:py-3 text-xs lg:text-sm font-medium relative z-30">
           <ul className="flex flex-wrap justify-center gap-4 lg:gap-8">
             {categories.map((cat) => (
               <li
@@ -256,15 +255,25 @@ export default function Header() {
         </nav>
       </div>
 
-      {/* Mobile Header */}
-      <div className="flex items-center justify-between p-3 md:hidden">
-        <Link href="/">
-          <Image src="/logo.jpg" alt="Logo" width={110} height={45} />
-        </Link>
-        <button onClick={() => setMobileOpen(true)}>
-          <Menu className="w-6 h-6 text-gray-800" />
-        </button>
-      </div>
+{/* Mobile Header */}
+<div className="flex items-center justify-between p-3 md:hidden">
+  <Link href="/">
+    <Image src="/logo.jpg" alt="Logo" width={110} height={45} />
+  </Link>
+  <div className="flex items-center gap-3">
+    <button
+      onClick={openCart}
+      className="relative bg-black text-white text-xs px-3 py-1 rounded-full"
+    >
+      🛒
+      <span className="ml-1">Ksh{total.toFixed(2)}</span>
+    </button>
+    <CartDrawer />
+    <button onClick={() => setMobileOpen(true)}>
+      <Menu className="w-6 h-6 text-gray-800" />
+    </button>
+  </div>
+</div>
 
       {/* Mobile Drawer */}
       {mobileOpen && (
@@ -328,9 +337,7 @@ export default function Header() {
             {activeTab === "menu" && (
               <ul className="flex-1 overflow-y-auto text-sm">
                 <li><Link href="/" className="block px-3 py-2 border-b text-gray-800">Home</Link></li>
-                <li><Link href="/check-warranty" className="block px-3 py-2 border-b text-gray-800">Check Warranty</Link></li>
-                <li><Link href="/register-warranty" className="block px-3 py-2 border-b text-gray-800">Register Warranty</Link></li>
-                <li><Link href="/shop" className="block px-3 py-2 border-b text-gray-800">Shop</Link></li>
+                <li><Link href="/wishlist" className="block px-3 py-2 border-b text-gray-800">Wishlist</Link></li>
               </ul>
             )}
           </div>

@@ -139,6 +139,23 @@ export default function Page() {
               priceMax={priceMax}
               clampRange={clampRange}
             />
+            <section className="rounded-2xl border bg-white overflow-hidden shadow-sm">
+            <img
+              src="/products/promo.jpg"
+              alt="Promo"
+              className="h-44 w-full object-cover"
+            />
+            <div className="p-5">
+              <h4 className="text-lg font-semibold">High Quality Products</h4>
+              <p className="text-sm text-gray-600 mt-1">
+                Reliable brands for professional surveillance.
+              </p>
+              <button className="mt-4 rounded-xl bg-gray-800 px-4 py-2 text-white hover:bg-red-700">
+                Shop Now
+              </button>
+            </div>
+          </section>
+
           </aside>
 
           {/* Mobile sidebar */}

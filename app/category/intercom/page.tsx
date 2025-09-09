@@ -228,7 +228,7 @@ export default function Page() {
           {/* Promo */}
           <section className="rounded-2xl border bg-white overflow-hidden shadow-sm">
             <img
-              src="https://images.unsplash.com/photo-1580906855280-95e535b1341c?q=80&w=1200&auto=format&fit=crop"
+              src="/products/promo.jpg"
               alt="Promo"
               className="h-44 w-full object-cover"
             />
@@ -390,8 +390,7 @@ export default function Page() {
                             name: p.name,
                             price: p.price,
                             image: p.image,
-                            quantity: qty,
-                          } as any)
+                          } )
                         }
                         className="mt-2 w-full rounded-full bg-gray-800 px-4 py-2 text-sm font-semibold text-white hover:bg-red-700"
                       >
@@ -417,9 +416,8 @@ export default function Page() {
               <button
                 key={n}
                 onClick={() => setPage(n)}
-                className={`h-9 w-9 rounded-lg border text-sm ${
-                  page === n ? "bg-gray-800 font-semibold text-white" : "bg-white hover:bg-gray-50"
-                }`}
+                className={`h-9 w-9 rounded-lg border text-sm ${page === n ? "bg-gray-800 font-semibold text-white" : "bg-white hover:bg-gray-50"
+                  }`}
               >
                 {n}
               </button>

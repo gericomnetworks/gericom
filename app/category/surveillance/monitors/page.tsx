@@ -114,7 +114,7 @@ export default function Page() {
       <div className="mx-auto max-w-7xl px-4 py-8 grid grid-cols-12 gap-6">
         {/* Sidebar */}
         <aside
-          className={`fixed inset-y-0 left-0 z-40 w-72 transform bg-white p-5 shadow-lg transition-transform md:static md:col-span-3 md:translate-x-0 ${
+          className={`fixed inset-y-0 left-0 w-72 transform bg-white p-5 shadow-lg transition-transform md:static md:col-span-3 md:translate-x-0 ${
             showFilters ? "translate-x-0" : "-translate-x-full"
           }`}
         >
@@ -187,13 +187,15 @@ export default function Page() {
             {/* Promo */}
             <section className="rounded-2xl border bg-white overflow-hidden shadow-sm">
               <img
-                src="https://images.unsplash.com/photo-1580906855280-95e535b1341c?q=80&w=1200&auto=format&fit=crop"
+                src="/products/promo.jpg"
                 alt="Promo"
                 className="h-44 w-full object-cover"
               />
               <div className="p-5">
                 <h4 className="text-lg font-semibold">High Quality Products</h4>
-                <p className="text-sm text-gray-600 mt-1">Reliable brands for professional surveillance.</p>
+                <p className="text-sm text-gray-600 mt-1">
+                  Reliable brands for professional surveillance.
+                </p>
                 <button className="mt-4 rounded-xl bg-gray-800 px-4 py-2 text-white hover:bg-red-700">
                   Shop Now
                 </button>
