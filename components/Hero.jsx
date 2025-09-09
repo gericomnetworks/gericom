@@ -6,7 +6,7 @@ export default function Hero() {
   return (
     <section className="relative w-full h-[400px] md:h-[600px]">
       <Image
-        src="/hero1.jpg" // pick your default hero image
+        src="/hero1.jpg" 
         alt="Hero Banner"
         fill
         className="object-cover"
