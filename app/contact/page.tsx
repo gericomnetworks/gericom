@@ -6,18 +6,22 @@ export default function ContactUsPage() {
   return (
     <section className="min-h-screen bg-gray-50">
       {/* Header Section */}
-<div className="bg-gray-800 py-12 px-6 flex justify-between items-center">
-        <h1 className="text-white text-4xl md:text-5xl font-bold mb-2">Contact</h1>
+      <div className="bg-gray-800 py-10 px-4 sm:px-6 flex flex-col sm:flex-row sm:justify-between sm:items-center gap-2 text-center sm:text-left">
+        <h1 className="text-white text-3xl sm:text-4xl md:text-5xl font-bold">
+          Contact
+        </h1>
         <p className="text-white/70 text-sm md:text-base">Home / Contact</p>
       </div>
 
       {/* Main Content */}
       <main className="flex items-center justify-center px-4 py-12">
-        <div className="max-w-5xl w-full bg-white shadow-xl rounded-2xl p-10 grid grid-cols-1 md:grid-cols-2 gap-10 items-center">
+        <div className="max-w-5xl w-full bg-white shadow-xl rounded-2xl p-6 sm:p-10 grid grid-cols-1 md:grid-cols-2 gap-10 items-center">
           {/* Left Side - Contact Details */}
           <div>
-            <h2 className="text-3xl font-bold text-gray-900 mb-4">Get in Touch</h2>
-            <p className="text-gray-600 mb-8 text-lg">
+            <h2 className="text-2xl sm:text-3xl font-bold text-gray-900 mb-4">
+              Get in Touch
+            </h2>
+            <p className="text-gray-600 mb-8 text-base sm:text-lg leading-relaxed">
               Feel free to reach out to us via phone or make a payment using our
               official M-PESA Paybill details below.
             </p>
@@ -25,7 +29,7 @@ export default function ContactUsPage() {
             {/* Contact Number */}
             <div className="mb-8">
               <h3 className="text-lg font-semibold text-gray-800">Phone Number</h3>
-              <p className="text-2xl font-bold text-green-600 mt-2">
+              <p className="text-xl sm:text-2xl font-bold text-green-600 mt-2">
                 0723 809 057
               </p>
             </div>

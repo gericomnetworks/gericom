@@ -5,7 +5,6 @@ import { useCart } from "@/app/CartProvider";
 import { useWishlist } from "@/app/WishlistProvider";
 import { Heart as HeartIcon } from "lucide-react";
 
-
 type StockStatus = "onsale" | "instock" | "backorder";
 
 type Product = {
@@ -15,20 +14,15 @@ type Product = {
   price: number; // KES
   oldPrice?: number; // for sale badge/strike-through
   status: StockStatus;
-  image: string; // use external placeholder so it works without local assets
+  image: string;
 };
 
 const ALL_PRODUCTS: Product[] = [
   { id: "p1", name: "BDCOM WAP2100-T630B Wi-Fi Broadcast", brand: "BDCOM", price: 8222, status: "instock", image: "/products/network1.jpg" },
   { id: "p2", name: "WI-R2 WI-TEK WiFi Router", brand: "Witek", price: 3346, status: "instock", image: "/products/network2.jpg" },
-
 ];
 
-const ALL_BRANDS = [
-  "BDCOM",
-  "Witek",
-
-] as const;
+const ALL_BRANDS = ["BDCOM", "Witek"] as const;
 
 function formatKES(x: number) {
   return `Ksh${x.toLocaleString("en-KE", { maximumFractionDigits: 0 })}`;
@@ -43,7 +37,10 @@ export default function Page() {
   const [priceMax, setPriceMax] = React.useState(200000);
   const [perPage, setPerPage] = React.useState(12);
   const [page, setPage] = React.useState(1);
-  const [sort, setSort] = React.useState("default"); // default|price-asc|price-desc|name-asc|name-desc
+  const [sort, setSort] = React.useState("default");
+
+  // NEW: track quantities
+  const [quantities, setQuantities] = React.useState<Record<string, number>>({});
 
   // Derived products after filters
   const filtered = React.useMemo(() => {
@@ -67,9 +64,6 @@ export default function Page() {
       case "name-desc":
         out = [...out].sort((a, b) => b.name.localeCompare(a.name));
         break;
-      default:
-        // keep insertion order to mimic "Default sorting"
-        break;
     }
     return out;
   }, [priceMin, priceMax, brands, stock, sort, query]);
@@ -80,10 +74,7 @@ export default function Page() {
     return filtered.slice(start, start + perPage);
   }, [filtered, page, perPage]);
 
-  React.useEffect(() => {
-    // reset to first page when filters change
-    setPage(1);
-  }, [priceMin, priceMax, brands, stock, sort, perPage, query]);
+  React.useEffect(() => setPage(1), [priceMin, priceMax, brands, stock, sort, perPage, query]);
 
   function toggleBrand(b: string) {
     setBrands((prev) => (prev.includes(b) ? prev.filter((x) => x !== b) : [...prev, b]));
@@ -100,11 +91,19 @@ export default function Page() {
   }
 
   const { wishlist, toggleWish } = useWishlist();
-
   const { addToCart } = useCart();
-  // small helpers
+
   const showingFrom = filtered.length === 0 ? 0 : (page - 1) * perPage + 1;
   const showingTo = Math.min(filtered.length, page * perPage);
+
+  // Quantity updater
+  const updateQty = (id: string, delta: number) => {
+    setQuantities((prev) => {
+      const next = { ...prev };
+      next[id] = Math.max(1, (next[id] || 1) + delta);
+      return next;
+    });
+  };
 
   return (
     <div className="min-h-screen bg-gray-50">
@@ -113,7 +112,6 @@ export default function Page() {
         <div className="bg-gray-800/85">
           <div className="mx-auto max-w-7xl px-4 py-10 text-white">
             <h1 className="text-4xl font-extrabold">Wireless Routers</h1>
-
           </div>
         </div>
       </div>
@@ -173,33 +171,17 @@ export default function Page() {
           <section className="rounded-2xl border bg-white p-5 shadow-sm">
             <h3 className="font-semibold mb-4">Stock Status</h3>
             <div className="space-y-2">
-              <label className="flex items-center gap-2 text-sm">
-                <input
-                  type="checkbox"
-                  checked={stock.includes("onsale")}
-                  onChange={() => toggleStock("onsale")}
-                  className="h-4 w-4"
-                />
-                On sale
-              </label>
-              <label className="flex items-center gap-2 text-sm">
-                <input
-                  type="checkbox"
-                  checked={stock.includes("instock")}
-                  onChange={() => toggleStock("instock")}
-                  className="h-4 w-4"
-                />
-                In stock
-              </label>
-              <label className="flex items-center gap-2 text-sm">
-                <input
-                  type="checkbox"
-                  checked={stock.includes("backorder")}
-                  onChange={() => toggleStock("backorder")}
-                  className="h-4 w-4"
-                />
-                On backorder
-              </label>
+              {["onsale", "instock", "backorder"].map((s) => (
+                <label key={s} className="flex items-center gap-2 text-sm">
+                  <input
+                    type="checkbox"
+                    checked={stock.includes(s as StockStatus)}
+                    onChange={() => toggleStock(s as StockStatus)}
+                    className="h-4 w-4"
+                  />
+                  {s === "onsale" ? "On sale" : s === "instock" ? "In stock" : "On backorder"}
+                </label>
+              ))}
             </div>
           </section>
 
@@ -246,16 +228,6 @@ export default function Page() {
                 ))}
               </div>
 
-              {/* Grid/List icons (visual only for parity with screenshot) */}
-              <div className="hidden md:flex items-center gap-2">
-                <div className="grid grid-cols-2 gap-0.5 rounded-md border p-1">
-                  <span className="h-4 w-4 bg-gray-900" />
-                  <span className="h-4 w-4 bg-gray-300" />
-                  <span className="h-4 w-4 bg-gray-300" />
-                  <span className="h-4 w-4 bg-gray-300" />
-                </div>
-              </div>
-
               <select
                 value={sort}
                 onChange={(e) => setSort(e.target.value)}
@@ -269,7 +241,6 @@ export default function Page() {
                 <option value="name-desc">Sort by name: Z → A</option>
               </select>
 
-              {/* Search */}
               <div className="flex items-center rounded-lg border bg-white px-3 py-2">
                 <input
                   value={query}
@@ -278,7 +249,6 @@ export default function Page() {
                   className="w-52 outline-none"
                 />
               </div>
-
             </div>
           </div>
 
@@ -291,27 +261,26 @@ export default function Page() {
             <div className="grid grid-cols-1 gap-5 sm:grid-cols-2 lg:grid-cols-3">
               {current.map((p) => {
                 const onSale = p.status === "onsale" && p.oldPrice && p.oldPrice > p.price;
+                const qty = quantities[p.id] || 1;
 
                 return (
                   <div key={p.id} className="group relative rounded-2xl border bg-white p-4 shadow-sm transition hover:shadow-md">
                     {/* Wishlist */}
                     <button
                       onClick={() =>
-                        toggleWish({
-                          id: p.id,
-                          name: p.name,
-                          price: p.price,
-                          image: p.image,
-                        })
+                        toggleWish({ id: p.id, name: p.name, price: p.price, image: p.image })
                       }
-                      className="absolute right-3 top-3 z-10  rounded-full bg-white/90 p-2 shadow hover:bg-white"
+                      className="absolute right-3 top-3 z-10 rounded-full bg-white/90 p-2 shadow hover:bg-white"
                       aria-label="Toggle wishlist"
-                    ><HeartIcon
+                    >
+                      <HeartIcon
                         className="w-5 h-5"
                         strokeWidth={1.5}
                         fill={wishlist[p.id] ? "red" : "transparent"}
                         stroke={wishlist[p.id] ? "red" : "gray"}
-                      /></button>
+                      />
+                    </button>
+
                     {/* Sale badge */}
                     {onSale && (
                       <div className="absolute left-3 top-3 rounded-md bg-red-500 px-2 py-1 text-xs font-semibold text-white">
@@ -320,26 +289,55 @@ export default function Page() {
                     )}
 
                     <div className="aspect-[4/3] overflow-hidden rounded-xl bg-gray-50">
-                      <img src={p.image} alt={p.name} className="h-full w-full object-cover transition-transform duration-200 group-hover:scale-105" />
+                      <img
+                        src={p.image}
+                        alt={p.name}
+                        className="h-full w-full object-cover transition-transform duration-200 group-hover:scale-105"
+                      />
                     </div>
 
                     <div className="mt-4 space-y-2">
                       <h3 className="line-clamp-2 text-sm font-medium text-gray-900">{p.name}</h3>
                       <div className="flex items-center gap-2">
-                        {onSale && <span className="text-sm text-gray-400 line-through">{formatKES(p.oldPrice!)}</span>}
+                        {onSale && (
+                          <span className="text-sm text-gray-400 line-through">{formatKES(p.oldPrice!)}</span>
+                        )}
                         <span className="text-base font-semibold text-red-600">{formatKES(p.price)}</span>
                       </div>
+
+                      {/* Quantity selector */}
+                      <div className="flex items-center gap-2 mt-2">
+                        <button
+                          onClick={() => updateQty(p.id, -1)}
+                          className="px-2 py-1 rounded border hover:bg-gray-100"
+                        >
+                          -
+                        </button>
+                        <span className="px-3">{qty}</span>
+                        <button
+                          onClick={() => updateQty(p.id, +1)}
+                          className="px-2 py-1 rounded border hover:bg-gray-100"
+                        >
+                          +
+                        </button>
+                      </div>
+
+                      {/* Add to Cart */}
                       <button
-                        onClick={() => addToCart({
-                          id: p.id,
-                          name: p.name,
-                          price: p.price,
-                          image: p.image,
-                        })}
+                        onClick={() =>
+                          addToCart({
+                            id: p.id,
+                            name: p.name,
+                            price: p.price,
+                            image: p.image,
+                            quantity: qty,
+                          })
+                        }
                         className="mt-2 w-full rounded-full bg-gray-800 px-4 py-2 text-sm font-semibold text-white hover:bg-red-700"
                       >
-                        Add to Cart
-                      </button>                    </div>
+                        Add to Cart
+                      </button>
+                    </div>
                   </div>
                 );
               })}
@@ -359,7 +357,9 @@ export default function Page() {
               <button
                 key={n}
                 onClick={() => setPage(n)}
-                className={`h-9 w-9 rounded-lg border text-sm ${page === n ? "bg-gray-800 font-semibold text-white" : "bg-white hover:bg-gray-50"}`}
+                className={`h-9 w-9 rounded-lg border text-sm ${
+                  page === n ? "bg-gray-800 font-semibold text-white" : "bg-white hover:bg-gray-50"
+                }`}
               >
                 {n}
               </button>

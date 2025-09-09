@@ -12,27 +12,65 @@ const heroImages = [
 ]
 
 export default function Hero() {
-  const [sliderRef] = useKeenSlider({
+  const [sliderRef, instanceRef] = useKeenSlider({
     loop: true,
-    duration: 1500,
     drag: true,
+    renderMode: "performance",
     slides: { perView: 1 },
   })
 
+  // Autoplay
+  React.useEffect(() => {
+    if (!instanceRef.current) return
+    let timeout
+    let mouseOver = false
+
+    function clearNextTimeout() {
+      clearTimeout(timeout)
+    }
+
+    function nextTimeout() {
+      clearTimeout(timeout)
+      if (mouseOver) return
+      timeout = setTimeout(() => {
+        instanceRef.current?.next()
+      }, 3000) // change slide every 3s
+    }
+
+    instanceRef.current.on("created", () => {
+      instanceRef.current.container.addEventListener("mouseover", () => {
+        mouseOver = true
+        clearNextTimeout()
+      })
+      instanceRef.current.container.addEventListener("mouseout", () => {
+        mouseOver = false
+        nextTimeout()
+      })
+      nextTimeout()
+    })
+    instanceRef.current.on("dragStarted", clearNextTimeout)
+    instanceRef.current.on("animationEnded", nextTimeout)
+    instanceRef.current.on("updated", nextTimeout)
+  }, [instanceRef])
+
   return (
-    <section className="relative w-full h-[400px]">
-      <Image
-        src="/hero1.jpg"
-        alt="Hero Banner"
-        fill
-        className="object-cover"
-        priority
-      />
-      <div className="absolute inset-0 flex items-center justify-center bg-black/40">
-        <h1 className="text-white text-4xl md:text-6xl font-bold">
-          Gericom Links Networks
-        </h1>
-      </div>
+    <section ref={sliderRef} className="keen-slider relative w-full h-[400px] md:h-[600px]">
+      {heroImages.map((img, idx) => (
+        <div key={idx} className="keen-slider__slide relative w-full h-full">
+          <Image
+            src={img.src}
+            alt={img.alt}
+            fill
+            className="object-cover"
+            priority={idx === 0}
+          />
+          <div className="absolute inset-0 flex items-center justify-center bg-black/40">
+            <h1 className="text-white text-3xl md:text-6xl font-bold text-center">
+              Gericom Links Networks
+            </h1>
+          </div>
+        </div>
+      ))}
     </section>
   )
 }

@@ -99,42 +99,37 @@ export default function Header() {
   return (
     <header className="w-full shadow">
       {/* Top Bar */}
-      <div className="bg-gray-800 text-white py-4 px-4 flex flex-col md:flex-row items-center justify-between text-sm font-medium">
-        <p className="text-center">
-      Make secure payments and confirm your purchase online. Always Buy Genuine Quality Products.
+      <div className="bg-gray-800 text-white py-2 px-4 flex flex-col md:flex-row items-center justify-between text-xs sm:text-sm font-medium text-center">
+        <p className="mb-2 md:mb-0">
+          Make secure payments and confirm your purchase online. Always Buy Genuine Quality Products.
         </p>
-        <div className="flex items-center gap-4 mt-2 md:mt-0">
-          <Link href="/contact" className="bg-white text-black px-4 py-1 rounded-full text-sm font-semibold">
+        <div className="flex items-center gap-2 sm:gap-4">
+          <Link href="/contact" className="bg-white text-black px-3 sm:px-4 py-1 rounded-full text-xs sm:text-sm font-semibold">
             Contact Us
           </Link>
           <div className="relative">
-            {/* Current currency */}
             <div
               onClick={() => setIsOpen(true)}
-              className="flex items-center border bg-white text-black px-3 py-1 rounded-md text-sm cursor-pointer"
+              className="flex items-center border bg-white text-black px-2 sm:px-3 py-1 rounded-md text-xs sm:text-sm cursor-pointer"
             >
               {selectedCurrency.label}
               <Image
                 src={selectedCurrency.flag}
                 alt={selectedCurrency.code}
-                width={20}
-                height={14}
-                className="ml-2"
+                width={18}
+                height={12}
+                className="ml-1 sm:ml-2"
               />
             </div>
-
-            {/* Dropdown */}
             {isOpen && (
-              <div className="fixed inset-0 z-51 flex items-center justify-center bg-black/40">
-                <div className="bg-white border shadow-lg rounded-lg w-80 p-4 relative">
-                  {/* Close button */}
+              <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/40">
+                <div className="bg-white border shadow-lg rounded-lg w-72 sm:w-80 p-4 relative">
                   <div className="flex justify-between items-center mb-2">
                     <span className="font-semibold text-gray-700">Select Currency:</span>
                     <button onClick={() => setIsOpen(false)}>
                       <X className="w-5 h-5 text-gray-600" />
                     </button>
                   </div>
-
                   <div className="space-y-2 text-black">
                     {currencies.map((currency) => (
                       <div
@@ -157,8 +152,8 @@ export default function Header() {
                         <Image
                           src={currency.flag}
                           alt={currency.code}
-                          width={20}
-                          height={14}
+                          width={18}
+                          height={12}
                         />
                       </div>
                     ))}
@@ -169,50 +164,38 @@ export default function Header() {
           </div>
         </div>
       </div>
-      { /* Desktop Header */}
+
+      {/* Desktop Header */}
       <div className="hidden md:block border-b">
-        {/* Main Header */}
-        <div className="flex items-center justify-between px-6 py-4 max-w-7xl mx-auto ">
-          {/* Logo */}
+        <div className="flex items-center justify-between px-4 lg:px-6 py-4 max-w-7xl mx-auto">
           <Link href="/">
-            <Image src="/logo.jpg" alt="Gericom Cameras" width={150} height={60} />
+            <Image src="/logo.jpg" alt="Gericom Cameras" width={140} height={55} />
           </Link>
-          {/* Search Bar */}
-          <div className="flex-1 max-w-2xl mx-6">
+          <div className="flex-1 max-w-lg lg:max-w-2xl mx-4 lg:mx-6">
             <form className="flex border border-gray-300 rounded-full overflow-hidden">
               <input
                 type="text"
                 placeholder="Search for products"
-                className="flex-grow px-4 py-2 text-black outline-none"
+                className="flex-grow px-3 py-2 text-black outline-none text-sm"
               />
-              <button className="px-4 bg-gray-800 text-white">Search</button>
+              <button className="px-3 lg:px-4 bg-gray-800 text-white text-sm">Search</button>
             </form>
           </div>
-          {/* Right Icons */}
-          <div className="flex items-center gap-6 text-sm font-medium">
-            <Link href="/compare" className="flex items-center gap-1">
-              <span>⇄</span>
-            </Link>
-            <Link href="/wishlist" className="flex items-center gap-1">
-              <span>♡</span>
-            </Link>
-            <Link href="/account" className="flex items-center gap-1">
-              Login / Register
-            </Link>
- <button
-        onClick={openCart}
-        className="flex items-center gap-1 bg-black text-white px-3 py-1 rounded-full"
-      >
-        🛒 Ksh{total.toFixed(2)}
-      </button>
-
-      {/* Drawer is mounted globally */}
-      <CartDrawer />
-                </div>
+          <div className="flex items-center gap-4 lg:gap-6 text-xs lg:text-sm font-medium">
+            <Link href="/compare" className="flex items-center gap-1">⇄</Link>
+            <Link href="/wishlist" className="flex items-center gap-1">♡</Link>
+            <Link href="/account" className="flex items-center gap-1">Login / Register</Link>
+            <button
+              onClick={openCart}
+              className="flex items-center gap-1 bg-black text-white px-2 lg:px-3 py-1 rounded-full"
+            >
+              🛒 Ksh{total.toFixed(2)}
+            </button>
+            <CartDrawer />
+          </div>
         </div>
-
-        <nav className="bg-white border-b px-6 py-3 text-sm font-medium relative z-40 border-t border-b py-3 px-6 flex flex-wrap justify-center gap-6 text-gray-800 text-sm font-semibold ">
-          <ul className="flex gap-8">
+        <nav className="bg-white border-t border-b px-4 lg:px-6 py-2 lg:py-3 text-xs lg:text-sm font-medium relative z-40">
+          <ul className="flex flex-wrap justify-center gap-4 lg:gap-8">
             {categories.map((cat) => (
               <li
                 key={cat.name}
@@ -222,15 +205,16 @@ export default function Header() {
                 <button className="flex items-center gap-1 hover:text-red-600 transition">
                   <span>{cat.icon}</span>
                   {cat.name}
-                  <ChevronDown size={14} />
+                  <ChevronDown size={12} className="hidden lg:inline" />
                 </button>
-                {/* First level dropdown */}
                 {open === cat.name && cat.children && (
-                  <ul className="absolute left-0 mt-2 w-60 bg-white rounded-md shadow-lg p-2"
+                  <ul
+                    className="absolute left-0 mt-2 w-56 bg-white rounded-md shadow-lg p-2"
                     onMouseLeave={() => {
                       setOpen(null);
                       setSubOpen(null);
-                    }}>
+                    }}
+                  >
                     {cat.children.map((sub) => (
                       <li
                         key={sub.name}
@@ -246,9 +230,8 @@ export default function Header() {
                           {sub.name}
                           {sub.children && <ChevronDown size={12} />}
                         </Link>
-                        {/* Second level dropdown */}
                         {sub.children && subOpen === sub.name && (
-                          <ul className="absolute top-0 left-full ml-2 w-56 bg-white rounded-md shadow-lg p-2"
+                          <ul className="absolute top-0 left-full ml-2 w-52 bg-white rounded-md shadow-lg p-2"
                             onMouseLeave={() => setSubOpen(null)}
                           >
                             {sub.children.map((child) => (
@@ -272,74 +255,64 @@ export default function Header() {
           </ul>
         </nav>
       </div>
-      {/* Mobile Header */}
-      <div className="flex items-center justify-between p-4 md:hidden">
-        <Link href="/">
-          <Image src="/logo.jpg" alt="Logo" width={120} height={50} />
-        </Link>
 
-        {/* Hamburger */}
+      {/* Mobile Header */}
+      <div className="flex items-center justify-between p-3 md:hidden">
+        <Link href="/">
+          <Image src="/logo.jpg" alt="Logo" width={110} height={45} />
+        </Link>
         <button onClick={() => setMobileOpen(true)}>
-          <Menu className="w-7 h-7 text-gray-800" />
+          <Menu className="w-6 h-6 text-gray-800" />
         </button>
       </div>
 
       {/* Mobile Drawer */}
       {mobileOpen && (
         <div className="fixed inset-0 z-50 bg-black/50">
-          <div className="absolute left-0 top-0 w-80 h-full bg-white shadow-lg flex flex-col">
-            {/* Header inside drawer */}
-            <div className="flex justify-between items-center p-4 border-b">
+          <div className="absolute left-0 top-0 w-72 sm:w-80 h-full bg-white shadow-lg flex flex-col">
+            <div className="flex justify-between items-center p-3 border-b">
               <input
                 type="text"
                 placeholder="Search for products"
-                className="border rounded px-3 py-2 flex-grow mr-2 text-sm"
+                className="border rounded px-2 py-2 flex-grow mr-2 text-xs sm:text-sm"
               />
               <button onClick={() => setMobileOpen(false)}>
                 <X className="w-6 h-6 text-gray-600" />
               </button>
             </div>
-
-            {/* Tabs */}
-            <div className="flex border-b">
+            <div className="flex border-b text-xs sm:text-sm">
               <button
                 onClick={() => setActiveTab("categories")}
-                className={`flex-1 p-3 text-sm font-medium ${activeTab === "categories" ? "border-b-2 border-red-600 text-red-600" : ""
-                  }`}
+                className={`flex-1 p-2 sm:p-3 font-medium ${activeTab === "categories" ? "border-b-2 border-red-600 text-red-600" : ""}`}
               >
                 Categories
               </button>
               <button
                 onClick={() => setActiveTab("menu")}
-                className={`flex-1 p-3 text-sm font-medium ${activeTab === "menu" ? "border-b-2 border-red-600 text-red-600" : ""
-                  }`}
+                className={`flex-1 p-2 sm:p-3 font-medium ${activeTab === "menu" ? "border-b-2 border-red-600 text-red-600" : ""}`}
               >
                 Menu
               </button>
             </div>
-
-            {/* Categories List */}
             {activeTab === "categories" && (
               <div className="flex-1 overflow-y-auto">
                 <ul>
                   {categories.map((cat) => (
                     <li key={cat.name}>
                       <button
-                        className="w-full flex items-center justify-between px-4 py-3 border-b text-left text-gray-800"
+                        className="w-full flex items-center justify-between px-3 py-2 border-b text-left text-gray-800 text-sm"
                         onClick={() => setOpen(open === cat.name ? null : cat.name)}
                       >
-                        <span className="flex items-center gap-2">
-                          {cat.icon} {cat.name}
-                        </span>
+                        <span className="flex items-center gap-2">{cat.icon} {cat.name}</span>
                         {cat.children && <ChevronDown className="w-4 h-4" />}
                       </button>
                       {open === cat.name && cat.children && (
-                        <ul className="pl-8 bg-gray-50">
+                        <ul className="pl-6 bg-gray-50">
                           {cat.children.map((sub) => (
                             <li key={sub.name}>
                               <Link
                                 href={sub.href}
-                                className="block px-4 py-2 text-sm text-gray-700 hover:text-red-600"
+                                className="block px-3 py-2 text-xs sm:text-sm text-gray-700 hover:text-red-600"
                               >
                                 {sub.name}
                               </Link>
@@ -352,30 +325,12 @@ export default function Header() {
                 </ul>
               </div>
             )}
-
-            {/* Menu List */}
             {activeTab === "menu" && (
-              <ul className="flex-1 overflow-y-auto">
-                <li>
-                  <Link href="/" className="block px-4 py-3 border-b text-gray-800">
-                    Home
-                  </Link>
-                </li>
-                <li>
-                  <Link href="/check-warranty" className="block px-4 py-3 border-b text-gray-800">
-                    Check Warranty
-                  </Link>
-                </li>
-                <li>
-                  <Link href="/register-warranty" className="block px-4 py-3 border-b text-gray-800">
-                    Register Warranty
-                  </Link>
-                </li>
-                <li>
-                  <Link href="/shop" className="block px-4 py-3 border-b text-gray-800">
-                    Shop
-                  </Link>
-                </li>
+              <ul className="flex-1 overflow-y-auto text-sm">
+                <li><Link href="/" className="block px-3 py-2 border-b text-gray-800">Home</Link></li>
+                <li><Link href="/check-warranty" className="block px-3 py-2 border-b text-gray-800">Check Warranty</Link></li>
+                <li><Link href="/register-warranty" className="block px-3 py-2 border-b text-gray-800">Register Warranty</Link></li>
+                <li><Link href="/shop" className="block px-3 py-2 border-b text-gray-800">Shop</Link></li>
               </ul>
             )}
           </div>

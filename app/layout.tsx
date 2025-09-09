@@ -23,21 +23,26 @@ export const metadata: Metadata = {
 
 export default function RootLayout({
   children,
-}: Readonly<{
+}: {
   children: React.ReactNode;
-}>) {
+}) {
   return (
     <html lang="en">
       <body
-        className={`${geistSans.variable} ${geistMono.variable} antialiased`}
+        className={`${geistSans.variable} ${geistMono.variable} antialiased flex flex-col min-h-screen`}
       >
         <CartProvider>
           <WishlistProvider>
-          <Header />
-          
-          <main className="min-h-screen">{children}</main>
-          
-          <Footer />
+            {/* ✅ Header stays fixed at top if needed */}
+            <Header />
+
+            {/* ✅ Main grows & is responsive */}
+            <main className="flex-grow w-full px-4 sm:px-6 lg:px-8 py-6">
+              {children}
+            </main>
+
+            {/* ✅ Footer pinned at bottom */}
+            <Footer />
           </WishlistProvider>
         </CartProvider>
       </body>

@@ -3,7 +3,7 @@
 import * as React from "react";
 import { useCart } from "@/app/CartProvider";
 import { useWishlist } from "@/app/WishlistProvider";
-import { Heart as HeartIcon } from "lucide-react";
+import { Heart as HeartIcon, Filter as FilterIcon, X as CloseIcon } from "lucide-react";
 
 type StockStatus = "onsale" | "instock" | "backorder";
 
@@ -31,9 +31,7 @@ function formatKES(n: number) {
   return `Ksh${n.toLocaleString("en-KE", { maximumFractionDigits: 0 })}`;
 }
 
-
 export default function Page() {
-  // filters/state
   const [priceMin, setPriceMin] = React.useState(7500);
   const [priceMax, setPriceMax] = React.useState(300000);
   const [brands, setBrands] = React.useState<("Dahua" | "UNIVIEW")[]>([]);
@@ -42,6 +40,7 @@ export default function Page() {
   const [perPage, setPerPage] = React.useState(12);
   const [page, setPage] = React.useState(1);
   const [sort, setSort] = React.useState("default");
+  const [showFilters, setShowFilters] = React.useState(false); // mobile sidebar toggle
 
   function clampRange(min: number, max: number) {
     if (min > max) [min, max] = [max, min];
@@ -66,20 +65,11 @@ export default function Page() {
       out = out.filter((p) => p.name.toLowerCase().includes(q));
     }
     switch (sort) {
-      case "price-asc":
-        out = [...out].sort((a, b) => a.price - b.price);
-        break;
-      case "price-desc":
-        out = [...out].sort((a, b) => b.price - a.price);
-        break;
-      case "name-asc":
-        out = [...out].sort((a, b) => a.name.localeCompare(b.name));
-        break;
-      case "name-desc":
-        out = [...out].sort((a, b) => b.name.localeCompare(a.name));
-        break;
-      default:
-        break;
+      case "price-asc": out = [...out].sort((a, b) => a.price - b.price); break;
+      case "price-desc": out = [...out].sort((a, b) => b.price - a.price); break;
+      case "name-asc": out = [...out].sort((a, b) => a.name.localeCompare(b.name)); break;
+      case "name-desc": out = [...out].sort((a, b) => b.name.localeCompare(a.name)); break;
+      default: break;
     }
     return out;
   }, [priceMin, priceMax, brands, stock, query, sort]);
@@ -106,20 +96,31 @@ export default function Page() {
       <div className="bg-[url('https://images.unsplash.com/photo-1541167760496-1628856ab772?q=80&w=2400&auto=format&fit=crop')] bg-cover bg-center">
         <div className="bg-gray-800/90">
           <div className="mx-auto max-w-7xl px-4 py-10 text-white">
-            <h1 className="text-4xl font-extrabold">PTZ Cameras</h1>
+            <h1 className="text-3xl md:text-4xl font-extrabold">PTZ Cameras</h1>
           </div>
         </div>
       </div>
 
       {/* Content */}
       <div className="mx-auto max-w-7xl px-4 py-8 grid grid-cols-12 gap-6">
-        {/* Sidebar */}
-        <aside className="col-span-12 md:col-span-3 space-y-8">
+        {/* Sidebar (mobile toggle) */}
+        <aside
+          className={`fixed inset-y-0 left-0 z-40 w-72 bg-white p-5 overflow-y-auto transform transition-transform md:static md:col-span-3 md:block md:translate-x-0 ${
+            showFilters ? "translate-x-0" : "-translate-x-full"
+          }`}
+        >
+          <div className="flex items-center justify-between md:hidden mb-4">
+            <h3 className="text-lg font-semibold">Filters</h3>
+            <button onClick={() => setShowFilters(false)}>
+              <CloseIcon className="w-6 h-6" />
+            </button>
+          </div>
+
           {/* Price */}
-          <section className="rounded-2xl border bg-white p-5 shadow-sm">
+          <section className="rounded-2xl border bg-white p-5 shadow-sm mb-6">
             <h3 className="font-semibold mb-4">Filter By Price</h3>
             <div className="space-y-3">
-              <div className="flex items-center gap-3">
+              <div className="flex flex-col gap-3">
                 <input
                   type="range"
                   min={7500}
@@ -145,7 +146,7 @@ export default function Page() {
           </section>
 
           {/* Brand */}
-          <section className="rounded-2xl border bg-white p-5 shadow-sm">
+          <section className="rounded-2xl border bg-white p-5 shadow-sm mb-6">
             <h3 className="font-semibold mb-4">Filter By Brand</h3>
             <div className="space-y-2">
               {(["Dahua", "UNIVIEW"] as const).map((b) => (
@@ -163,36 +164,20 @@ export default function Page() {
           </section>
 
           {/* Stock */}
-          <section className="rounded-2xl border bg-white p-5 shadow-sm">
+          <section className="rounded-2xl border bg-white p-5 shadow-sm mb-6">
             <h3 className="font-semibold mb-4">Stock Status</h3>
             <div className="space-y-2">
-              <label className="flex items-center gap-2 text-sm">
-                <input
-                  type="checkbox"
-                  checked={stock.includes("onsale")}
-                  onChange={() => toggleStock("onsale")}
-                  className="h-4 w-4"
-                />
-                On sale
-              </label>
-              <label className="flex items-center gap-2 text-sm">
-                <input
-                  type="checkbox"
-                  checked={stock.includes("instock")}
-                  onChange={() => toggleStock("instock")}
-                  className="h-4 w-4"
-                />
-                In stock
-              </label>
-              <label className="flex items-center gap-2 text-sm">
-                <input
-                  type="checkbox"
-                  checked={stock.includes("backorder")}
-                  onChange={() => toggleStock("backorder")}
-                  className="h-4 w-4"
-                />
-                On backorder
-              </label>
+              {(["onsale", "instock", "backorder"] as const).map((s) => (
+                <label key={s} className="flex items-center gap-2 text-sm">
+                  <input
+                    type="checkbox"
+                    checked={stock.includes(s)}
+                    onChange={() => toggleStock(s)}
+                    className="h-4 w-4"
+                  />
+                  {s === "onsale" ? "On Sale" : s === "instock" ? "In Stock" : "On Backorder"}
+                </label>
+              ))}
             </div>
           </section>
 
@@ -206,7 +191,7 @@ export default function Page() {
             <div className="p-5">
               <h4 className="text-lg font-semibold">High Quality Products</h4>
               <p className="text-sm text-gray-600 mt-1">PTZ solutions for every scenario.</p>
-              <button className="mt-4 rounded-xl bg-gray-800 px-4 py-2 text-white hover:bg-red-700">
+              <button className="mt-4 w-full rounded-xl bg-gray-800 px-4 py-2 text-white hover:bg-red-700">
                 Shop Now
               </button>
             </div>
@@ -215,16 +200,28 @@ export default function Page() {
 
         {/* Main */}
         <main className="col-span-12 md:col-span-9">
+          {/* Filter toggle on mobile */}
+          <div className="flex justify-between items-center md:hidden mb-4">
+            <button
+              onClick={() => setShowFilters(true)}
+              className="flex items-center gap-2 rounded-lg border bg-white px-3 py-2 shadow"
+            >
+              <FilterIcon className="w-4 h-4" />
+              Filters
+            </button>
+          </div>
+
           {/* Top controls */}
-          <div className="mb-4 flex flex-col gap-3 md:flex-row md:items-center md:justify-between">
+          <div className="mb-4 flex flex-wrap gap-3 items-center justify-between">
             <div className="text-sm text-gray-600">
               Showing <span className="font-medium">{showingFrom}</span>–
               <span className="font-medium">{showingTo}</span> of{" "}
               <span className="font-medium">{filtered.length}</span> results
             </div>
 
-            <div className="flex flex-wrap items-center gap-3">
-              <div className="hidden md:flex items-center gap-2 text-sm">
+            <div className="flex flex-wrap items-center gap-3 w-full md:w-auto">
+              {/* Show per page */}
+              <div className="flex items-center gap-2 text-sm">
                 Show:
                 {[9, 12, 18, 24].map((n) => (
                   <button
@@ -237,19 +234,11 @@ export default function Page() {
                 ))}
               </div>
 
-              <div className="hidden md:flex items-center gap-2">
-                <div className="grid grid-cols-2 gap-0.5 rounded-md border p-1">
-                  <span className="h-4 w-4 bg-gray-900" />
-                  <span className="h-4 w-4 bg-gray-300" />
-                  <span className="h-4 w-4 bg-gray-300" />
-                  <span className="h-4 w-4 bg-gray-300" />
-                </div>
-              </div>
-
+              {/* Sorting */}
               <select
                 value={sort}
                 onChange={(e) => setSort(e.target.value)}
-                className="rounded-lg border bg-white px-3 py-2 text-sm"
+                className="rounded-lg border bg-white px-3 py-2 text-sm w-full md:w-auto"
                 aria-label="Sorting"
               >
                 <option value="default">Default sorting</option>
@@ -260,15 +249,14 @@ export default function Page() {
               </select>
 
               {/* Search */}
-              <div className="flex items-center rounded-lg border bg-white px-3 py-2">
+              <div className="flex items-center rounded-lg border bg-white px-3 py-2 w-full md:w-auto">
                 <input
                   value={query}
                   onChange={(e) => setQuery(e.target.value)}
                   placeholder="Search for PTZ cameras"
-                  className="w-52 outline-none"
+                  className="w-full outline-none"
                 />
               </div>
-
             </div>
           </div>
 
@@ -296,12 +284,15 @@ export default function Page() {
                       }
                       className="absolute right-3 top-3 z-10 rounded-full bg-white/90 p-2 shadow hover:bg-white"
                       aria-label="Toggle wishlist"
-                    ><HeartIcon
+                    >
+                      <HeartIcon
                         className="w-5 h-5"
                         strokeWidth={1.5}
                         fill={wishlist[p.id] ? "red" : "transparent"}
                         stroke={wishlist[p.id] ? "red" : "gray"}
-                      /></button>
+                      />
+                    </button>
+
                     {/* Sale badge */}
                     {onSale && (
                       <div className="absolute left-3 top-3 rounded-md bg-red-500 px-2 py-1 text-xs font-semibold text-white">
@@ -338,10 +329,10 @@ export default function Page() {
           )}
 
           {/* Pagination */}
-          <div className="mt-8 flex items-center justify-center gap-1">
+          <div className="mt-8 flex flex-wrap items-center justify-center gap-2">
             <button
               onClick={() => setPage((p) => Math.max(1, p - 1))}
-              className="rounded-lg border bg-white px-3 py-2 text-sm hover:bg-gray-50"
+              className="rounded-lg border bg-white px-3 py-2 text-sm hover:bg-gray-50 disabled:opacity-50"
               disabled={page === 1}
             >
               Prev
@@ -350,14 +341,16 @@ export default function Page() {
               <button
                 key={n}
                 onClick={() => setPage(n)}
-                className={`h-9 w-9 rounded-lg border text-sm ${page === n ? "bg-gray-800 font-semibold text-white" : "bg-white hover:bg-gray-50"}`}
+                className={`h-9 w-9 rounded-lg border text-sm ${
+                  page === n ? "bg-gray-800 font-semibold text-white" : "bg-white hover:bg-gray-50"
+                }`}
               >
                 {n}
               </button>
             ))}
             <button
               onClick={() => setPage((p) => Math.min(totalPages, p + 1))}
-              className="rounded-lg border bg-white px-3 py-2 text-sm hover:bg-gray-50"
+              className="rounded-lg border bg-white px-3 py-2 text-sm hover:bg-gray-50 disabled:opacity-50"
               disabled={page === totalPages}
             >
               Next

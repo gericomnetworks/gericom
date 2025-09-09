@@ -3,22 +3,22 @@
 import React, { createContext, useContext, useEffect, useState } from "react";
 import { v4 as uuidv4 } from "uuid"; // npm install uuid
 
-// Type of a wishlist entry (now includes product details)
+// Type of a wishlist entry
 export type WishlistItem = {
-  uid: string; // unique ID for the wishlist entry
+  uid: string; // unique entry ID
   id: string;  // product ID
   name: string;
   price: number;
   image: string;
 };
 
-type WishlistState = Record<string, WishlistItem>; 
-// Example: { "p1": { uid: "abc123", id: "p1", name: "Product A", ... } }
+type WishlistState = Record<string, WishlistItem>;
 
 type WishlistContextType = {
   wishlist: WishlistState;
   toggleWish: (product: { id: string; name: string; price: number; image: string }) => void;
   isWished: (productId: string) => boolean;
+  clearWishlist: () => void;
 };
 
 const WishlistContext = createContext<WishlistContextType | undefined>(undefined);
@@ -26,13 +26,19 @@ const WishlistContext = createContext<WishlistContextType | undefined>(undefined
 export function WishlistProvider({ children }: { children: React.ReactNode }) {
   const [wishlist, setWishlist] = useState<WishlistState>({});
 
-  // ✅ Load from localStorage
+  // ✅ Load from localStorage safely
   useEffect(() => {
     try {
       const saved = localStorage.getItem("wishlist");
-      if (saved) setWishlist(JSON.parse(saved));
+      if (saved) {
+        const parsed = JSON.parse(saved);
+        if (typeof parsed === "object" && parsed !== null) {
+          setWishlist(parsed);
+        }
+      }
     } catch (err) {
       console.error("Failed to load wishlist:", err);
+      setWishlist({});
     }
   }, []);
 
@@ -45,15 +51,28 @@ export function WishlistProvider({ children }: { children: React.ReactNode }) {
     }
   }, [wishlist]);
 
+  // ✅ Sync across tabs
+  useEffect(() => {
+    const handler = (e: StorageEvent) => {
+      if (e.key === "wishlist" && e.newValue) {
+        try {
+          setWishlist(JSON.parse(e.newValue));
+        } catch {
+          console.error("Failed to sync wishlist across tabs");
+        }
+      }
+    };
+    window.addEventListener("storage", handler);
+    return () => window.removeEventListener("storage", handler);
+  }, []);
+
   function toggleWish(product: { id: string; name: string; price: number; image: string }) {
     setWishlist((prev) => {
       const copy = { ...prev };
 
       if (copy[product.id]) {
-        // remove if already exists
-        delete copy[product.id];
+        delete copy[product.id]; // remove if exists
       } else {
-        // add full product details with unique uid
         copy[product.id] = {
           uid: uuidv4(),
           ...product,
@@ -68,8 +87,12 @@ export function WishlistProvider({ children }: { children: React.ReactNode }) {
     return !!wishlist[productId];
   }
 
+  function clearWishlist() {
+    setWishlist({});
+  }
+
   return (
-    <WishlistContext.Provider value={{ wishlist, toggleWish, isWished }}>
+    <WishlistContext.Provider value={{ wishlist, toggleWish, isWished, clearWishlist }}>
       {children}
     </WishlistContext.Provider>
   );

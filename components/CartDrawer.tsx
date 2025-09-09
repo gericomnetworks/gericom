@@ -19,22 +19,27 @@ export default function CartDrawer() {
     <>
       {/* Drawer */}
       <div
-        className={`fixed top-0 right-0 h-full w-80 bg-white shadow-lg transform transition-transform duration-300 z-50 flex flex-col ${
+        className={`fixed top-0 right-0 h-full w-full sm:w-80 bg-white shadow-lg transform transition-transform duration-300 z-50 flex flex-col ${
           isOpen ? "translate-x-0" : "translate-x-full"
         }`}
       >
         {/* Header */}
         <div className="flex justify-between items-center p-4 border-b">
-          <h2 className="text-lg font-bold">Your Cart</h2>
-          <button onClick={closeCart} className="text-gray-500">
+          <h2 className="text-base sm:text-lg font-bold">Your Cart</h2>
+          <button
+            onClick={closeCart}
+            className="text-gray-500 text-lg sm:text-xl"
+          >
             ✕
           </button>
         </div>
 
         {/* Scrollable Cart Items */}
-        <div className="flex-1 p-4 space-y-3 overflow-y-auto">
+        <div className="flex-1 p-3 sm:p-4 space-y-3 overflow-y-auto">
           {cart.length === 0 ? (
-            <p className="text-gray-500">Your cart is empty.</p>
+            <p className="text-gray-500 text-sm sm:text-base">
+              Your cart is empty.
+            </p>
           ) : (
             cart.map((item) => (
               <div
@@ -47,19 +52,23 @@ export default function CartDrawer() {
                   alt={item.name}
                   width={50}
                   height={50}
-                  className="rounded-md object-cover"
+                  className="rounded-md object-cover w-12 h-12 sm:w-[50px] sm:h-[50px]"
                 />
 
                 {/* Product info */}
                 <div className="flex-1">
-                  <p className="font-semibold">{item.name}</p>
-                  <p className="text-sm text-gray-500">Ksh{item.price}</p>
+                  <p className="font-semibold text-sm sm:text-base">
+                    {item.name}
+                  </p>
+                  <p className="text-xs sm:text-sm text-gray-500">
+                    Ksh{item.price}
+                  </p>
                 </div>
 
                 {/* Remove button */}
                 <button
                   onClick={() => removeFromCart(item.id)}
-                  className="text-red-500 text-sm"
+                  className="text-red-500 text-xs sm:text-sm"
                 >
                   Remove
                 </button>
@@ -69,12 +78,14 @@ export default function CartDrawer() {
         </div>
 
         {/* Footer */}
-        <div className="p-4 border-t">
-          <p className="mb-2 font-semibold">Total: Ksh{total.toFixed(2)}</p>
+        <div className="p-3 sm:p-4 border-t">
+          <p className="mb-2 font-semibold text-sm sm:text-base">
+            Total: Ksh{total.toFixed(2)}
+          </p>
           <button
             onClick={handleCheckout}
             disabled={cart.length === 0}
-            className="w-full bg-black text-white py-2 rounded-md disabled:bg-gray-400"
+            className="w-full bg-black text-white py-2 rounded-md disabled:bg-gray-400 text-sm sm:text-base"
           >
             Checkout
           </button>

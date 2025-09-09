@@ -11,10 +11,10 @@ type Product = {
   id: string;
   name: string;
   brand: string;
-  price: number; // KES
-  oldPrice?: number; // for sale badge/strike-through
+  price: number;
+  oldPrice?: number;
   status: StockStatus;
-  image: string; // use external placeholder so it works without local assets
+  image: string;
 };
 
 const ALL_PRODUCTS: Product[] = [
@@ -28,10 +28,9 @@ const ALL_PRODUCTS: Product[] = [
   { id: "p8", name: "6 Core Alarm Cable White 100m", brand: "Generic", price: 6900, status: "instock", image: "/products/net8.jpg" },
   { id: "p9", name: "ADX812-16 V3 16ch HD Video Decoder", brand: "Generic", price: 41800, status: "backorder", image: "/products/net9.jpg" },
   { id: "p10", name: "Akuvox A05S Commercial Access Control (Face + QR)", brand: "Akuvox", price: 94300, status: "instock", image: "/products/net10.jpg" },
-  { id: "p11", name: "Akuvox C319 10\" Android Indoor Monitor (Video Intercom)", brand: "Akuvox", price: 134500, status: "instock", image: "/products/net11.jpg" },
+  { id: "p11", name: "Akuvox C319 10\" Android Indoor Monitor", brand: "Akuvox", price: 134500, status: "instock", image: "/products/net11.jpg" },
   { id: "p12", name: "Akuvox E12 Single-Button Video Doorbell", brand: "Akuvox", price: 26500, status: "instock", image: "/products/net12.jpg" },
   { id: "p13", name: "Akuvox E16C Face Recognition Door Phone", brand: "Akuvox", price: 176000, status: "backorder", image: "/products/net13.jpg" },
-  // fill out to mimic a full catalog grid
   { id: "p14", name: "2MP Fixed IR Dome Camera", brand: "Dahua", price: 9200, status: "instock", image: "/products/net14.jpg" },
   { id: "p15", name: "2MP Fixed IR Bullet Camera", brand: "Dahua", price: 9800, status: "instock", image: "/products/net5.jpg" },
   { id: "p16", name: "8MP Motorized Varifocal Dome", brand: "Hikvision", price: 46350, status: "instock", image: "/products/net6.jpg" },
@@ -60,9 +59,7 @@ function formatKES(x: number) {
   return `Ksh${x.toLocaleString("en-KE", { maximumFractionDigits: 0 })}`;
 }
 
-
 export default function Page() {
-  // UI state
   const [query, setQuery] = React.useState("");
   const [brands, setBrands] = React.useState<string[]>([]);
   const [stock, setStock] = React.useState<StockStatus[]>([]);
@@ -70,9 +67,9 @@ export default function Page() {
   const [priceMax, setPriceMax] = React.useState(200000);
   const [perPage, setPerPage] = React.useState(12);
   const [page, setPage] = React.useState(1);
-  const [sort, setSort] = React.useState("default"); // default|price-asc|price-desc|name-asc|name-desc
+  const [sort, setSort] = React.useState("default");
+  const [showFilters, setShowFilters] = React.useState(false);
 
-  // Derived products after filters
   const filtered = React.useMemo(() => {
     let out = ALL_PRODUCTS.filter((p) => p.price >= priceMin && p.price <= priceMax);
     if (brands.length) out = out.filter((p) => brands.includes(p.brand));
@@ -82,23 +79,12 @@ export default function Page() {
       out = out.filter((p) => p.name.toLowerCase().includes(q) || p.brand.toLowerCase().includes(q));
     }
     switch (sort) {
-      case "price-asc":
-        out = [...out].sort((a, b) => a.price - b.price);
-        break;
-      case "price-desc":
-        out = [...out].sort((a, b) => b.price - a.price);
-        break;
-      case "name-asc":
-        out = [...out].sort((a, b) => a.name.localeCompare(b.name));
-        break;
-      case "name-desc":
-        out = [...out].sort((a, b) => b.name.localeCompare(a.name));
-        break;
-      default:
-        // keep insertion order to mimic "Default sorting"
-        break;
+      case "price-asc": return [...out].sort((a, b) => a.price - b.price);
+      case "price-desc": return [...out].sort((a, b) => b.price - a.price);
+      case "name-asc": return [...out].sort((a, b) => a.name.localeCompare(b.name));
+      case "name-desc": return [...out].sort((a, b) => b.name.localeCompare(a.name));
+      default: return out;
     }
-    return out;
   }, [priceMin, priceMax, brands, stock, sort, query]);
 
   const totalPages = Math.max(1, Math.ceil(filtered.length / perPage));
@@ -107,19 +93,14 @@ export default function Page() {
     return filtered.slice(start, start + perPage);
   }, [filtered, page, perPage]);
 
-  React.useEffect(() => {
-    // reset to first page when filters change
-    setPage(1);
-  }, [priceMin, priceMax, brands, stock, sort, perPage, query]);
+  React.useEffect(() => setPage(1), [priceMin, priceMax, brands, stock, sort, perPage, query]);
 
   function toggleBrand(b: string) {
     setBrands((prev) => (prev.includes(b) ? prev.filter((x) => x !== b) : [...prev, b]));
   }
-
   function toggleStock(s: StockStatus) {
     setStock((prev) => (prev.includes(s) ? prev.filter((x) => x !== s) : [...prev, s]));
   }
-
   function clampRange(min: number, max: number) {
     if (min > max) [min, max] = [max, min];
     setPriceMin(min);
@@ -129,7 +110,6 @@ export default function Page() {
   const { wishlist, toggleWish } = useWishlist();
   const { addToCart } = useCart();
 
-  // small helpers
   const showingFrom = filtered.length === 0 ? 0 : (page - 1) * perPage + 1;
   const showingTo = Math.min(filtered.length, page * perPage);
 
@@ -147,9 +127,22 @@ export default function Page() {
 
       {/* Content */}
       <div className="mx-auto max-w-7xl px-4 py-8 grid grid-cols-12 gap-6">
-        {/* Sidebar */}
-        <aside className="col-span-12 md:col-span-3 space-y-8">
-          {/* Filter by Price */}
+        {/* Sidebar toggle for mobile */}
+        <div className="col-span-12 md:hidden">
+          <button
+            onClick={() => setShowFilters(!showFilters)}
+            className="mb-4 w-full rounded-lg border bg-white px-4 py-2 font-medium shadow-sm"
+          >
+            {showFilters ? "Hide Filters" : "Show Filters"}
+          </button>
+          {showFilters && (
+            <aside className="space-y-8">{/* Filters (same as below) */}</aside>
+          )}
+        </div>
+
+        {/* Sidebar (desktop) */}
+        <aside className="hidden md:col-span-3 md:block space-y-8">
+          {/* Price Filter */}
           <section className="rounded-2xl border bg-white p-5 shadow-sm">
             <h3 className="font-semibold mb-4">Filter by Price</h3>
             <div className="space-y-3">
@@ -200,33 +193,17 @@ export default function Page() {
           <section className="rounded-2xl border bg-white p-5 shadow-sm">
             <h3 className="font-semibold mb-4">Stock Status</h3>
             <div className="space-y-2">
-              <label className="flex items-center gap-2 text-sm">
-                <input
-                  type="checkbox"
-                  checked={stock.includes("onsale")}
-                  onChange={() => toggleStock("onsale")}
-                  className="h-4 w-4"
-                />
-                On sale
-              </label>
-              <label className="flex items-center gap-2 text-sm">
-                <input
-                  type="checkbox"
-                  checked={stock.includes("instock")}
-                  onChange={() => toggleStock("instock")}
-                  className="h-4 w-4"
-                />
-                In stock
-              </label>
-              <label className="flex items-center gap-2 text-sm">
-                <input
-                  type="checkbox"
-                  checked={stock.includes("backorder")}
-                  onChange={() => toggleStock("backorder")}
-                  className="h-4 w-4"
-                />
-                On backorder
-              </label>
+              {["onsale", "instock", "backorder"].map((s) => (
+                <label key={s} className="flex items-center gap-2 text-sm">
+                  <input
+                    type="checkbox"
+                    checked={stock.includes(s as StockStatus)}
+                    onChange={() => toggleStock(s as StockStatus)}
+                    className="h-4 w-4"
+                  />
+                  {s === "onsale" ? "On sale" : s === "instock" ? "In stock" : "On backorder"}
+                </label>
+              ))}
             </div>
           </section>
 
@@ -266,37 +243,27 @@ export default function Page() {
                   <button
                     key={n}
                     onClick={() => setPerPage(n)}
-                    className={`rounded-md px-2 py-1 ${perPage === n ? "bg-gray-200 font-semibold" : "hover:bg-gray-100"}`}
+                    className={`rounded-md px-2 py-1 ${
+                      perPage === n ? "bg-gray-200 font-semibold" : "hover:bg-gray-100"
+                    }`}
                   >
                     {n}
                   </button>
                 ))}
               </div>
 
-              {/* Grid/List icons (visual only for parity with screenshot) */}
-              <div className="hidden md:flex items-center gap-2">
-                <div className="grid grid-cols-2 gap-0.5 rounded-md border p-1">
-                  <span className="h-4 w-4 bg-gray-900" />
-                  <span className="h-4 w-4 bg-gray-300" />
-                  <span className="h-4 w-4 bg-gray-300" />
-                  <span className="h-4 w-4 bg-gray-300" />
-                </div>
-              </div>
-
               <select
                 value={sort}
                 onChange={(e) => setSort(e.target.value)}
                 className="rounded-lg border bg-white px-3 py-2 text-sm"
-                aria-label="Sorting"
               >
                 <option value="default">Default sorting</option>
-                <option value="price-asc">Sort by price: low to high</option>
-                <option value="price-desc">Sort by price: high to low</option>
-                <option value="name-asc">Sort by name: A → Z</option>
-                <option value="name-desc">Sort by name: Z → A</option>
+                <option value="price-asc">Price: low to high</option>
+                <option value="price-desc">Price: high to low</option>
+                <option value="name-asc">Name: A → Z</option>
+                <option value="name-desc">Name: Z → A</option>
               </select>
 
-              {/* Search */}
               <div className="flex items-center rounded-lg border bg-white px-3 py-2">
                 <input
                   value={query}
@@ -305,7 +272,6 @@ export default function Page() {
                   className="w-52 outline-none"
                 />
               </div>
-
             </div>
           </div>
 
@@ -318,28 +284,23 @@ export default function Page() {
             <div className="grid grid-cols-1 gap-5 sm:grid-cols-2 lg:grid-cols-3">
               {current.map((p) => {
                 const onSale = p.status === "onsale" && p.oldPrice && p.oldPrice > p.price;
-
                 return (
-                  <div key={p.id} className="group relative rounded-2xl border bg-white p-4 shadow-sm transition hover:shadow-md">
-                    {/* Wishlist */}
+                  <div
+                    key={p.id}
+                    className="group relative rounded-2xl border bg-white p-4 shadow-sm transition hover:shadow-md"
+                  >
                     <button
-                      onClick={() =>
-                        toggleWish({
-                          id: p.id,
-                          name: p.name,
-                          price: p.price,
-                          image: p.image,
-                        })
-                      }
+                      onClick={() => toggleWish({ id: p.id, name: p.name, price: p.price, image: p.image })}
                       className="absolute right-3 top-3 z-10 rounded-full bg-white/90 p-2 shadow hover:bg-white"
-                      aria-label="Toggle wishlist"
-                    ><HeartIcon
+                    >
+                      <HeartIcon
                         className="w-5 h-5"
                         strokeWidth={1.5}
                         fill={wishlist[p.id] ? "red" : "transparent"}
                         stroke={wishlist[p.id] ? "red" : "gray"}
-                      /></button>
-                    {/* Sale badge */}
+                      />
+                    </button>
+
                     {onSale && (
                       <div className="absolute left-3 top-3 rounded-md bg-red-500 px-2 py-1 text-xs font-semibold text-white">
                         -{Math.round(((p.oldPrice! - p.price) / p.oldPrice!) * 100)}%
@@ -353,16 +314,13 @@ export default function Page() {
                     <div className="mt-4 space-y-2">
                       <h3 className="line-clamp-2 text-sm font-medium text-gray-900">{p.name}</h3>
                       <div className="flex items-center gap-2">
-                        {onSale && <span className="text-sm text-gray-400 line-through">{formatKES(p.oldPrice!)}</span>}
+                        {onSale && (
+                          <span className="text-sm text-gray-400 line-through">{formatKES(p.oldPrice!)}</span>
+                        )}
                         <span className="text-base font-semibold text-red-600">{formatKES(p.price)}</span>
                       </div>
                       <button
-                        onClick={() => addToCart({
-                          id: p.id,
-                          name: p.name,
-                          price: p.price,
-                          image: p.image,
-                        })}
+                        onClick={() => addToCart({ id: p.id, name: p.name, price: p.price, image: p.image })}
                         className="mt-2 w-full rounded-full bg-gray-800 px-4 py-2 text-sm font-semibold text-white hover:bg-red-700"
                       >
                         Add to Cart
@@ -378,7 +336,7 @@ export default function Page() {
           <div className="mt-8 flex items-center justify-center gap-1">
             <button
               onClick={() => setPage((p) => Math.max(1, p - 1))}
-              className="rounded-lg border bg-white px-3 py-2 text-sm hover:bg-gray-50"
+              className="rounded-lg border bg-white px-3 py-2 text-sm hover:bg-gray-50 disabled:opacity-50"
               disabled={page === 1}
             >
               Prev
@@ -387,14 +345,16 @@ export default function Page() {
               <button
                 key={n}
                 onClick={() => setPage(n)}
-                className={`h-9 w-9 rounded-lg border text-sm ${page === n ? "bg-gray-800 font-semibold text-white" : "bg-white hover:bg-gray-50"}`}
+                className={`h-9 w-9 rounded-lg border text-sm ${
+                  page === n ? "bg-gray-800 font-semibold text-white" : "bg-white hover:bg-gray-50"
+                }`}
               >
                 {n}
               </button>
             ))}
             <button
               onClick={() => setPage((p) => Math.min(totalPages, p + 1))}
-              className="rounded-lg border bg-white px-3 py-2 text-sm hover:bg-gray-50"
+              className="rounded-lg border bg-white px-3 py-2 text-sm hover:bg-gray-50 disabled:opacity-50"
               disabled={page === totalPages}
             >
               Next

@@ -14,7 +14,7 @@ type Product = {
   price: number; // KES
   oldPrice?: number; // for sale badge/strike-through
   status: StockStatus;
-  image: string; // use external placeholder so it works without local assets
+  image: string; // local path or external
 };
 
 const ALL_PRODUCTS: Product[] = [
@@ -31,7 +31,6 @@ const ALL_PRODUCTS: Product[] = [
   { id: "p11", name: "Akuvox R28A IP Video Intercom (2MP camera, H.265 & H.264 decoding, 4.3 inch color display, RFID card reader, keypad)", brand: "Akuvox", price: 52500, status: "instock", image: "/products/inter11.jpg" },
   { id: "p12", name: "Akuvox R29CT IP video door phone, touch display, dual camera, Facial Recognition, Finger Print, RFID card reader, pin code & Bluetooth", brand: "Akuvox", price: 120000, status: "instock", image: "/products/inter12.jpg" },
   { id: "p13", name: "Akuvox S562 7″ Linux indoor monitor with compact body and stylish design", brand: "Akuvox", price: 9300, status: "backorder", image: "/products/inter13.jpg" },
-  // fill out to mimic a full catalog grid
   { id: "p14", name: "Akuvox SP-R50P advanced telephony", brand: "Akuvox", price: 5550, status: "instock", image: "/products/inter14.jpg" },
   { id: "p15", name: "ARA10-W Dahua Technology Dhi- WIReless SIRen", brand: "Dahua", price: 3603, oldPrice: 5146, status: "instock", image: "/products/inter15.jpg" },
   { id: "p16", name: "ARC5408B-CW Dahua Network Video Alarm Controller", brand: "Dahua", price: 17292, oldPrice: 24702, status: "instock", image: "/products/inter16.jpg" },
@@ -45,21 +44,13 @@ const ALL_PRODUCTS: Product[] = [
   { id: "p24", name: "HAT200-N2 Dahua Window Intercom", brand: "Dahua", price: 21615, status: "backorder", image: "/products/inter24.jpg" },
 ];
 
-const ALL_BRANDS = [
-
-  "Hikvision",
-  "Dahua",
-  "UNIVIEW",
-  "Akuvox",
-
-] as const;
+const ALL_BRANDS = ["Hikvision", "Dahua", "UNIVIEW", "Akuvox"] as const;
 
 function formatKES(x: number) {
   return `Ksh${x.toLocaleString("en-KE", { maximumFractionDigits: 0 })}`;
 }
 
 export default function Page() {
-  // UI state
   const [query, setQuery] = React.useState("");
   const [brands, setBrands] = React.useState<string[]>([]);
   const [stock, setStock] = React.useState<StockStatus[]>([]);
@@ -67,9 +58,11 @@ export default function Page() {
   const [priceMax, setPriceMax] = React.useState(200000);
   const [perPage, setPerPage] = React.useState(12);
   const [page, setPage] = React.useState(1);
-  const [sort, setSort] = React.useState("default"); // default|price-asc|price-desc|name-asc|name-desc
+  const [sort, setSort] = React.useState("default");
 
-  // Derived products after filters
+  // manage quantities in one state (no hooks inside map)
+  const [quantities, setQuantities] = React.useState<Record<string, number>>({});
+
   const filtered = React.useMemo(() => {
     let out = ALL_PRODUCTS.filter((p) => p.price >= priceMin && p.price <= priceMax);
     if (brands.length) out = out.filter((p) => brands.includes(p.brand));
@@ -90,9 +83,6 @@ export default function Page() {
         break;
       case "name-desc":
         out = [...out].sort((a, b) => b.name.localeCompare(a.name));
-        break;
-      default:
-        // keep insertion order to mimic "Default sorting"
         break;
     }
     return out;
@@ -123,10 +113,19 @@ export default function Page() {
     setPriceMax(max);
   }
 
-  const { wishlist, toggleWish } = useWishlist();
+  // quantity helpers
+  const updateQty = (id: string, delta: number) =>
+    setQuantities((prev) => {
+      const next = { ...prev };
+      next[id] = Math.max(1, (next[id] || 1) + delta);
+      return next;
+    });
 
+  const getQty = (id: string) => quantities[id] || 1;
+
+  const { wishlist, toggleWish } = useWishlist();
   const { addToCart } = useCart();
-  // small helpers
+
   const showingFrom = filtered.length === 0 ? 0 : (page - 1) * perPage + 1;
   const showingTo = Math.min(filtered.length, page * perPage);
 
@@ -137,7 +136,6 @@ export default function Page() {
         <div className="bg-gray-800/85">
           <div className="mx-auto max-w-7xl px-4 py-10 text-white">
             <h1 className="text-4xl font-extrabold">Intercom</h1>
-
           </div>
         </div>
       </div>
@@ -156,7 +154,7 @@ export default function Page() {
                   min={3000}
                   max={200000}
                   value={priceMin}
-                  onChange={(e) => clampRange(parseInt(e.target.value), priceMax)}
+                  onChange={(e) => clampRange(parseInt(e.target.value, 10), priceMax)}
                   className="w-full"
                 />
                 <input
@@ -164,7 +162,7 @@ export default function Page() {
                   min={3000}
                   max={200000}
                   value={priceMax}
-                  onChange={(e) => clampRange(priceMin, parseInt(e.target.value))}
+                  onChange={(e) => clampRange(priceMin, parseInt(e.target.value, 10))}
                   className="w-full"
                 />
               </div>
@@ -270,7 +268,6 @@ export default function Page() {
                 ))}
               </div>
 
-              {/* Grid/List icons (visual only for parity with screenshot) */}
               <div className="hidden md:flex items-center gap-2">
                 <div className="grid grid-cols-2 gap-0.5 rounded-md border p-1">
                   <span className="h-4 w-4 bg-gray-900" />
@@ -302,40 +299,41 @@ export default function Page() {
                   className="w-52 outline-none"
                 />
               </div>
-
             </div>
           </div>
 
-          {/* Grid */}
+          {/* Grid (flex to center cards) */}
           {current.length === 0 ? (
             <div className="rounded-2xl border bg-white p-10 text-center text-gray-600">
               No products match your filters.
             </div>
           ) : (
-            <div className="grid grid-cols-1 gap-5 sm:grid-cols-2 lg:grid-cols-3">
+            <div className="flex flex-wrap justify-center gap-5">
               {current.map((p) => {
                 const onSale = p.status === "onsale" && p.oldPrice && p.oldPrice > p.price;
+                const qty = getQty(p.id);
 
                 return (
-                  <div key={p.id} className="group relative rounded-2xl border bg-white p-4 shadow-sm transition hover:shadow-md">
+                  <div
+                    key={p.id}
+                    className="w-full sm:w-[300px] group relative rounded-2xl border bg-white p-4 shadow-sm transition hover:shadow-md"
+                  >
                     {/* Wishlist */}
                     <button
                       onClick={() =>
-                        toggleWish({
-                          id: p.id,
-                          name: p.name,
-                          price: p.price,
-                          image: p.image,
-                        })
+                        toggleWish({ id: p.id, name: p.name, price: p.price, image: p.image })
                       }
                       className="absolute right-3 top-3 z-10 rounded-full bg-white/90 p-2 shadow hover:bg-white"
                       aria-label="Toggle wishlist"
-                    ><HeartIcon
+                    >
+                      <HeartIcon
                         className="w-5 h-5"
                         strokeWidth={1.5}
                         fill={wishlist[p.id] ? "red" : "transparent"}
                         stroke={wishlist[p.id] ? "red" : "gray"}
-                      /></button>
+                      />
+                    </button>
+
                     {/* Sale badge */}
                     {onSale && (
                       <div className="absolute left-3 top-3 rounded-md bg-red-500 px-2 py-1 text-xs font-semibold text-white">
@@ -344,26 +342,62 @@ export default function Page() {
                     )}
 
                     <div className="aspect-[4/3] overflow-hidden rounded-xl bg-gray-50">
-                      <img src={p.image} alt={p.name} className="h-full w-full object-cover transition-transform duration-200 group-hover:scale-105" />
+                      <img
+                        src={p.image}
+                        alt={p.name}
+                        className="h-full w-full object-cover transition-transform duration-200 group-hover:scale-105"
+                      />
                     </div>
 
                     <div className="mt-4 space-y-2">
                       <h3 className="line-clamp-2 text-sm font-medium text-gray-900">{p.name}</h3>
                       <div className="flex items-center gap-2">
-                        {onSale && <span className="text-sm text-gray-400 line-through">{formatKES(p.oldPrice!)}</span>}
-                        <span className="text-base font-semibold text-red-600">{formatKES(p.price)}</span>
+                        {onSale && (
+                          <span className="text-sm text-gray-400 line-through">
+                            {formatKES(p.oldPrice!)}
+                          </span>
+                        )}
+                        <span className="text-base font-semibold text-red-600">
+                          {formatKES(p.price)}
+                        </span>
                       </div>
+
+                      {/* Quantity selector */}
+                      <div className="flex items-center gap-2 mt-2 justify-center">
+                        <button
+                          onClick={() => updateQty(p.id, -1)}
+                          className="px-2 py-1 rounded border hover:bg-gray-100"
+                          aria-label={`Decrease quantity for ${p.name}`}
+                        >
+                          –
+                        </button>
+                        <span className="px-3">{qty}</span>
+                        <button
+                          onClick={() => updateQty(p.id, +1)}
+                          className="px-2 py-1 rounded border hover:bg-gray-100"
+                          aria-label={`Increase quantity for ${p.name}`}
+                        >
+                          +
+                        </button>
+                      </div>
+
+                      {/* Add to Cart */}
                       <button
-                        onClick={() => addToCart({
-                          id: p.id,
-                          name: p.name,
-                          price: p.price,
-                          image: p.image,
-                        })}
+                        onClick={() =>
+                          // cast to `any` to avoid type errors if your CartProvider's type hasn't been updated
+                          addToCart({
+                            id: p.id,
+                            name: p.name,
+                            price: p.price,
+                            image: p.image,
+                            quantity: qty,
+                          } as any)
+                        }
                         className="mt-2 w-full rounded-full bg-gray-800 px-4 py-2 text-sm font-semibold text-white hover:bg-red-700"
                       >
-                        Add to Cart
-                      </button>                    </div>
+                        Add to Cart
+                      </button>
+                    </div>
                   </div>
                 );
               })}
@@ -374,7 +408,7 @@ export default function Page() {
           <div className="mt-8 flex items-center justify-center gap-1">
             <button
               onClick={() => setPage((p) => Math.max(1, p - 1))}
-              className="rounded-lg border bg-white px-3 py-2 text-sm hover:bg-gray-50"
+              className="rounded-lg border bg-white px-3 py-2 text-sm hover:bg-gray-50 disabled:opacity-50"
               disabled={page === 1}
             >
               Prev
@@ -383,14 +417,16 @@ export default function Page() {
               <button
                 key={n}
                 onClick={() => setPage(n)}
-                className={`h-9 w-9 rounded-lg border text-sm ${page === n ? "bg-gray-800 font-semibold text-white" : "bg-white hover:bg-gray-50"}`}
+                className={`h-9 w-9 rounded-lg border text-sm ${
+                  page === n ? "bg-gray-800 font-semibold text-white" : "bg-white hover:bg-gray-50"
+                }`}
               >
                 {n}
               </button>
             ))}
             <button
               onClick={() => setPage((p) => Math.min(totalPages, p + 1))}
-              className="rounded-lg border bg-white px-3 py-2 text-sm hover:bg-gray-50"
+              className="rounded-lg border bg-white px-3 py-2 text-sm hover:bg-gray-50 disabled:opacity-50"
               disabled={page === totalPages}
             >
               Next

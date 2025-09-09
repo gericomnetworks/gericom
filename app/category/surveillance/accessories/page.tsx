@@ -1,10 +1,9 @@
 "use client";
 
-import * as React from "react";
+import React, { useState, useMemo, useEffect } from "react";
 import { useCart } from "@/app/CartProvider";
 import { useWishlist } from "@/app/WishlistProvider";
-import { Heart as HeartIcon } from "lucide-react";
-
+import { Heart as HeartIcon, SlidersHorizontal } from "lucide-react";
 
 type StockStatus = "onsale" | "instock" | "backorder";
 
@@ -12,10 +11,10 @@ type Product = {
   id: string;
   name: string;
   brand: string;
-  price: number; // KES
-  oldPrice?: number; // for sale badge/strike-through
+  price: number;
+  oldPrice?: number;
   status: StockStatus;
-  image: string; // use external placeholder so it works without local assets
+  image: string;
 };
 
 const ALL_PRODUCTS: Product[] = [
@@ -31,7 +30,6 @@ const ALL_PRODUCTS: Product[] = [
   { id: "p11", name: "HDMI 20M", brand: "Generic", price: 3088, status: "instock", image: "/products/accessories11.jpg" },
   { id: "p12", name: "HDMI 25M", brand: "Generic", price: 7204, status: "instock", image: "/products/accessories12.jpg" },
   { id: "p13", name: "HDMI 3M", brand: "Generic", price: 618, status: "backorder", image: "/products/accessories13.jpg" },
-  // fill out to mimic a full catalog grid
   { id: "p14", name: "HDMI 40M", brand: "Generic", price: 9264, status: "instock", image: "/products/accessories14.jpg" },
   { id: "p15", name: "HDMI 50M", brand: "Generic", price: 11085, status: "instock", image: "/products/accessories15.jpg" },
   { id: "p16", name: "HDMI Splitter", brand: "Generic", price: 3088, status: "instock", image: "/products/accessories16.jpg" },
@@ -48,31 +46,27 @@ const ALL_PRODUCTS: Product[] = [
   { id: "p27", name: "VTNS1060A Dahua 24V Network Power Supply", brand: "Dahua", price: 4989, status: "backorder", image: "/products/accessories27.jpg" },
 ];
 
-const ALL_BRANDS = [
-  "BDCOM",
-  "Dahua",
-  "UNIVIEW",
-  "Generic",
-] as const;
+const ALL_BRANDS = ["BDCOM", "Dahua", "UNIVIEW", "Generic"] as const;
 
 function formatKES(x: number) {
   return `Ksh${x.toLocaleString("en-KE", { maximumFractionDigits: 0 })}`;
 }
 
+export default function AccessoriesPage() {
+  const { wishlist, toggleWish } = useWishlist();
+  const { addToCart } = useCart();
 
-export default function Page() {
-  // UI state
-  const [query, setQuery] = React.useState("");
-  const [brands, setBrands] = React.useState<string[]>([]);
-  const [stock, setStock] = React.useState<StockStatus[]>([]);
-  const [priceMin, setPriceMin] = React.useState(3000);
-  const [priceMax, setPriceMax] = React.useState(200000);
-  const [perPage, setPerPage] = React.useState(12);
-  const [page, setPage] = React.useState(1);
-  const [sort, setSort] = React.useState("default"); // default|price-asc|price-desc|name-asc|name-desc
+  const [query, setQuery] = useState("");
+  const [brands, setBrands] = useState<string[]>([]);
+  const [stock, setStock] = useState<StockStatus[]>([]);
+  const [priceMin, setPriceMin] = useState(3000);
+  const [priceMax, setPriceMax] = useState(200000);
+  const [perPage, setPerPage] = useState(12);
+  const [page, setPage] = useState(1);
+  const [sort, setSort] = useState("default");
+  const [showFilters, setShowFilters] = useState(false);
 
-  // Derived products after filters
-  const filtered = React.useMemo(() => {
+  const filtered = useMemo(() => {
     let out = ALL_PRODUCTS.filter((p) => p.price >= priceMin && p.price <= priceMax);
     if (brands.length) out = out.filter((p) => brands.includes(p.brand));
     if (stock.length) out = out.filter((p) => stock.includes(p.status));
@@ -93,42 +87,32 @@ export default function Page() {
       case "name-desc":
         out = [...out].sort((a, b) => b.name.localeCompare(a.name));
         break;
-      default:
-        // keep insertion order to mimic "Default sorting"
-        break;
     }
     return out;
   }, [priceMin, priceMax, brands, stock, sort, query]);
 
   const totalPages = Math.max(1, Math.ceil(filtered.length / perPage));
-  const current = React.useMemo(() => {
+  const current = useMemo(() => {
     const start = (page - 1) * perPage;
     return filtered.slice(start, start + perPage);
   }, [filtered, page, perPage]);
 
-  React.useEffect(() => {
-    // reset to first page when filters change
+  useEffect(() => {
     setPage(1);
   }, [priceMin, priceMax, brands, stock, sort, perPage, query]);
 
   function toggleBrand(b: string) {
     setBrands((prev) => (prev.includes(b) ? prev.filter((x) => x !== b) : [...prev, b]));
   }
-
   function toggleStock(s: StockStatus) {
     setStock((prev) => (prev.includes(s) ? prev.filter((x) => x !== s) : [...prev, s]));
   }
-
   function clampRange(min: number, max: number) {
     if (min > max) [min, max] = [max, min];
     setPriceMin(min);
     setPriceMax(max);
   }
 
-  const { wishlist, toggleWish } = useWishlist();
-  const { addToCart } = useCart();
-
-  // small helpers
   const showingFrom = filtered.length === 0 ? 0 : (page - 1) * perPage + 1;
   const showingTo = Math.min(filtered.length, page * perPage);
 
@@ -139,17 +123,19 @@ export default function Page() {
         <div className="bg-gray-800/85">
           <div className="mx-auto max-w-7xl px-4 py-10 text-white">
             <h1 className="text-4xl font-extrabold">Accessories</h1>
-
           </div>
         </div>
       </div>
 
-      {/* Content */}
-      <div className="mx-auto max-w-7xl px-4 py-8 grid grid-cols-12 gap-6">
+      <div className="mx-auto max-w-7xl px-4 py-8 lg:flex lg:gap-8">
         {/* Sidebar */}
-        <aside className="col-span-12 md:col-span-3 space-y-8">
+        <aside
+          className={`${
+            showFilters ? "block" : "hidden"
+          } fixed inset-y-0 left-0 z-20 w-72 bg-white p-5 shadow-lg lg:static lg:block lg:w-72 lg:shadow-none`}
+        >
           {/* Filter by Price */}
-          <section className="rounded-2xl border bg-white p-5 shadow-sm">
+          <section className="mb-6 rounded-2xl border bg-white p-5 shadow-sm">
             <h3 className="font-semibold mb-4">Filter by Price</h3>
             <div className="space-y-3">
               <div className="flex items-center gap-3">
@@ -178,7 +164,7 @@ export default function Page() {
           </section>
 
           {/* Brands */}
-          <section className="rounded-2xl border bg-white p-5 shadow-sm">
+          <section className="mb-6 rounded-2xl border bg-white p-5 shadow-sm">
             <h3 className="font-semibold mb-4">Filter by Brand</h3>
             <div className="space-y-2">
               {ALL_BRANDS.map((b) => (
@@ -196,36 +182,20 @@ export default function Page() {
           </section>
 
           {/* Stock */}
-          <section className="rounded-2xl border bg-white p-5 shadow-sm">
+          <section className="mb-6 rounded-2xl border bg-white p-5 shadow-sm">
             <h3 className="font-semibold mb-4">Stock Status</h3>
             <div className="space-y-2">
-              <label className="flex items-center gap-2 text-sm">
-                <input
-                  type="checkbox"
-                  checked={stock.includes("onsale")}
-                  onChange={() => toggleStock("onsale")}
-                  className="h-4 w-4"
-                />
-                On sale
-              </label>
-              <label className="flex items-center gap-2 text-sm">
-                <input
-                  type="checkbox"
-                  checked={stock.includes("instock")}
-                  onChange={() => toggleStock("instock")}
-                  className="h-4 w-4"
-                />
-                In stock
-              </label>
-              <label className="flex items-center gap-2 text-sm">
-                <input
-                  type="checkbox"
-                  checked={stock.includes("backorder")}
-                  onChange={() => toggleStock("backorder")}
-                  className="h-4 w-4"
-                />
-                On backorder
-              </label>
+              {["onsale", "instock", "backorder"].map((s) => (
+                <label key={s} className="flex items-center gap-2 text-sm">
+                  <input
+                    type="checkbox"
+                    checked={stock.includes(s as StockStatus)}
+                    onChange={() => toggleStock(s as StockStatus)}
+                    className="h-4 w-4"
+                  />
+                  <span>{s}</span>
+                </label>
+              ))}
             </div>
           </section>
 
@@ -246,61 +216,50 @@ export default function Page() {
               </button>
             </div>
           </section>
+
+          <button
+            onClick={() => setShowFilters(false)}
+            className="mt-6 w-full rounded-lg bg-gray-800 px-4 py-2 text-white lg:hidden"
+          >
+            Close
+          </button>
         </aside>
 
         {/* Main */}
-        <main className="col-span-12 md:col-span-9">
-          {/* Top controls */}
-          <div className="mb-4 flex flex-col gap-3 md:flex-row md:items-center md:justify-between">
-            <div className="text-sm text-gray-600">
-              Showing <span className="font-medium">{showingFrom}</span>–
-              <span className="font-medium">{showingTo}</span> of{" "}
-              <span className="font-medium">{filtered.length}</span> results
-            </div>
+        <main className="flex-1">
+          {/* Controls */}
+          <div className="mb-4 flex flex-wrap items-center justify-between gap-3">
+            <button
+              onClick={() => setShowFilters(true)}
+              className="flex items-center gap-2 rounded-lg border bg-white px-4 py-2 lg:hidden"
+            >
+              <SlidersHorizontal className="h-4 w-4" /> Show Filters
+            </button>
 
             <div className="flex flex-wrap items-center gap-3">
-              <div className="hidden md:flex items-center gap-2 text-sm">
-                Show:
-                {[9, 12, 18, 24].map((n) => (
-                  <button
-                    key={n}
-                    onClick={() => setPerPage(n)}
-                    className={`rounded-md px-2 py-1 ${perPage === n ? "bg-gray-200 font-semibold" : "hover:bg-gray-100"}`}
-                  >
-                    {n}
-                  </button>
-                ))}
-              </div>
-
-              {/* Grid/List icons (visual only for parity with screenshot) */}
-              <div className="hidden md:flex items-center gap-2">
-                <div className="grid grid-cols-2 gap-0.5 rounded-md border p-1">
-                  <span className="h-4 w-4 bg-gray-900" />
-                  <span className="h-4 w-4 bg-gray-300" />
-                  <span className="h-4 w-4 bg-gray-300" />
-                  <span className="h-4 w-4 bg-gray-300" />
-                </div>
+              <div className="text-sm text-gray-600">
+                Showing <span className="font-medium">{showingFrom}</span>–
+                <span className="font-medium">{showingTo}</span> of{" "}
+                <span className="font-medium">{filtered.length}</span> results
               </div>
 
               <select
                 value={sort}
                 onChange={(e) => setSort(e.target.value)}
                 className="rounded-lg border bg-white px-3 py-2 text-sm"
-                aria-label="Sorting"
               >
                 <option value="default">Default sorting</option>
-                <option value="price-asc">Sort by price: low to high</option>
-                <option value="price-desc">Sort by price: high to low</option>
-                <option value="name-asc">Sort by name: A → Z</option>
-                <option value="name-desc">Sort by name: Z → A</option>
+                <option value="price-asc">Price: Low → High</option>
+                <option value="price-desc">Price: High → Low</option>
+                <option value="name-asc">Name: A–Z</option>
+                <option value="name-desc">Name: Z–A</option>
               </select>
 
-              {/* Search */}
               <div className="flex items-center rounded-lg border bg-white px-3 py-2">
                 <input
                   value={query}
                   onChange={(e) => setQuery(e.target.value)}
-                  placeholder="Search for products"
+                  placeholder="Search products"
                   className="w-52 outline-none"
                 />
               </div>
@@ -316,28 +275,25 @@ export default function Page() {
             <div className="grid grid-cols-1 gap-5 sm:grid-cols-2 lg:grid-cols-3">
               {current.map((p) => {
                 const onSale = p.status === "onsale" && p.oldPrice && p.oldPrice > p.price;
-
                 return (
-                  <div key={p.id} className="group relative rounded-2xl border bg-white p-4 shadow-sm transition hover:shadow-md">
-                    {/* Wishlist */}
+                  <div
+                    key={p.id}
+                    className="group relative rounded-2xl border bg-white p-4 shadow-sm transition hover:shadow-md"
+                  >
                     <button
                       onClick={() =>
-                        toggleWish({
-                          id: p.id,
-                          name: p.name,
-                          price: p.price,
-                          image: p.image,
-                        })
+                        toggleWish({ id: p.id, name: p.name, price: p.price, image: p.image })
                       }
                       className="absolute right-3 top-3 z-10 rounded-full bg-white/90 p-2 shadow hover:bg-white"
-                      aria-label="Toggle wishlist"
-                    ><HeartIcon
+                    >
+                      <HeartIcon
                         className="w-5 h-5"
                         strokeWidth={1.5}
                         fill={wishlist[p.id] ? "red" : "transparent"}
                         stroke={wishlist[p.id] ? "red" : "gray"}
-                      /></button>
-                    {/* Sale badge */}
+                      />
+                    </button>
+
                     {onSale && (
                       <div className="absolute left-3 top-3 rounded-md bg-red-500 px-2 py-1 text-xs font-semibold text-white">
                         -{Math.round(((p.oldPrice! - p.price) / p.oldPrice!) * 100)}%
@@ -345,22 +301,29 @@ export default function Page() {
                     )}
 
                     <div className="aspect-[4/3] overflow-hidden rounded-xl bg-gray-50">
-                      <img src={p.image} alt={p.name} className="h-full w-full object-cover transition-transform duration-200 group-hover:scale-105" />
+                      <img
+                        src={p.image}
+                        alt={p.name}
+                        className="h-full w-full object-cover transition-transform duration-200 group-hover:scale-105"
+                      />
                     </div>
 
                     <div className="mt-4 space-y-2">
                       <h3 className="line-clamp-2 text-sm font-medium text-gray-900">{p.name}</h3>
                       <div className="flex items-center gap-2">
-                        {onSale && <span className="text-sm text-gray-400 line-through">{formatKES(p.oldPrice!)}</span>}
-                        <span className="text-base font-semibold text-red-600">{formatKES(p.price)}</span>
+                        {onSale && (
+                          <span className="text-sm text-gray-400 line-through">
+                            {formatKES(p.oldPrice!)}
+                          </span>
+                        )}
+                        <span className="text-base font-semibold text-red-600">
+                          {formatKES(p.price)}
+                        </span>
                       </div>
                       <button
-                        onClick={() => addToCart({
-                          id: p.id,
-                          name: p.name,
-                          price: p.price,
-                          image: p.image,
-                        })}
+                        onClick={() =>
+                          addToCart({ id: p.id, name: p.name, price: p.price, image: p.image })
+                        }
                         className="mt-2 w-full rounded-full bg-gray-800 px-4 py-2 text-sm font-semibold text-white hover:bg-red-700"
                       >
                         Add to Cart
@@ -376,8 +339,8 @@ export default function Page() {
           <div className="mt-8 flex items-center justify-center gap-1">
             <button
               onClick={() => setPage((p) => Math.max(1, p - 1))}
-              className="rounded-lg border bg-white px-3 py-2 text-sm hover:bg-gray-50"
               disabled={page === 1}
+              className="rounded-lg border bg-white px-3 py-2 text-sm disabled:opacity-50"
             >
               Prev
             </button>
@@ -385,15 +348,19 @@ export default function Page() {
               <button
                 key={n}
                 onClick={() => setPage(n)}
-                className={`h-9 w-9 rounded-lg border text-sm ${page === n ? "bg-gray-800 font-semibold text-white" : "bg-white hover:bg-gray-50"}`}
+                className={`h-9 w-9 rounded-lg border text-sm ${
+                  page === n
+                    ? "bg-gray-800 font-semibold text-white"
+                    : "bg-white hover:bg-gray-50"
+                }`}
               >
                 {n}
               </button>
             ))}
             <button
               onClick={() => setPage((p) => Math.min(totalPages, p + 1))}
-              className="rounded-lg border bg-white px-3 py-2 text-sm hover:bg-gray-50"
               disabled={page === totalPages}
+              className="rounded-lg border bg-white px-3 py-2 text-sm disabled:opacity-50"
             >
               Next
             </button>

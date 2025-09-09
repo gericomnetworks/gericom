@@ -29,14 +29,9 @@ const ALL_PRODUCTS: Product[] = [
   { id: "p9", name: "Commercial Switch", brand: "Himax", price: 13650, status: "onsale", image: "/products/switch9.jpg" },
   { id: "p10", name: "Commercial Switch", brand: "Himax", price: 17550, status: "instock", image: "/products/switch10.jpg" },
   { id: "p11", name: "Indoor Access Point", brand: "Himax", price: 3600, status: "instock", image: "/products/switch11.jpg" },
-
 ];
 
-const ALL_BRANDS = [
-  "BDCOM",
-  "Himax",
-
-] as const;
+const ALL_BRANDS = ["BDCOM", "Himax"] as const;
 
 function formatKES(x: number) {
   return `Ksh${x.toLocaleString("en-KE", { maximumFractionDigits: 0 })}`;
@@ -52,6 +47,14 @@ export default function Page() {
   const [perPage, setPerPage] = React.useState(12);
   const [page, setPage] = React.useState(1);
   const [sort, setSort] = React.useState("default"); // default|price-asc|price-desc|name-asc|name-desc
+
+  // Quantity per product (keyed by product id)
+  const [qtyMap, setQtyMap] = React.useState<Record<string, number>>({});
+  const getQty = (id: string) => qtyMap[id] ?? 1;
+  const incQty = (id: string) =>
+    setQtyMap((m) => ({ ...m, [id]: (m[id] ?? 1) + 1 }));
+  const decQty = (id: string) =>
+    setQtyMap((m) => ({ ...m, [id]: Math.max(1, (m[id] ?? 1) - 1) }));
 
   // Derived products after filters
   const filtered = React.useMemo(() => {
@@ -76,7 +79,6 @@ export default function Page() {
         out = [...out].sort((a, b) => b.name.localeCompare(a.name));
         break;
       default:
-        // keep insertion order to mimic "Default sorting"
         break;
     }
     return out;
@@ -120,8 +122,7 @@ export default function Page() {
       <div className="bg-[url('https://images.unsplash.com/photo-1569235182173-379ecd0bba77?q=80&w=2400&auto=format&fit=crop')] bg-cover bg-center">
         <div className="bg-gray-800/85">
           <div className="mx-auto max-w-7xl px-4 py-10 text-white">
-            <h1 className="text-4xl font-extrabold">Network</h1>
-
+            <h1 className="text-4xl font-extrabold">Switches</h1>
           </div>
         </div>
       </div>
@@ -221,7 +222,7 @@ export default function Page() {
             <div className="p-5">
               <h4 className="text-lg font-semibold">High Quality Products</h4>
               <p className="text-sm text-gray-600 mt-1">
-                Reliable brands for professional surveillance.
+                Reliable brands for professional networking.
               </p>
               <button className="mt-4 rounded-xl bg-gray-800 px-4 py-2 text-white hover:bg-red-700">
                 Shop Now
@@ -254,7 +255,6 @@ export default function Page() {
                 ))}
               </div>
 
-              {/* Grid/List icons (visual only for parity with screenshot) */}
               <div className="hidden md:flex items-center gap-2">
                 <div className="grid grid-cols-2 gap-0.5 rounded-md border p-1">
                   <span className="h-4 w-4 bg-gray-900" />
@@ -286,22 +286,25 @@ export default function Page() {
                   className="w-52 outline-none"
                 />
               </div>
-
             </div>
           </div>
 
-          {/* Grid */}
+          {/* Grid (flex to center last row) */}
           {current.length === 0 ? (
             <div className="rounded-2xl border bg-white p-10 text-center text-gray-600">
               No products match your filters.
             </div>
           ) : (
-            <div className="grid grid-cols-1 gap-5 sm:grid-cols-2 lg:grid-cols-3">
+            <div className="flex flex-wrap justify-center gap-5">
               {current.map((p) => {
                 const onSale = p.status === "onsale" && p.oldPrice && p.oldPrice > p.price;
+                const qty = getQty(p.id);
 
                 return (
-                  <div key={p.id} className="group relative rounded-2xl border bg-white p-4 shadow-sm transition hover:shadow-md">
+                  <div
+                    key={p.id}
+                    className="w-full sm:w-[300px] group relative rounded-2xl border bg-white p-4 shadow-sm transition hover:shadow-md"
+                  >
                     {/* Wishlist */}
                     <button
                       onClick={() =>
@@ -314,12 +317,15 @@ export default function Page() {
                       }
                       className="absolute right-3 top-3 z-10 rounded-full bg-white/90 p-2 shadow hover:bg-white"
                       aria-label="Toggle wishlist"
-                    ><HeartIcon
+                    >
+                      <HeartIcon
                         className="w-5 h-5"
                         strokeWidth={1.5}
                         fill={wishlist[p.id] ? "red" : "transparent"}
                         stroke={wishlist[p.id] ? "red" : "gray"}
-                      /></button>
+                      />
+                    </button>
+
                     {/* Sale badge */}
                     {onSale && (
                       <div className="absolute left-3 top-3 rounded-md bg-red-500 px-2 py-1 text-xs font-semibold text-white">
@@ -328,26 +334,61 @@ export default function Page() {
                     )}
 
                     <div className="aspect-[4/3] overflow-hidden rounded-xl bg-gray-50">
-                      <img src={p.image} alt={p.name} className="h-full w-full object-cover transition-transform duration-200 group-hover:scale-105" />
+                      <img
+                        src={p.image}
+                        alt={p.name}
+                        className="h-full w-full object-cover transition-transform duration-200 group-hover:scale-105"
+                      />
                     </div>
 
                     <div className="mt-4 space-y-2">
                       <h3 className="line-clamp-2 text-sm font-medium text-gray-900">{p.name}</h3>
                       <div className="flex items-center gap-2">
-                        {onSale && <span className="text-sm text-gray-400 line-through">{formatKES(p.oldPrice!)}</span>}
-                        <span className="text-base font-semibold text-red-600">{formatKES(p.price)}</span>
+                        {onSale && (
+                          <span className="text-sm text-gray-400 line-through">
+                            {formatKES(p.oldPrice!)}
+                          </span>
+                        )}
+                        <span className="text-base font-semibold text-red-600">
+                          {formatKES(p.price)}
+                        </span>
                       </div>
+
+                      {/* Quantity selector */}
+                      <div className="flex items-center gap-2 mt-2 justify-center">
+                        <button
+                          onClick={() => decQty(p.id)}
+                          className="px-2 py-1 rounded border hover:bg-gray-100"
+                          aria-label="Decrease quantity"
+                        >
+                          –
+                        </button>
+                        <span className="px-3">{qty}</span>
+                        <button
+                          onClick={() => incQty(p.id)}
+                          className="px-2 py-1 rounded border hover:bg-gray-100"
+                          aria-label="Increase quantity"
+                        >
+                          +
+                        </button>
+                      </div>
+
+                      {/* Add to Cart */}
                       <button
-                        onClick={() => addToCart({
-                          id: p.id,
-                          name: p.name,
-                          price: p.price,
-                          image: p.image,
-                        })}
+                        onClick={() =>
+                          addToCart({
+                            id: p.id,
+                            name: p.name,
+                            price: p.price,
+                            image: p.image,
+                            quantity: qty,
+                          })
+                        }
                         className="mt-2 w-full rounded-full bg-gray-800 px-4 py-2 text-sm font-semibold text-white hover:bg-red-700"
                       >
-                        Add to Cart
-                      </button>                    </div>
+                        Add to Cart
+                      </button>
+                    </div>
                   </div>
                 );
               })}
@@ -358,7 +399,7 @@ export default function Page() {
           <div className="mt-8 flex items-center justify-center gap-1">
             <button
               onClick={() => setPage((p) => Math.max(1, p - 1))}
-              className="rounded-lg border bg-white px-3 py-2 text-sm hover:bg-gray-50"
+              className="rounded-lg border bg-white px-3 py-2 text-sm hover:bg-gray-50 disabled:opacity-50"
               disabled={page === 1}
             >
               Prev
@@ -367,14 +408,16 @@ export default function Page() {
               <button
                 key={n}
                 onClick={() => setPage(n)}
-                className={`h-9 w-9 rounded-lg border text-sm ${page === n ? "bg-gray-800 font-semibold text-white" : "bg-white hover:bg-gray-50"}`}
+                className={`h-9 w-9 rounded-lg border text-sm ${
+                  page === n ? "bg-gray-800 font-semibold text-white" : "bg-white hover:bg-gray-50"
+                }`}
               >
                 {n}
               </button>
             ))}
             <button
               onClick={() => setPage((p) => Math.min(totalPages, p + 1))}
-              className="rounded-lg border bg-white px-3 py-2 text-sm hover:bg-gray-50"
+              className="rounded-lg border bg-white px-3 py-2 text-sm hover:bg-gray-50 disabled:opacity-50"
               disabled={page === totalPages}
             >
               Next

@@ -12,27 +12,29 @@ type Product = {
   name: string;
   brand: string;
   price: number; // KES
-  oldPrice?: number; // for sale badge/strike-through
+  oldPrice?: number;
   status: StockStatus;
-  image: string; // use external placeholder so it works without local assets
+  image: string;
 };
 
 const ALL_PRODUCTS: Product[] = [
-  { id: "p1", name: "DSS7016DR Dahua Dss Pro Digital Surveillance System", brand: "Dahua", price: 498771, status: "instock", image: "/products/ivs1.jpg" },
-
+  {
+    id: "p1",
+    name: "DSS7016DR Dahua Dss Pro Digital Surveillance System",
+    brand: "Dahua",
+    price: 498771,
+    status: "instock",
+    image: "/products/ivs1.jpg",
+  },
 ];
 
-const ALL_BRANDS = [
-
-  "Dahua",
-] as const;
+const ALL_BRANDS = ["Dahua"] as const;
 
 function formatKES(x: number) {
   return `Ksh${x.toLocaleString("en-KE", { maximumFractionDigits: 0 })}`;
 }
 
 export default function Page() {
-  // UI state
   const [query, setQuery] = React.useState("");
   const [brands, setBrands] = React.useState<string[]>([]);
   const [stock, setStock] = React.useState<StockStatus[]>([]);
@@ -40,16 +42,21 @@ export default function Page() {
   const [priceMax, setPriceMax] = React.useState(200000);
   const [perPage, setPerPage] = React.useState(12);
   const [page, setPage] = React.useState(1);
-  const [sort, setSort] = React.useState("default"); // default|price-asc|price-desc|name-asc|name-desc
+  const [sort, setSort] = React.useState("default");
+  const [showFilters, setShowFilters] = React.useState(false);
 
-  // Derived products after filters
   const filtered = React.useMemo(() => {
-    let out = ALL_PRODUCTS.filter((p) => p.price >= priceMin && p.price <= priceMax);
+    let out = ALL_PRODUCTS.filter(
+      (p) => p.price >= priceMin && p.price <= priceMax
+    );
     if (brands.length) out = out.filter((p) => brands.includes(p.brand));
     if (stock.length) out = out.filter((p) => stock.includes(p.status));
     if (query.trim()) {
       const q = query.toLowerCase();
-      out = out.filter((p) => p.name.toLowerCase().includes(q) || p.brand.toLowerCase().includes(q));
+      out = out.filter(
+        (p) =>
+          p.name.toLowerCase().includes(q) || p.brand.toLowerCase().includes(q)
+      );
     }
     switch (sort) {
       case "price-asc":
@@ -64,9 +71,6 @@ export default function Page() {
       case "name-desc":
         out = [...out].sort((a, b) => b.name.localeCompare(a.name));
         break;
-      default:
-        // keep insertion order to mimic "Default sorting"
-        break;
     }
     return out;
   }, [priceMin, priceMax, brands, stock, sort, query]);
@@ -78,16 +82,19 @@ export default function Page() {
   }, [filtered, page, perPage]);
 
   React.useEffect(() => {
-    // reset to first page when filters change
     setPage(1);
   }, [priceMin, priceMax, brands, stock, sort, perPage, query]);
 
   function toggleBrand(b: string) {
-    setBrands((prev) => (prev.includes(b) ? prev.filter((x) => x !== b) : [...prev, b]));
+    setBrands((prev) =>
+      prev.includes(b) ? prev.filter((x) => x !== b) : [...prev, b]
+    );
   }
 
   function toggleStock(s: StockStatus) {
-    setStock((prev) => (prev.includes(s) ? prev.filter((x) => x !== s) : [...prev, s]));
+    setStock((prev) =>
+      prev.includes(s) ? prev.filter((x) => x !== s) : [...prev, s]
+    );
   }
 
   function clampRange(min: number, max: number) {
@@ -99,7 +106,6 @@ export default function Page() {
   const { wishlist, toggleWish } = useWishlist();
   const { addToCart } = useCart();
 
-  // small helpers
   const showingFrom = filtered.length === 0 ? 0 : (page - 1) * perPage + 1;
   const showingTo = Math.min(filtered.length, page * perPage);
 
@@ -110,7 +116,6 @@ export default function Page() {
         <div className="bg-gray-800/85">
           <div className="mx-auto max-w-7xl px-4 py-10 text-white">
             <h1 className="text-4xl font-extrabold">IVS</h1>
-
           </div>
         </div>
       </div>
@@ -118,7 +123,11 @@ export default function Page() {
       {/* Content */}
       <div className="mx-auto max-w-7xl px-4 py-8 grid grid-cols-12 gap-6">
         {/* Sidebar */}
-        <aside className="col-span-12 md:col-span-3 space-y-8">
+        <aside
+          className={`col-span-12 md:col-span-3 space-y-8 ${
+            showFilters ? "block" : "hidden md:block"
+          }`}
+        >
           {/* Filter by Price */}
           <section className="rounded-2xl border bg-white p-5 shadow-sm">
             <h3 className="font-semibold mb-4">Filter by Price</h3>
@@ -129,7 +138,9 @@ export default function Page() {
                   min={3000}
                   max={200000}
                   value={priceMin}
-                  onChange={(e) => clampRange(parseInt(e.target.value), priceMax)}
+                  onChange={(e) =>
+                    clampRange(parseInt(e.target.value), priceMax)
+                  }
                   className="w-full"
                 />
                 <input
@@ -137,13 +148,15 @@ export default function Page() {
                   min={3000}
                   max={200000}
                   value={priceMax}
-                  onChange={(e) => clampRange(priceMin, parseInt(e.target.value))}
+                  onChange={(e) =>
+                    clampRange(priceMin, parseInt(e.target.value))
+                  }
                   className="w-full"
                 />
               </div>
               <p className="text-sm text-gray-600">
-                Price: <span className="font-medium">{formatKES(priceMin)}</span> —{" "}
-                <span className="font-medium">{formatKES(priceMax)}</span>
+                Price: <span className="font-medium">{formatKES(priceMin)}</span>{" "}
+                — <span className="font-medium">{formatKES(priceMax)}</span>
               </p>
             </div>
           </section>
@@ -170,33 +183,21 @@ export default function Page() {
           <section className="rounded-2xl border bg-white p-5 shadow-sm">
             <h3 className="font-semibold mb-4">Stock Status</h3>
             <div className="space-y-2">
-              <label className="flex items-center gap-2 text-sm">
-                <input
-                  type="checkbox"
-                  checked={stock.includes("onsale")}
-                  onChange={() => toggleStock("onsale")}
-                  className="h-4 w-4"
-                />
-                On sale
-              </label>
-              <label className="flex items-center gap-2 text-sm">
-                <input
-                  type="checkbox"
-                  checked={stock.includes("instock")}
-                  onChange={() => toggleStock("instock")}
-                  className="h-4 w-4"
-                />
-                In stock
-              </label>
-              <label className="flex items-center gap-2 text-sm">
-                <input
-                  type="checkbox"
-                  checked={stock.includes("backorder")}
-                  onChange={() => toggleStock("backorder")}
-                  className="h-4 w-4"
-                />
-                On backorder
-              </label>
+              {["onsale", "instock", "backorder"].map((s) => (
+                <label key={s} className="flex items-center gap-2 text-sm">
+                  <input
+                    type="checkbox"
+                    checked={stock.includes(s as StockStatus)}
+                    onChange={() => toggleStock(s as StockStatus)}
+                    className="h-4 w-4"
+                  />
+                  {s === "onsale"
+                    ? "On sale"
+                    : s === "instock"
+                    ? "In stock"
+                    : "On backorder"}
+                </label>
+              ))}
             </div>
           </section>
 
@@ -221,6 +222,16 @@ export default function Page() {
 
         {/* Main */}
         <main className="col-span-12 md:col-span-9">
+          {/* Mobile filter toggle */}
+          <div className="mb-4 md:hidden">
+            <button
+              onClick={() => setShowFilters((s) => !s)}
+              className="rounded-lg border bg-white px-4 py-2 text-sm font-medium shadow-sm"
+            >
+              {showFilters ? "Hide Filters" : "Show Filters"}
+            </button>
+          </div>
+
           {/* Top controls */}
           <div className="mb-4 flex flex-col gap-3 md:flex-row md:items-center md:justify-between">
             <div className="text-sm text-gray-600">
@@ -230,34 +241,27 @@ export default function Page() {
             </div>
 
             <div className="flex flex-wrap items-center gap-3">
-              <div className="hidden md:flex items-center gap-2 text-sm">
+              <div className="flex items-center gap-2 text-sm">
                 Show:
                 {[9, 12, 18, 24].map((n) => (
                   <button
                     key={n}
                     onClick={() => setPerPage(n)}
-                    className={`rounded-md px-2 py-1 ${perPage === n ? "bg-gray-200 font-semibold" : "hover:bg-gray-100"}`}
+                    className={`rounded-md px-2 py-1 ${
+                      perPage === n
+                        ? "bg-gray-200 font-semibold"
+                        : "hover:bg-gray-100"
+                    }`}
                   >
                     {n}
                   </button>
                 ))}
               </div>
 
-              {/* Grid/List icons (visual only for parity with screenshot) */}
-              <div className="hidden md:flex items-center gap-2">
-                <div className="grid grid-cols-2 gap-0.5 rounded-md border p-1">
-                  <span className="h-4 w-4 bg-gray-900" />
-                  <span className="h-4 w-4 bg-gray-300" />
-                  <span className="h-4 w-4 bg-gray-300" />
-                  <span className="h-4 w-4 bg-gray-300" />
-                </div>
-              </div>
-
               <select
                 value={sort}
                 onChange={(e) => setSort(e.target.value)}
                 className="rounded-lg border bg-white px-3 py-2 text-sm"
-                aria-label="Sorting"
               >
                 <option value="default">Default sorting</option>
                 <option value="price-asc">Sort by price: low to high</option>
@@ -266,16 +270,14 @@ export default function Page() {
                 <option value="name-desc">Sort by name: Z → A</option>
               </select>
 
-              {/* Search */}
               <div className="flex items-center rounded-lg border bg-white px-3 py-2">
                 <input
                   value={query}
                   onChange={(e) => setQuery(e.target.value)}
                   placeholder="Search for products"
-                  className="w-52 outline-none"
+                  className="w-40 md:w-52 outline-none"
                 />
               </div>
-
             </div>
           </div>
 
@@ -287,10 +289,16 @@ export default function Page() {
           ) : (
             <div className="grid grid-cols-1 gap-5 sm:grid-cols-2 lg:grid-cols-3">
               {current.map((p) => {
-                const onSale = p.status === "onsale" && p.oldPrice && p.oldPrice > p.price;
+                const onSale =
+                  p.status === "onsale" &&
+                  p.oldPrice &&
+                  p.oldPrice > p.price;
 
                 return (
-                  <div key={p.id} className="group relative rounded-2xl border bg-white p-4 shadow-sm transition hover:shadow-md">
+                  <div
+                    key={p.id}
+                    className="group relative rounded-2xl border bg-white p-4 shadow-sm transition hover:shadow-md"
+                  >
                     {/* Wishlist */}
                     <button
                       onClick={() =>
@@ -303,36 +311,57 @@ export default function Page() {
                       }
                       className="absolute right-3 top-3 z-10 rounded-full bg-white/90 p-2 shadow hover:bg-white"
                       aria-label="Toggle wishlist"
-                    ><HeartIcon
+                    >
+                      <HeartIcon
                         className="w-5 h-5"
                         strokeWidth={1.5}
                         fill={wishlist[p.id] ? "red" : "transparent"}
                         stroke={wishlist[p.id] ? "red" : "gray"}
-                      /></button>
+                      />
+                    </button>
+
                     {/* Sale badge */}
                     {onSale && (
                       <div className="absolute left-3 top-3 rounded-md bg-red-500 px-2 py-1 text-xs font-semibold text-white">
-                        -{Math.round(((p.oldPrice! - p.price) / p.oldPrice!) * 100)}%
+                        -
+                        {Math.round(
+                          ((p.oldPrice! - p.price) / p.oldPrice!) * 100
+                        )}
+                        %
                       </div>
                     )}
 
                     <div className="aspect-[4/3] overflow-hidden rounded-xl bg-gray-50">
-                      <img src={p.image} alt={p.name} className="h-full w-full object-cover transition-transform duration-200 group-hover:scale-105" />
+                      <img
+                        src={p.image}
+                        alt={p.name}
+                        className="h-full w-full object-cover transition-transform duration-200 group-hover:scale-105"
+                      />
                     </div>
 
                     <div className="mt-4 space-y-2">
-                      <h3 className="line-clamp-2 text-sm font-medium text-gray-900">{p.name}</h3>
+                      <h3 className="line-clamp-2 text-sm font-medium text-gray-900">
+                        {p.name}
+                      </h3>
                       <div className="flex items-center gap-2">
-                        {onSale && <span className="text-sm text-gray-400 line-through">{formatKES(p.oldPrice!)}</span>}
-                        <span className="text-base font-semibold text-red-600">{formatKES(p.price)}</span>
+                        {onSale && (
+                          <span className="text-sm text-gray-400 line-through">
+                            {formatKES(p.oldPrice!)}
+                          </span>
+                        )}
+                        <span className="text-base font-semibold text-red-600">
+                          {formatKES(p.price)}
+                        </span>
                       </div>
                       <button
-                        onClick={() => addToCart({
-                          id: p.id,
-                          name: p.name,
-                          price: p.price,
-                          image: p.image,
-                        })}
+                        onClick={() =>
+                          addToCart({
+                            id: p.id,
+                            name: p.name,
+                            price: p.price,
+                            image: p.image,
+                          })
+                        }
                         className="mt-2 w-full rounded-full bg-gray-800 px-4 py-2 text-sm font-semibold text-white hover:bg-red-700"
                       >
                         Add to Cart
@@ -348,7 +377,7 @@ export default function Page() {
           <div className="mt-8 flex items-center justify-center gap-1">
             <button
               onClick={() => setPage((p) => Math.max(1, p - 1))}
-              className="rounded-lg border bg-white px-3 py-2 text-sm hover:bg-gray-50"
+              className="rounded-lg border bg-white px-3 py-2 text-sm hover:bg-gray-50 disabled:opacity-50"
               disabled={page === 1}
             >
               Prev
@@ -357,14 +386,18 @@ export default function Page() {
               <button
                 key={n}
                 onClick={() => setPage(n)}
-                className={`h-9 w-9 rounded-lg border text-sm ${page === n ? "bg-gray-800 font-semibold text-white" : "bg-white hover:bg-gray-50"}`}
+                className={`h-9 w-9 rounded-lg border text-sm ${
+                  page === n
+                    ? "bg-gray-800 font-semibold text-white"
+                    : "bg-white hover:bg-gray-50"
+                }`}
               >
                 {n}
               </button>
             ))}
             <button
               onClick={() => setPage((p) => Math.min(totalPages, p + 1))}
-              className="rounded-lg border bg-white px-3 py-2 text-sm hover:bg-gray-50"
+              className="rounded-lg border bg-white px-3 py-2 text-sm hover:bg-gray-50 disabled:opacity-50"
               disabled={page === totalPages}
             >
               Next
