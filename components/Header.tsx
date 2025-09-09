@@ -2,7 +2,7 @@
 import Image from "next/image"
 import Link from "next/link";
 import { useState } from "react";
-import { ChevronDown, X, Menu } from "lucide-react"
+import { ChevronDown, X, Menu, HomeIcon } from "lucide-react"
 import CartDrawer from "./CartDrawer";
 import { useCart } from "@/app/CartProvider";
 
@@ -182,7 +182,10 @@ export default function Header() {
             </form>
           </div>
           <div className="flex items-center gap-4 lg:gap-6 text-xs lg:text-sm font-medium">
-            <Link href="/wishlist" className="flex items-center gap-1">Wishlist ♡</Link>
+            <Link href="/" className="flex items-center">
+              <HomeIcon className="h-3"/>
+            </Link>
+            <Link href="/wishlist" className="flex items-center gap-1">♡</Link>
             <Link href="/account" className="flex items-center gap-1">Login / Register</Link>
             <button
               onClick={openCart}
