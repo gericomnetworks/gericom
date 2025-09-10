@@ -186,7 +186,9 @@ export default function Header() {
               <HomeIcon className="h-3"/>
             </Link>
             <Link href="/wishlist" className="flex items-center gap-1">♡</Link>
-            <Link href="/account" className="flex items-center gap-1">Login / Register</Link>
+            <Link href="/account" className="flex items-center gap-1">
+  Login / Register
+</Link>
             <button
               onClick={openCart}
               className="flex items-center gap-1 bg-black text-white px-2 lg:px-3 py-1 rounded-full"

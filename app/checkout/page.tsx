@@ -4,10 +4,37 @@ import Image from "next/image";
 import { useRouter } from "next/navigation";
 import { Phone, MessageCircle, ArrowLeft, Trash2 } from "lucide-react";
 import { useCart } from "@/app/CartProvider";
+import { useAuth } from "@clerk/nextjs";
 
 export default function CheckoutScenario2() {
   const router = useRouter();
-  const { cart, clearCart } = useCart();
+  const { isSignedIn } = useAuth();
+
+  // If not signed in, redirect to /account
+  if (!isSignedIn) {
+    router.push("/account");
+    return (
+      <main className="flex items-center justify-center min-h-screen">
+        <p className="text-gray-500">Redirecting to login...</p>
+      </main>
+    );
+  }
+
+  let cart: ReturnType<typeof useCart>["cart"] = [];
+  let clearCart: ReturnType<typeof useCart>["clearCart"] = () => {};
+
+  try {
+    const cartCtx = useCart();
+    cart = cartCtx.cart;
+    clearCart = cartCtx.clearCart;
+  } catch {
+    // fallback: no provider
+    return (
+      <main className="flex items-center justify-center min-h-screen">
+        <p className="text-gray-500">Cart is not available.</p>
+      </main>
+    );
+  }
 
   const whatsappNumber = "254723809057";
 
