@@ -1,37 +1,48 @@
+// app/checkout/page.tsx
 "use client";
 
 import Image from "next/image";
 import { useRouter } from "next/navigation";
 import { Phone, MessageCircle, ArrowLeft, Trash2 } from "lucide-react";
-import { useCart } from "@/app/CartProvider";
+import { useEffect } from "react";
 import { useAuth } from "@clerk/nextjs";
+import { useCart } from "@/app/CartProvider";
 
-export default function CheckoutScenario2() {
+export default function CheckoutPage() {
   const router = useRouter();
-  const { isSignedIn } = useAuth();
+  const { isLoaded, isSignedIn } = useAuth();
 
-  // If not signed in, redirect to /account
-  if (!isSignedIn) {
-    router.push("/account");
-    return (
-      <main className="flex items-center justify-center min-h-screen">
-        <p className="text-gray-500">Redirecting to login...</p>
-      </main>
-    );
-  }
+  // Wait for Clerk to load, then redirect to /account if not signed in
+  useEffect(() => {
+    if (!isLoaded) return;
+    if (!isSignedIn) {
+      // include from param so account page can redirect back after login if you implement that
+      router.push("/account?from=checkout");
+    }
+  }, [isLoaded, isSignedIn, router]);
 
+  // Use cart from provider. If provider is missing, present a friendly message.
   let cart: ReturnType<typeof useCart>["cart"] = [];
   let clearCart: ReturnType<typeof useCart>["clearCart"] = () => {};
 
   try {
-    const cartCtx = useCart();
-    cart = cartCtx.cart;
-    clearCart = cartCtx.clearCart;
-  } catch {
-    // fallback: no provider
+    const ctx = useCart();
+    cart = ctx.cart;
+    clearCart = ctx.clearCart;
+  } catch (err) {
+    // No CartProvider present
     return (
       <main className="flex items-center justify-center min-h-screen">
-        <p className="text-gray-500">Cart is not available.</p>
+        <p className="text-gray-500">Cart is not available. Make sure the CartProvider is mounted.</p>
+      </main>
+    );
+  }
+
+  // While Clerk is still loading (before redirect), show a loading state
+  if (!isLoaded || (!isSignedIn && isLoaded)) {
+    return (
+      <main className="flex items-center justify-center min-h-screen">
+        <p className="text-gray-600">Checking authentication — redirecting to login if required...</p>
       </main>
     );
   }
@@ -43,17 +54,13 @@ export default function CheckoutScenario2() {
       <section className="min-h-screen bg-gray-50">
         {/* Header Section */}
         <div className="bg-gray-800 py-12 px-6 flex justify-between items-center">
-          <h1 className="text-white text-4xl md:text-5xl font-bold mb-2">
-            Checkout
-          </h1>
+          <h1 className="text-white text-4xl md:text-5xl font-bold mb-2">Checkout</h1>
           <p className="text-white/70 text-sm md:text-base">Home / Checkout</p>
         </div>
 
         <main className="flex flex-col items-center justify-center min-h-screen bg-gradient-to-br from-gray-50 to-gray-100 px-4 py-12">
           <div className="max-w-2xl w-full bg-white shadow-lg rounded-2xl p-10 text-center">
-            <h1 className="text-3xl font-extrabold text-gray-900 mb-3">
-              Your Cart
-            </h1>
+            <h1 className="text-3xl font-extrabold text-gray-900 mb-3">Your Cart</h1>
             <p className="text-gray-500 mb-6">Looks like your cart is empty.</p>
             <button
               onClick={() => router.back()}
@@ -67,31 +74,22 @@ export default function CheckoutScenario2() {
     );
   }
 
+  const total = cart.reduce((sum, item) => sum + item.price * item.quantity, 0);
+
   const message = `Hello, I am a client enquiring about availability of these items:\n\n${cart
     .map(
       (item) =>
         `- ${item.name} (x${item.quantity}) @ KES ${item.price.toLocaleString()} each = KES ${(item.price * item.quantity).toLocaleString()}`
     )
-    .join("\n")}\n\nTotal: KES ${cart
-    .reduce((sum, item) => sum + item.price * item.quantity, 0)
-    .toLocaleString()}\n\nPlease confirm availability.`;
+    .join("\n")}\n\nTotal: KES ${total.toLocaleString()}\n\nPlease confirm availability.`;
 
-  const whatsappLink = `https://wa.me/${whatsappNumber}?text=${encodeURIComponent(
-    message
-  )}`;
-
-  const total = cart.reduce(
-    (sum, item) => sum + item.price * item.quantity,
-    0
-  );
+  const whatsappLink = `https://wa.me/${whatsappNumber}?text=${encodeURIComponent(message)}`;
 
   return (
     <section className="min-h-screen bg-gray-50">
       {/* Header Section */}
       <div className="bg-gray-800 py-12 px-6 flex justify-between items-center">
-        <h1 className="text-white text-4xl md:text-5xl font-bold mb-2">
-          Checkout
-        </h1>
+        <h1 className="text-white text-4xl md:text-5xl font-bold mb-2">Checkout</h1>
         <p className="text-white/70 text-sm md:text-base">Home / Checkout</p>
       </div>
 
@@ -102,10 +100,7 @@ export default function CheckoutScenario2() {
             <h2 className="text-2xl font-bold text-gray-900 mb-6">Your Cart</h2>
             <ul className="divide-y divide-gray-200 mb-6">
               {cart.map((item) => (
-                <li
-                  key={item.id}
-                  className="flex items-center justify-between py-4"
-                >
+                <li key={item.id} className="flex items-center justify-between py-4">
                   <div className="flex items-center gap-4">
                     <Image
                       src={item.image}
@@ -115,9 +110,7 @@ export default function CheckoutScenario2() {
                       className="rounded-lg object-cover"
                     />
                     <div>
-                      <p className="text-sm font-medium text-gray-900">
-                        {item.name}
-                      </p>
+                      <p className="text-sm font-medium text-gray-900">{item.name}</p>
                       <p className="text-sm text-gray-500">
                         {item.quantity} × KES {item.price.toLocaleString()}
                       </p>
@@ -146,12 +139,8 @@ export default function CheckoutScenario2() {
 
           {/* Right: Actions + Payment */}
           <div className="flex flex-col items-center text-center">
-            <h2 className="text-2xl font-bold text-gray-900 mb-6">
-              Complete Your Order
-            </h2>
-            <p className="text-gray-600 mb-8">
-              Please confirm item availability before making payment.
-            </p>
+            <h2 className="text-2xl font-bold text-gray-900 mb-6">Complete Your Order</h2>
+            <p className="text-gray-600 mb-8">Please confirm item availability before making payment.</p>
 
             <div className="flex flex-col gap-4 w-full">
               <a
@@ -179,9 +168,7 @@ export default function CheckoutScenario2() {
                 height={280}
                 className="mx-auto rounded-lg shadow"
               />
-              <p className="text-sm text-gray-500 mt-4">
-                Secure payments via Lipa Na M-Pesa
-              </p>
+              <p className="text-sm text-gray-500 mt-4">Secure payments via Lipa Na M-Pesa</p>
             </div>
 
             <button

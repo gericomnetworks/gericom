@@ -3,8 +3,8 @@
 
 import Image from "next/image";
 import { useRouter } from "next/navigation";
-import { useCart } from "@/app/CartProvider";
 import { useUser } from "@clerk/nextjs";
+import { useCart } from "@/app/CartProvider";
 
 interface ProductProps {
   id: string;
@@ -14,17 +14,15 @@ interface ProductProps {
 }
 
 export default function ProductCard({ id, title, price, image }: ProductProps) {
-  const { addToCart } = useCart();
   const { isSignedIn } = useUser();
+  const { addToCart } = useCart();
   const router = useRouter();
 
   const handleAddToCart = () => {
     if (!isSignedIn) {
-      // redirect to account page for sign-in. Clerk modal is also available on /account.
       router.push(`/account?from=product:${id}`);
       return;
     }
-
     addToCart({ id, name: title, price, image });
   };
 

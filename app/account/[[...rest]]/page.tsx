@@ -1,30 +1,44 @@
-// app/account/[[...rest]]/page.tsx
 "use client";
 
-import { useState } from "react";
-import { SignIn, SignUp, useUser, SignOutButton } from "@clerk/nextjs";
+import { useEffect, useState } from "react";
+import { useRouter } from "next/navigation";
+import { SignIn, SignUp, useUser } from "@clerk/nextjs";
 
 export default function AccountPage() {
   const [mode, setMode] = useState<"signin" | "signup">("signin");
   const { isSignedIn, user } = useUser();
+  const router = useRouter();
+  const [statusMsg, setStatusMsg] = useState("Checking login...");
+
+  useEffect(() => {
+    if (isSignedIn && user) {
+      const checkAdmin = async () => {
+        try {
+          setStatusMsg("🔍 Checking if you are an admin...");
+          const res = await fetch("/api/check-admin");
+          const data = await res.json();
+
+          if (data.isAdmin) {
+            setStatusMsg("✅ You are an admin. Redirecting to /admin...");
+            router.replace("/admin");
+          } else {
+            setStatusMsg("➡️ You are a normal user. Redirecting to homepage...");
+            router.replace("/");
+          }
+        } catch (err) {
+          console.error("❌ Error checking admin:", err);
+          setStatusMsg("❌ Error occurred. Redirecting to homepage...");
+          router.replace("/");
+        }
+      };
+      checkAdmin();
+    }
+  }, [isSignedIn, user, router]);
 
   if (isSignedIn && user) {
-    const name =
-      user.firstName ||
-      user.fullName ||
-      user.primaryEmailAddress?.emailAddress?.split("@")[0] ||
-      "User";
-
     return (
-      <div className="flex flex-col items-center justify-center min-h-screen bg-gray-50 px-4">
-        <div className="bg-white shadow-lg rounded-xl p-6 w-full max-w-md text-center">
-          <h2 className="text-xl font-semibold mb-4">Welcome {name} 🎉</h2>
-          <SignOutButton>
-            <button className="bg-red-600 text-white px-4 py-2 rounded-lg hover:bg-red-700">
-              Logout
-            </button>
-          </SignOutButton>
-        </div>
+      <div className="flex items-center justify-center min-h-screen">
+        <p className="text-gray-600">{statusMsg}</p>
       </div>
     );
   }
