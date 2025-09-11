@@ -1,10 +1,18 @@
 "use client";
 
-import { createContext, useContext, useState, useEffect, useMemo } from "react";
+import {
+  createContext,
+  useContext,
+  useState,
+  useEffect,
+  useMemo,
+} from "react";
+import { useUser } from "@clerk/nextjs";
+import { useRouter } from "next/navigation";
 
-// Cart item type (keeps product id + quantity)
+// Cart item type
 type CartItem = {
-  id: string;   // product ID
+  id: string;
   name: string;
   price: number;
   image: string;
@@ -30,6 +38,9 @@ export function CartProvider({ children }: { children: React.ReactNode }) {
   const [cart, setCart] = useState<CartItem[]>([]);
   const [isOpen, setIsOpen] = useState(false);
 
+  const { isSignedIn } = useUser();
+  const router = useRouter();
+
   // ✅ Load cart from localStorage on mount
   useEffect(() => {
     try {
@@ -49,8 +60,13 @@ export function CartProvider({ children }: { children: React.ReactNode }) {
     }
   }, [cart]);
 
-  // ✅ Add product or increase quantity if it already exists
+  // ✅ Add product (only if logged in, else redirect to account page)
   const addToCart = (product: Omit<CartItem, "quantity">) => {
+    if (!isSignedIn) {
+      router.push("/account");
+      return;
+    }
+
     setCart((prev) => {
       const existing = prev.find((item) => item.id === product.id);
       if (existing) {
@@ -62,6 +78,7 @@ export function CartProvider({ children }: { children: React.ReactNode }) {
       }
       return [...prev, { ...product, quantity: 1 }];
     });
+
     setIsOpen(true); // auto open cart drawer
   };
 
@@ -79,7 +96,7 @@ export function CartProvider({ children }: { children: React.ReactNode }) {
     );
   };
 
-  // ✅ Decrease quantity (remove if hits 0)
+  // ✅ Decrease quantity
   const decreaseQuantity = (id: string) => {
     setCart((prev) =>
       prev
@@ -95,7 +112,7 @@ export function CartProvider({ children }: { children: React.ReactNode }) {
   const openCart = () => setIsOpen(true);
   const closeCart = () => setIsOpen(false);
 
-  // ✅ Total price (auto-recomputed with cart changes)
+  // ✅ Total price
   const total = useMemo(
     () => cart.reduce((sum, item) => sum + item.price * item.quantity, 0),
     [cart]
