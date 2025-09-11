@@ -1,10 +1,11 @@
-"use client"
-import Image from "next/image"
+"use client";
+import Image from "next/image";
 import Link from "next/link";
 import { useState } from "react";
-import { ChevronDown, X, Menu, HomeIcon } from "lucide-react"
+import { ChevronDown, X, Menu, HomeIcon } from "lucide-react";
 import CartDrawer from "./CartDrawer";
 import { useCart } from "@/app/CartProvider";
+import { useUser, SignOutButton } from "@clerk/nextjs";
 
 const currencies = [
   { code: "USD", symbol: "$", label: "USD, $", flag: "/flags/us.jpeg" },
@@ -13,7 +14,7 @@ const currencies = [
   { code: "TZS", symbol: "TSh", label: "TZS, TSh", flag: "/flags/tanzania.jpeg" },
   { code: "KES", symbol: "Ksh", label: "KES, Ksh", flag: "/flags/kenya.jpeg" },
   { code: "ETB", symbol: "Br", label: "ETB, Br", flag: "/flags/ethiopia.jpeg" },
-]
+];
 
 type Category = {
   name: string;
@@ -47,9 +48,7 @@ const categories: Category[] = [
     icon: "🛡",
     href: "/category/anti-theft",
     image: "https://imaxcameras.com/wp-content/uploads/2024/01/ic31-150x150.png",
-    children: [
-      { name: "Anti-Theft Systems", href: "/category/anti-theft" },
-    ],
+    children: [{ name: "Anti-Theft Systems", href: "/category/anti-theft" }],
   },
   {
     name: "Fire",
@@ -80,21 +79,26 @@ const categories: Category[] = [
     icon: "🔊",
     href: "/category/intercom",
     image: "https://imaxcameras.com/wp-content/uploads/2024/01/ic27-150x150.png",
-    children: [
-      { name: "Intercom", href: "/category/intercom" },
-    ],
+    children: [{ name: "Intercom", href: "/category/intercom" }],
   },
 ];
 
 export default function Header() {
   const [open, setOpen] = useState<string | null>(null);
   const [subOpen, setSubOpen] = useState<string | null>(null);
-  const [selectedCurrency, setSelectedCurrency] = useState(currencies[4]) // Default: KES
-  const [isOpen, setIsOpen] = useState(false)
-  const [mobileOpen, setMobileOpen] = useState(false)
-  const [activeTab, setActiveTab] = useState<"categories" | "menu">("categories")
+  const [selectedCurrency, setSelectedCurrency] = useState(currencies[4]);
+  const [isOpen, setIsOpen] = useState(false);
+  const [mobileOpen, setMobileOpen] = useState(false);
+  const [activeTab, setActiveTab] = useState<"categories" | "menu">("categories");
   const { cart, openCart } = useCart();
   const total = cart.reduce((sum, item) => sum + item.price, 0);
+  const { isSignedIn, user } = useUser();
+
+  const username =
+    user?.firstName ||
+    user?.fullName ||
+    user?.primaryEmailAddress?.emailAddress?.split("@")[0] ||
+    "User";
 
   return (
     <header className="w-full shadow">
@@ -104,7 +108,10 @@ export default function Header() {
           Make secure payments and confirm your purchase online. Always Buy Genuine Quality Products.
         </p>
         <div className="flex items-center gap-2 sm:gap-4">
-          <Link href="/contact" className="bg-white text-black px-3 sm:px-4 py-1 rounded-full text-xs sm:text-sm font-semibold">
+          <Link
+            href="/contact"
+            className="bg-white text-black px-3 sm:px-4 py-1 rounded-full text-xs sm:text-sm font-semibold"
+          >
             Contact Us
           </Link>
           <div className="relative">
@@ -136,8 +143,8 @@ export default function Header() {
                         key={currency.code}
                         className="flex items-center justify-between p-2 rounded-lg hover:bg-gray-100 cursor-pointer"
                         onClick={() => {
-                          setSelectedCurrency(currency)
-                          setIsOpen(false)
+                          setSelectedCurrency(currency);
+                          setIsOpen(false);
                         }}
                       >
                         <span className="flex items-center gap-2">
@@ -149,12 +156,7 @@ export default function Header() {
                           />
                           {currency.label}
                         </span>
-                        <Image
-                          src={currency.flag}
-                          alt={currency.code}
-                          width={18}
-                          height={12}
-                        />
+                        <Image src={currency.flag} alt={currency.code} width={18} height={12} />
                       </div>
                     ))}
                   </div>
@@ -183,12 +185,27 @@ export default function Header() {
           </div>
           <div className="flex items-center gap-4 lg:gap-6 text-xs lg:text-sm font-medium">
             <Link href="/" className="flex items-center">
-              <HomeIcon className="h-3"/>
+              <HomeIcon className="h-3" />
             </Link>
-            <Link href="/wishlist" className="flex items-center gap-1">♡</Link>
-            <Link href="/account" className="flex items-center gap-1">
-  Login / Register
-</Link>
+            <Link href="/wishlist" className="flex items-center gap-1">
+              ♡
+            </Link>
+
+            {isSignedIn ? (
+              <div className="flex items-center gap-2">
+                <span>Welcome {username}</span>
+                <SignOutButton>
+                  <button className="bg-red-600 text-white px-3 py-1 rounded-md">
+                    Logout
+                  </button>
+                </SignOutButton>
+              </div>
+            ) : (
+              <Link href="/account" className="flex items-center gap-1">
+                Login / Register
+              </Link>
+            )}
+
             <button
               onClick={openCart}
               className="flex items-center gap-1 bg-black text-white px-2 lg:px-3 py-1 rounded-full"
@@ -198,14 +215,11 @@ export default function Header() {
             <CartDrawer />
           </div>
         </div>
+
         <nav className="bg-white border-t border-b px-4 lg:px-6 py-2 lg:py-3 text-xs lg:text-sm font-medium relative z-30">
           <ul className="flex flex-wrap justify-center gap-4 lg:gap-8">
             {categories.map((cat) => (
-              <li
-                key={cat.name}
-                className="relative group"
-                onMouseEnter={() => setOpen(cat.name)}
-              >
+              <li key={cat.name} className="relative group" onMouseEnter={() => setOpen(cat.name)}>
                 <button className="flex items-center gap-1 hover:text-red-600 transition">
                   <span>{cat.icon}</span>
                   {cat.name}
@@ -235,7 +249,8 @@ export default function Header() {
                           {sub.children && <ChevronDown size={12} />}
                         </Link>
                         {sub.children && subOpen === sub.name && (
-                          <ul className="absolute top-0 left-full ml-2 w-52 bg-white rounded-md shadow-lg p-2"
+                          <ul
+                            className="absolute top-0 left-full ml-2 w-52 bg-white rounded-md shadow-lg p-2"
                             onMouseLeave={() => setSubOpen(null)}
                           >
                             {sub.children.map((child) => (
@@ -260,25 +275,27 @@ export default function Header() {
         </nav>
       </div>
 
-{/* Mobile Header */}
-<div className="flex items-center justify-between p-3 md:hidden">
-  <Link href="/">
-    <Image src="/logo.jpg" alt="Logo" width={110} height={45} />
-  </Link>
-  <div className="flex items-center gap-3">
-    <button
-      onClick={openCart}
-      className="relative bg-black text-white text-xs px-3 py-1 rounded-full"
-    >
-      🛒
-      <span className="ml-1">Ksh{total.toFixed(2)}</span>
-    </button>
-    <CartDrawer />
-    <button onClick={() => setMobileOpen(true)}>
-      <Menu className="w-6 h-6 text-gray-800" />
-    </button>
-  </div>
-</div>
+      {/* Mobile Header */}
+      <div className="flex items-center justify-between p-3 md:hidden">
+        <Link href="/">
+          <Image src="/logo.jpg" alt="Logo" width={110} height={45} />
+        </Link>
+        <div className="flex items-center gap-3">
+          <Link href="/" className="text-gray-800">
+            <HomeIcon className="w-6 h-6" />
+          </Link>
+          <button
+            onClick={openCart}
+            className="relative bg-black text-white text-xs px-3 py-1 rounded-full"
+          >
+            🛒 <span className="ml-1">Ksh{total.toFixed(2)}</span>
+          </button>
+          <CartDrawer />
+          <button onClick={() => setMobileOpen(true)}>
+            <Menu className="w-6 h-6 text-gray-800" />
+          </button>
+        </div>
+      </div>
 
       {/* Mobile Drawer */}
       {mobileOpen && (
@@ -294,20 +311,48 @@ export default function Header() {
                 <X className="w-6 h-6 text-gray-600" />
               </button>
             </div>
+
+            {/* Auth Section in Drawer */}
+            <div className="p-3 border-b text-sm">
+              {isSignedIn ? (
+                <div className="flex flex-col gap-2">
+                  <span>Welcome {username}</span>
+                  <SignOutButton>
+                    <button className="bg-red-600 text-white px-3 py-2 rounded-md w-fit">
+                      Logout
+                    </button>
+                  </SignOutButton>
+                </div>
+              ) : (
+                <Link
+                  href="/account"
+                  onClick={() => setMobileOpen(false)}
+                  className="text-blue-600 font-medium"
+                >
+                  Login / Register
+                </Link>
+              )}
+            </div>
+
             <div className="flex border-b text-xs sm:text-sm">
               <button
                 onClick={() => setActiveTab("categories")}
-                className={`flex-1 p-2 sm:p-3 font-medium ${activeTab === "categories" ? "border-b-2 border-red-600 text-red-600" : ""}`}
+                className={`flex-1 p-2 sm:p-3 font-medium ${
+                  activeTab === "categories" ? "border-b-2 border-red-600 text-red-600" : ""
+                }`}
               >
                 Categories
               </button>
               <button
                 onClick={() => setActiveTab("menu")}
-                className={`flex-1 p-2 sm:p-3 font-medium ${activeTab === "menu" ? "border-b-2 border-red-600 text-red-600" : ""}`}
+                className={`flex-1 p-2 sm:p-3 font-medium ${
+                  activeTab === "menu" ? "border-b-2 border-red-600 text-red-600" : ""
+                }`}
               >
                 Menu
               </button>
             </div>
+
             {activeTab === "categories" && (
               <div className="flex-1 overflow-y-auto">
                 <ul>
@@ -317,16 +362,22 @@ export default function Header() {
                         className="w-full flex items-center justify-between px-3 py-2 border-b text-left text-gray-800 text-sm"
                         onClick={() => setOpen(open === cat.name ? null : cat.name)}
                       >
-                        <span className="flex items-center gap-2">{cat.icon} {cat.name}</span>
-                        {cat.children && <ChevronDown className="w-4 h-4" />}
+                        <span className="flex items-center gap-2">
+                          {cat.icon} {cat.name}
+                        </span>
+                        <ChevronDown
+                          size={16}
+                          className={`transition-transform ${open === cat.name ? "rotate-180" : ""}`}
+                        />
                       </button>
                       {open === cat.name && cat.children && (
-                        <ul className="pl-6 bg-gray-50">
+                        <ul className="bg-gray-50">
                           {cat.children.map((sub) => (
                             <li key={sub.name}>
                               <Link
                                 href={sub.href}
-                                className="block px-3 py-2 text-xs sm:text-sm text-gray-700 hover:text-red-600"
+                                className="block px-6 py-2 text-gray-700 border-b text-sm"
+                                onClick={() => setMobileOpen(false)}
                               >
                                 {sub.name}
                               </Link>
@@ -339,15 +390,43 @@ export default function Header() {
                 </ul>
               </div>
             )}
+
             {activeTab === "menu" && (
-              <ul className="flex-1 overflow-y-auto text-sm">
-                <li><Link href="/" className="block px-3 py-2 border-b text-gray-800">Home</Link></li>
-                <li><Link href="/wishlist" className="block px-3 py-2 border-b text-gray-800">Wishlist</Link></li>
-              </ul>
+              <div className="flex-1 overflow-y-auto">
+                <ul>
+                  <li>
+                    <Link
+                      href="/"
+                      className="block px-3 py-2 border-b text-gray-800 text-sm"
+                      onClick={() => setMobileOpen(false)}
+                    >
+                      Home
+                    </Link>
+                  </li>
+                  <li>
+                    <Link
+                      href="/wishlist"
+                      className="block px-3 py-2 border-b text-gray-800 text-sm"
+                      onClick={() => setMobileOpen(false)}
+                    >
+                      Wishlist
+                    </Link>
+                  </li>
+                  <li>
+                    <Link
+                      href="/contact"
+                      className="block px-3 py-2 border-b text-gray-800 text-sm"
+                      onClick={() => setMobileOpen(false)}
+                    >
+                      Contact Us
+                    </Link>
+                  </li>
+                </ul>
+              </div>
             )}
           </div>
         </div>
       )}
     </header>
-  )
+  );
 }

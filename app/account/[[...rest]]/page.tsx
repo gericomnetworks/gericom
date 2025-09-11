@@ -1,10 +1,32 @@
 "use client";
 
 import { useState } from "react";
-import { SignIn, SignUp } from "@clerk/nextjs";
+import { SignIn, SignUp, SignOutButton, useUser } from "@clerk/nextjs";
 
 export default function AccountPage() {
   const [mode, setMode] = useState<"signin" | "signup">("signin");
+  const { isSignedIn, user } = useUser();
+
+  if (isSignedIn && user) {
+    const name =
+      user.firstName ||
+      user.fullName ||
+      user.primaryEmailAddress?.emailAddress?.split("@")[0] ||
+      "User";
+
+    return (
+      <div className="flex flex-col items-center justify-center min-h-screen bg-gray-50 px-4">
+        <div className="bg-white shadow-lg rounded-xl p-6 w-full max-w-md text-center">
+          <h2 className="text-xl font-semibold mb-4">Welcome {name} 🎉</h2>
+          <SignOutButton>
+            <button className="bg-red-600 text-white px-4 py-2 rounded-lg hover:bg-red-700">
+              Logout
+            </button>
+          </SignOutButton>
+        </div>
+      </div>
+    );
+  }
 
   return (
     <div className="flex flex-col items-center justify-center min-h-screen bg-gray-50 px-4">
