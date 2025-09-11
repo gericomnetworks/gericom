@@ -7,7 +7,6 @@ import { CartProvider } from "./CartProvider";
 import { WishlistProvider } from "./WishlistProvider";
 
 export default function ClientProviders({ children }: { children: React.ReactNode }) {
-  // NEXT_PUBLIC_CLERK_PUBLISHABLE_KEY must be present in .env (NEXT_PUBLIC_ prefix)
   return (
     <ClerkProvider
       publishableKey={process.env.NEXT_PUBLIC_CLERK_PUBLISHABLE_KEY}

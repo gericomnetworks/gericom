@@ -8,11 +8,45 @@ datasource db {
   url      = env("DATABASE_URL")
 }
 
-// Example user model (we’ll let Clerk handle login, but sync to DB if needed)
 model User {
   id        String   @id @default(cuid())
   email     String   @unique
   name      String?
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
+}
+
+model Admin {
+  id       String   @id @default(cuid())
+  clerkId  String   @unique
+  role     String   @default("admin")
+  createdAt DateTime @default(now())
+}
+
+model Category {
+  id       String    @id @default(cuid())
+  name     String    @unique
+  slug     String?   @unique
+  products Product[]
+}
+
+model Product {
+  id         String    @id @default(cuid())
+  name       String
+  description String?
+  price      Int       // stored in KES whole units
+  slug       String?   @unique
+  status     String    @default("instock") // instock | onsale | backorder
+  category   Category? @relation(fields: [categoryId], references: [id])
+  categoryId String?
+  images     Image[]
+  createdAt  DateTime  @default(now())
+  updatedAt  DateTime  @updatedAt
+}
+
+model Image {
+  id        String   @id @default(cuid())
+  url       String
+  product   Product? @relation(fields: [productId], references: [id])
+  productId String?
 }

@@ -1,7 +1,8 @@
+// app/account/[[...rest]]/page.tsx
 "use client";
 
 import { useState } from "react";
-import { SignIn, SignUp, SignOutButton, useUser } from "@clerk/nextjs";
+import { SignIn, SignUp, useUser, SignOutButton } from "@clerk/nextjs";
 
 export default function AccountPage() {
   const [mode, setMode] = useState<"signin" | "signup">("signin");
