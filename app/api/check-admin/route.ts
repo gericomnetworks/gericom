@@ -1,14 +1,24 @@
+// app/api/check-admin/route.ts
+import { prisma } from "@/lib/prisma";
 import { NextResponse } from "next/server";
+import { auth } from "@clerk/nextjs/server";
 
-export async function GET(request: Request) {
+export async function GET() {
   try {
-    // Simple example: check Authorization header or cookie
-    const auth = request.headers.get("authorization") ?? "";
-    // Replace this check with real token/session verification
-    const isAdmin = auth === "Bearer ADMIN_SECRET";
+    const { userId } = await auth();
+    
+    if (!userId) {
+      return NextResponse.json({ isAdmin: false }, { status: 200 });
+    }
 
-    return NextResponse.json({ admin: Boolean(isAdmin) });
+    // Check if user exists in Admin table
+    const admin = await prisma.admin.findUnique({
+      where: { clerkId: userId },
+    });
+
+    return NextResponse.json({ isAdmin: !!admin });
   } catch (error) {
-    return NextResponse.json({ admin: false }, { status: 500 });
+    console.error("Error checking admin status:", error);
+    return NextResponse.json({ isAdmin: false }, { status: 500 });
   }
 }

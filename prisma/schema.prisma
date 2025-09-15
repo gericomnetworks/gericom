@@ -17,31 +17,45 @@ model User {
 }
 
 model Admin {
-  id       String   @id @default(cuid())
-  clerkId  String   @unique
-  role     String   @default("admin")
+  id        String   @id @default(cuid())
+  clerkId   String   @unique
+  email     String?  @unique
+  name      String?
+  role      String   @default("admin")
   createdAt DateTime @default(now())
 }
 
 model Category {
-  id       String    @id @default(cuid())
-  name     String    @unique
-  slug     String?   @unique
-  products Product[]
+  id        String     @id @default(cuid())
+  name      String
+  slug      String     @unique   // ✅ Add this
+  parentId  String?    
+  parent    Category?  @relation("CategoryChildren", fields: [parentId], references: [id])
+  children  Category[] @relation("CategoryChildren")
+  products  Product[]
+
+  @@unique([name, parentId])
+  @@map("categories")
 }
 
 model Product {
-  id         String    @id @default(cuid())
-  name       String
+  id          String    @id @default(cuid())
+  name        String
   description String?
-  price      Int       // stored in KES whole units
-  slug       String?   @unique
-  status     String    @default("instock") // instock | onsale | backorder
-  category   Category? @relation(fields: [categoryId], references: [id])
-  categoryId String?
-  images     Image[]
-  createdAt  DateTime  @default(now())
-  updatedAt  DateTime  @updatedAt
+  price       Int       // stored in cents/whole units (KES * 100)
+  slug        String?   @unique
+  status      String    @default("instock") // instock | onsale | backorder
+  category    Category? @relation(fields: [categoryId], references: [id])
+  categoryId  String?
+  images      Image[]
+  brand       String?
+  sku         String?   @unique
+  featured    Boolean   @default(false)
+  oldPrice    Int?      // for sale prices
+  createdAt   DateTime  @default(now())
+  updatedAt   DateTime  @updatedAt
+
+  @@map("products")
 }
 
 model Image {
@@ -49,4 +63,6 @@ model Image {
   url       String
   product   Product? @relation(fields: [productId], references: [id])
   productId String?
+
+  @@map("images")
 }

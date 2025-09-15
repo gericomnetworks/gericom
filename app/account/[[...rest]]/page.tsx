@@ -1,10 +1,11 @@
+// app/account/[[..rest]]/page.tsx
 "use client";
 
 import { useEffect, useState } from "react";
 import { useRouter } from "next/navigation";
 import { useUser, useSignIn, useSignUp } from "@clerk/nextjs";
 import { FcGoogle } from "react-icons/fc";
-
+import { useAdmin } from "@/app/AdminProvider";
 
 export default function AccountPage() {
   const [mode, setMode] = useState<"signin" | "signup">("signin");
@@ -14,33 +15,21 @@ export default function AccountPage() {
   const { isSignedIn, user } = useUser();
   const { isLoaded: signInLoaded, signIn, setActive } = useSignIn();
   const { isLoaded: signUpLoaded, signUp } = useSignUp();
+  const { isAdmin } = useAdmin();
   const router = useRouter();
 
   // Redirect if logged in
   useEffect(() => {
     if (isSignedIn && user) {
-      const checkAdmin = async () => {
-        try {
-          setStatusMsg("🔍 Checking if you are an admin...");
-          const res = await fetch("/api/check-admin");
-          const data = await res.json();
-
-          if (data.isAdmin) {
-            setStatusMsg("✅ You are an admin. Redirecting...");
-            router.replace("/admin");
-          } else {
-            setStatusMsg("➡️ Redirecting to homepage...");
-            router.replace("/");
-          }
-        } catch (err) {
-          console.error("❌ Error checking admin:", err);
-          setStatusMsg("❌ Error occurred. Redirecting...");
-          router.replace("/");
-        }
-      };
-      checkAdmin();
+      if (isAdmin) {
+        setStatusMsg("✅ You are an admin. Redirecting...");
+        router.replace("/admin");
+      } else {
+        setStatusMsg("➡️ Redirecting to homepage...");
+        router.replace("/");
+      }
     }
-  }, [isSignedIn, user, router]);
+  }, [isSignedIn, user, isAdmin, router]);
 
   if (isSignedIn && user) {
     return (
@@ -66,7 +55,7 @@ export default function AccountPage() {
         const result = await signIn.create({ identifier: email, password });
         if (result.status === "complete") {
           await setActive({ session: result.createdSessionId });
-          router.replace("/");
+          // The AdminProvider will handle redirection based on admin status
         } else {
           setErr("Sign in incomplete.");
         }
@@ -205,6 +194,5 @@ export default function AccountPage() {
         </div>
       </div>
     </div>
-
   );
 }

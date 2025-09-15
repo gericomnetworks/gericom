@@ -1,11 +1,29 @@
+// components/Header.tsx
 "use client";
 import Image from "next/image";
 import Link from "next/link";
 import { useState } from "react";
-import { ChevronDown, X, Menu, HomeIcon } from "lucide-react";
+import { motion, AnimatePresence } from "framer-motion";
+import {
+  ChevronDown,
+  X,
+  Menu,
+  HomeIcon,
+  Shield,
+  Flame,
+  Radio,
+  Mic,
+  Camera,
+  ShoppingCart,
+  Heart,
+  LogOut,
+  User,
+  Search,
+} from "lucide-react";
 import CartDrawer from "./CartDrawer";
 import { useCart } from "@/app/CartProvider";
 import { useUser, SignOutButton } from "@clerk/nextjs";
+import { useAdmin } from "@/app/AdminProvider";
 
 const currencies = [
   { code: "USD", symbol: "$", label: "USD, $", flag: "/flags/us.jpeg" },
@@ -18,7 +36,7 @@ const currencies = [
 
 type Category = {
   name: string;
-  icon?: string;
+  icon?: React.ReactNode;
   href: string;
   image?: string;
   children?: Category[];
@@ -27,7 +45,7 @@ type Category = {
 const categories: Category[] = [
   {
     name: "Surveillance & Security",
-    icon: "📹",
+    icon: <Camera className="w-4 h-4" />,
     href: "/category/surveillance",
     image: "https://imaxcameras.com/wp-content/uploads/2024/01/ic25-150x150.png",
     children: [
@@ -45,14 +63,14 @@ const categories: Category[] = [
   },
   {
     name: "Anti-Theft Systems",
-    icon: "🛡",
+    icon: <Shield className="w-4 h-4" />,
     href: "/category/anti-theft",
     image: "https://imaxcameras.com/wp-content/uploads/2024/01/ic31-150x150.png",
     children: [{ name: "Anti-Theft Systems", href: "/category/anti-theft" }],
   },
   {
     name: "Fire",
-    icon: "🔥",
+    icon: <Flame className="w-4 h-4" />,
     href: "/category/fire",
     image: "https://imaxcameras.com/wp-content/uploads/2024/01/ic28-150x150.png",
     children: [
@@ -66,7 +84,7 @@ const categories: Category[] = [
   },
   {
     name: "Network",
-    icon: "📡",
+    icon: <Radio className="w-4 h-4" />,
     href: "/category/network",
     image: "https://imaxcameras.com/wp-content/uploads/2024/01/ic26-150x150.png",
     children: [
@@ -76,7 +94,7 @@ const categories: Category[] = [
   },
   {
     name: "Intercom",
-    icon: "🔊",
+    icon: <Mic className="w-4 h-4" />,
     href: "/category/intercom",
     image: "https://imaxcameras.com/wp-content/uploads/2024/01/ic27-150x150.png",
     children: [{ name: "Intercom", href: "/category/intercom" }],
@@ -93,6 +111,7 @@ export default function Header() {
   const { cart, openCart } = useCart();
   const total = cart.reduce((sum, item) => sum + item.price, 0);
   const { isSignedIn, user } = useUser();
+  const { isAdmin } = useAdmin();
 
   const username =
     user?.firstName ||
@@ -110,14 +129,14 @@ export default function Header() {
         <div className="flex items-center gap-2 sm:gap-4">
           <Link
             href="/contact"
-            className="bg-white text-black px-3 sm:px-4 py-1 rounded-full text-xs sm:text-sm font-semibold"
+            className="bg-white text-black px-3 sm:px-4 py-1 rounded-full text-xs sm:text-sm font-semibold hover:scale-105 transition"
           >
             Contact Us
           </Link>
           <div className="relative">
             <div
               onClick={() => setIsOpen(true)}
-              className="flex items-center border bg-white text-black px-2 sm:px-3 py-1 rounded-md text-xs sm:text-sm cursor-pointer"
+              className="flex items-center border bg-white text-black px-2 sm:px-3 py-1 rounded-md text-xs sm:text-sm cursor-pointer hover:scale-105 transition"
             >
               {selectedCurrency.label}
               <Image
@@ -130,7 +149,12 @@ export default function Header() {
             </div>
             {isOpen && (
               <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/40">
-                <div className="bg-white border shadow-lg rounded-lg w-72 sm:w-80 p-4 relative">
+                <motion.div
+                  initial={{ scale: 0.9, opacity: 0 }}
+                  animate={{ scale: 1, opacity: 1 }}
+                  exit={{ scale: 0.9, opacity: 0 }}
+                  className="bg-white border shadow-lg rounded-lg w-72 sm:w-80 p-4 relative"
+                >
                   <div className="flex justify-between items-center mb-2">
                     <span className="font-semibold text-gray-700">Select Currency:</span>
                     <button onClick={() => setIsOpen(false)}>
@@ -160,7 +184,7 @@ export default function Header() {
                       </div>
                     ))}
                   </div>
-                </div>
+                </motion.div>
               </div>
             )}
           </div>
@@ -168,111 +192,79 @@ export default function Header() {
       </div>
 
       {/* Desktop Header */}
-      <div className="hidden md:block border-b">
-        <div className="flex items-center justify-between px-4 lg:px-6 py-4 max-w-7xl mx-auto">
-          <Link href="/">
-            <Image src="/logo.jpg" alt="Gericom Cameras" width={140} height={55} />
-          </Link>
-          <div className="flex-1 max-w-lg lg:max-w-2xl mx-4 lg:mx-6">
-            <form className="flex border border-gray-300 rounded-full overflow-hidden">
-              <input
-                type="text"
-                placeholder="Search for products"
-                className="flex-grow px-3 py-2 text-black outline-none text-sm"
-              />
-              <button className="px-3 lg:px-4 bg-gray-800 text-white text-sm">Search</button>
-            </form>
-          </div>
-          <div className="flex items-center gap-4 lg:gap-6 text-xs lg:text-sm font-medium">
-            <Link href="/" className="flex items-center">
-              <HomeIcon className="h-3" />
-            </Link>
-            <Link href="/wishlist" className="flex items-center gap-1">
-              ♡
-            </Link>
-
-            {isSignedIn ? (
-              <div className="flex items-center gap-2">
-                <span>Welcome {username}</span>
-                <SignOutButton>
-                  <button className="bg-red-600 text-white px-3 py-1 rounded-md">
-                    Logout
-                  </button>
-                </SignOutButton>
-              </div>
-            ) : (
-              <Link href="/account" className="flex items-center gap-1">
-                Login / Register
-              </Link>
-            )}
-
-            <button
-              onClick={openCart}
-              className="flex items-center gap-1 bg-black text-white px-2 lg:px-3 py-1 rounded-full"
+      <div className="hidden md:flex items-center justify-between px-6 py-3">
+        <Link href="/">
+          <Image src="/logo.jpg" alt="Logo" width={130} height={50} />
+        </Link>
+        <nav className="flex gap-6">
+          {categories.map((category) => (
+            <div
+              key={category.name}
+              className="relative"
+              onMouseEnter={() => setOpen(category.name)}
+              onMouseLeave={() => setOpen(null)}
             >
-              🛒 Ksh{total.toFixed(2)}
-            </button>
-            <CartDrawer />
-          </div>
-        </div>
-
-        <nav className="bg-white border-t border-b px-4 lg:px-6 py-2 lg:py-3 text-xs lg:text-sm font-medium relative z-30">
-          <ul className="flex flex-wrap justify-center gap-4 lg:gap-8">
-            {categories.map((cat) => (
-              <li key={cat.name} className="relative group" onMouseEnter={() => setOpen(cat.name)}>
-                <button className="flex items-center gap-1 hover:text-red-600 transition">
-                  <span>{cat.icon}</span>
-                  {cat.name}
-                  <ChevronDown size={12} className="hidden lg:inline" />
-                </button>
-                {open === cat.name && cat.children && (
-                  <ul
-                    className="absolute left-0 mt-2 w-56 bg-white rounded-md shadow-lg p-2"
-                    onMouseLeave={() => {
-                      setOpen(null);
-                      setSubOpen(null);
-                    }}
+              <button className="flex items-center gap-1 text-gray-700 hover:text-gray-900">
+                {category.icon} {category.name}
+                <ChevronDown className="w-4 h-4" />
+              </button>
+              <AnimatePresence>
+                {open === category.name && (
+                  <motion.div
+                    initial={{ opacity: 0, y: -10 }}
+                    animate={{ opacity: 1, y: 0 }}
+                    exit={{ opacity: 0, y: -10 }}
+                    transition={{ duration: 0.2 }}
+                    className="absolute left-0 mt-2 bg-white border shadow-lg rounded-lg w-56 z-20"
                   >
-                    {cat.children.map((sub) => (
-                      <li
-                        key={sub.name}
-                        className="relative group/sub"
-                        onMouseEnter={() =>
-                          sub.children ? setSubOpen(sub.name) : setSubOpen(null)
-                        }
-                      >
-                        <Link
-                          href={sub.href}
-                          className="flex justify-between items-center px-3 py-2 rounded hover:bg-gray-100 hover:text-red-600 transition"
-                        >
-                          {sub.name}
-                          {sub.children && <ChevronDown size={12} />}
-                        </Link>
-                        {sub.children && subOpen === sub.name && (
-                          <ul
-                            className="absolute top-0 left-full ml-2 w-52 bg-white rounded-md shadow-lg p-2"
-                            onMouseLeave={() => setSubOpen(null)}
+                    <ul className="p-2">
+                      {category.children?.map((child) => (
+                        <li key={child.name}>
+                          <Link
+                            href={child.href}
+                            className="block px-3 py-2 text-sm text-gray-700 hover:bg-gray-100 rounded"
                           >
-                            {sub.children.map((child) => (
-                              <li key={child.name}>
-                                <Link
-                                  href={child.href}
-                                  className="block px-3 py-2 rounded hover:bg-gray-100 hover:text-red-600 transition"
-                                >
-                                  {child.name}
-                                </Link>
-                              </li>
-                            ))}
-                          </ul>
-                        )}
-                      </li>
-                    ))}
-                  </ul>
+                            {child.name}
+                          </Link>
+                        </li>
+                      ))}
+                    </ul>
+                  </motion.div>
                 )}
-              </li>
-            ))}
-          </ul>
+              </AnimatePresence>
+            </div>
+          ))}
         </nav>
+        <div className="flex items-center gap-4">
+          <button className="text-gray-700 hover:text-gray-900">
+            <Search className="w-5 h-5" />
+          </button>
+          <button onClick={openCart} className="relative text-gray-700 hover:text-gray-900">
+            <ShoppingCart className="w-5 h-5" />
+            <span className="absolute -top-2 -right-2 bg-red-600 text-white text-xs px-1 rounded">
+              {cart.length}
+            </span>
+          </button>
+          <CartDrawer />
+          {isSignedIn ? (
+            <div className="flex items-center gap-2">
+              <User className="w-5 h-5" />
+              <span className="text-sm">{username}</span>
+              <SignOutButton>
+                <LogOut className="w-5 h-5 text-red-600 cursor-pointer" />
+              </SignOutButton>
+              {isAdmin && (
+                <Link href="/admin" className="ml-2 text-xs bg-gray-200 px-2 py-1 rounded">
+                  Admin
+                </Link>
+              )}
+            </div>
+          ) : (
+            <Link href="/sign-in" className="text-sm font-medium">
+              Sign In
+            </Link>
+          )}
+        </div>
       </div>
 
       {/* Mobile Header */}
@@ -281,152 +273,135 @@ export default function Header() {
           <Image src="/logo.jpg" alt="Logo" width={110} height={45} />
         </Link>
         <div className="flex items-center gap-3">
-          <Link href="/" className="text-gray-800">
+          <Link href="/" className="text-gray-800 hover:scale-110 transition">
             <HomeIcon className="w-6 h-6" />
           </Link>
           <button
             onClick={openCart}
-            className="relative bg-black text-white text-xs px-3 py-1 rounded-full"
+            className="relative bg-black text-white text-xs px-3 py-1 rounded-full flex items-center gap-1 hover:scale-105 transition"
           >
-            🛒 <span className="ml-1">Ksh{total.toFixed(2)}</span>
+            <ShoppingCart className="w-4 h-4" /> <span>Ksh{total.toFixed(2)}</span>
           </button>
           <CartDrawer />
           <button onClick={() => setMobileOpen(true)}>
-            <Menu className="w-6 h-6 text-gray-800" />
+            <Menu className="w-6 h-6 text-gray-800 hover:scale-110 transition" />
           </button>
         </div>
       </div>
 
       {/* Mobile Drawer */}
-      {mobileOpen && (
-        <div className="fixed inset-0 z-50 bg-black/50">
-          <div className="absolute left-0 top-0 w-72 sm:w-80 h-full bg-white shadow-lg flex flex-col">
-            <div className="flex justify-between items-center p-3 border-b">
-              <input
-                type="text"
-                placeholder="Search for products"
-                className="border rounded px-2 py-2 flex-grow mr-2 text-xs sm:text-sm"
-              />
-              <button onClick={() => setMobileOpen(false)}>
-                <X className="w-6 h-6 text-gray-600" />
-              </button>
-            </div>
+      <AnimatePresence>
+        {mobileOpen && (
+          <motion.div
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            exit={{ opacity: 0 }}
+            className="fixed inset-0 z-50 bg-black/50"
+          >
+            <motion.div
+              initial={{ x: "-100%" }}
+              animate={{ x: 0 }}
+              exit={{ x: "-100%" }}
+              transition={{ type: "tween", duration: 0.3 }}
+              className="absolute left-0 top-0 w-72 sm:w-80 h-full bg-white shadow-lg flex flex-col"
+            >
+              <div className="flex justify-between items-center p-3 border-b">
+                <input
+                  type="text"
+                  placeholder="Search for products"
+                  className="border rounded px-2 py-2 flex-grow mr-2 text-xs sm:text-sm"
+                />
+                <button onClick={() => setMobileOpen(false)}>
+                  <X className="w-6 h-6 text-gray-600 hover:rotate-90 transition" />
+                </button>
+              </div>
 
-            {/* Auth Section in Drawer */}
-            <div className="p-3 border-b text-sm">
-              {isSignedIn ? (
-                <div className="flex flex-col gap-2">
-                  <span>Welcome {username}</span>
-                  <SignOutButton>
-                    <button className="bg-red-600 text-white px-3 py-2 rounded-md w-fit">
-                      Logout
-                    </button>
-                  </SignOutButton>
+              <div className="flex-1 overflow-y-auto p-3">
+                <div className="flex gap-4 mb-4">
+                  <button
+                    onClick={() => setActiveTab("categories")}
+                    className={`flex-1 py-2 text-center font-medium rounded ${
+                      activeTab === "categories" ? "bg-black text-white" : "bg-gray-100"
+                    }`}
+                  >
+                    Categories
+                  </button>
+                  <button
+                    onClick={() => setActiveTab("menu")}
+                    className={`flex-1 py-2 text-center font-medium rounded ${
+                      activeTab === "menu" ? "bg-black text-white" : "bg-gray-100"
+                    }`}
+                  >
+                    Menu
+                  </button>
                 </div>
-              ) : (
-                <Link
-                  href="/account"
-                  onClick={() => setMobileOpen(false)}
-                  className="text-blue-600 font-medium"
-                >
-                  Login / Register
-                </Link>
-              )}
-            </div>
 
-            <div className="flex border-b text-xs sm:text-sm">
-              <button
-                onClick={() => setActiveTab("categories")}
-                className={`flex-1 p-2 sm:p-3 font-medium ${
-                  activeTab === "categories" ? "border-b-2 border-red-600 text-red-600" : ""
-                }`}
-              >
-                Categories
-              </button>
-              <button
-                onClick={() => setActiveTab("menu")}
-                className={`flex-1 p-2 sm:p-3 font-medium ${
-                  activeTab === "menu" ? "border-b-2 border-red-600 text-red-600" : ""
-                }`}
-              >
-                Menu
-              </button>
-            </div>
-
-            {activeTab === "categories" && (
-              <div className="flex-1 overflow-y-auto">
-                <ul>
-                  {categories.map((cat) => (
-                    <li key={cat.name}>
-                      <button
-                        className="w-full flex items-center justify-between px-3 py-2 border-b text-left text-gray-800 text-sm"
-                        onClick={() => setOpen(open === cat.name ? null : cat.name)}
-                      >
-                        <span className="flex items-center gap-2">
-                          {cat.icon} {cat.name}
-                        </span>
-                        <ChevronDown
-                          size={16}
-                          className={`transition-transform ${open === cat.name ? "rotate-180" : ""}`}
-                        />
-                      </button>
-                      {open === cat.name && cat.children && (
-                        <ul className="bg-gray-50">
-                          {cat.children.map((sub) => (
-                            <li key={sub.name}>
-                              <Link
-                                href={sub.href}
-                                className="block px-6 py-2 text-gray-700 border-b text-sm"
-                                onClick={() => setMobileOpen(false)}
-                              >
-                                {sub.name}
-                              </Link>
-                            </li>
-                          ))}
-                        </ul>
-                      )}
+                {activeTab === "categories" ? (
+                  <ul>
+                    {categories.map((cat) => (
+                      <li key={cat.name} className="border-b">
+                        <button
+                          className="flex items-center justify-between w-full py-2"
+                          onClick={() => setSubOpen(subOpen === cat.name ? null : cat.name)}
+                        >
+                          <span className="flex items-center gap-2">
+                            {cat.icon} {cat.name}
+                          </span>
+                          <ChevronDown
+                            className={`w-4 h-4 transition-transform ${
+                              subOpen === cat.name ? "rotate-180" : ""
+                            }`}
+                          />
+                        </button>
+                        <AnimatePresence>
+                          {subOpen === cat.name && (
+                            <motion.ul
+                              initial={{ height: 0, opacity: 0 }}
+                              animate={{ height: "auto", opacity: 1 }}
+                              exit={{ height: 0, opacity: 0 }}
+                              className="pl-6 space-y-1"
+                            >
+                              {cat.children?.map((child) => (
+                                <li key={child.name}>
+                                  <Link
+                                    href={child.href}
+                                    className="block py-2 text-sm text-gray-700 hover:bg-gray-100 rounded"
+                                    onClick={() => setMobileOpen(false)}
+                                  >
+                                    {child.name}
+                                  </Link>
+                                </li>
+                              ))}
+                            </motion.ul>
+                          )}
+                        </AnimatePresence>
+                      </li>
+                    ))}
+                  </ul>
+                ) : (
+                  <ul className="space-y-2">
+                    <li>
+                      <Link href="/" className="flex items-center gap-2 py-2" onClick={() => setMobileOpen(false)}>
+                        <HomeIcon className="w-4 h-4" /> Home
+                      </Link>
                     </li>
-                  ))}
-                </ul>
+                    <li>
+                      <Link href="/about" className="flex items-center gap-2 py-2" onClick={() => setMobileOpen(false)}>
+                        <Shield className="w-4 h-4" /> About
+                      </Link>
+                    </li>
+                    <li>
+                      <Link href="/contact" className="flex items-center gap-2 py-2" onClick={() => setMobileOpen(false)}>
+                        <Camera className="w-4 h-4" /> Contact
+                      </Link>
+                    </li>
+                  </ul>
+                )}
               </div>
-            )}
-
-            {activeTab === "menu" && (
-              <div className="flex-1 overflow-y-auto">
-                <ul>
-                  <li>
-                    <Link
-                      href="/"
-                      className="block px-3 py-2 border-b text-gray-800 text-sm"
-                      onClick={() => setMobileOpen(false)}
-                    >
-                      Home
-                    </Link>
-                  </li>
-                  <li>
-                    <Link
-                      href="/wishlist"
-                      className="block px-3 py-2 border-b text-gray-800 text-sm"
-                      onClick={() => setMobileOpen(false)}
-                    >
-                      Wishlist
-                    </Link>
-                  </li>
-                  <li>
-                    <Link
-                      href="/contact"
-                      className="block px-3 py-2 border-b text-gray-800 text-sm"
-                      onClick={() => setMobileOpen(false)}
-                    >
-                      Contact Us
-                    </Link>
-                  </li>
-                </ul>
-              </div>
-            )}
-          </div>
-        </div>
-      )}
+            </motion.div>
+          </motion.div>
+        )}
+      </AnimatePresence>
     </header>
   );
 }
