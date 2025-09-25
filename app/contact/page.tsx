@@ -1,6 +1,38 @@
-"use client";
-
+import type { Metadata } from "next";
 import Image from "next/image";
+
+export const metadata: Metadata = {
+  title: "Contact Us | Gericom Links Networks",
+  description:
+    "Get in touch with Gericom Links Networks. Call us directly or make secure payments via M-PESA Paybill. We are here to support your networking and technology needs.",
+  alternates: {
+    canonical: "https://gericomlinksnetworks.co.ke/contact",
+  },
+  openGraph: {
+    title: "Contact Us | Gericom Links Networks",
+    description:
+      "Reach out to Gericom Links Networks today. Call us or pay securely with M-PESA Paybill.",
+    url: "https://gericomlinksnetworks.co.ke/contact",
+    siteName: "Gericom Links Networks",
+    images: [
+      {
+        url: "/og-image.png",
+        width: 1200,
+        height: 630,
+        alt: "Gericom Links Networks",
+      },
+    ],
+    locale: "en_KE",
+    type: "website",
+  },
+  twitter: {
+    card: "summary_large_image",
+    title: "Contact Us | Gericom Links Networks",
+    description:
+      "Reach out to Gericom Links Networks today. Call us or pay securely with M-PESA Paybill.",
+    images: ["/og-image.png"],
+  },
+};
 
 export default function ContactUsPage() {
   return (
@@ -28,7 +60,9 @@ export default function ContactUsPage() {
 
             {/* Contact Number */}
             <div className="mb-8">
-              <h3 className="text-lg font-semibold text-gray-800">Phone Number</h3>
+              <h3 className="text-lg font-semibold text-gray-800">
+                Phone Number
+              </h3>
               <p className="text-xl sm:text-2xl font-bold text-green-600 mt-2">
                 0723 809 057
               </p>
