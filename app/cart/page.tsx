@@ -1,33 +1,36 @@
 // app/cart/page.tsx
-import { Metadata } from "next";
-import CartDrawer from "@/components/CartDrawer"; // ✅ re-use your drawer
+import type { Metadata } from "next";
+import CartDrawer from "@/components/CartDrawer";
 
 export const metadata: Metadata = {
-  title: "Your Cart | Gericom Electronics Nairobi",
+  title: "Your Cart | Gericom Links Networks Nairobi",
   description:
-    "View and manage your shopping cart at Gericom Electronics, located along Ronald Ngala Street in Nairobi. Secure checkout for IP cameras, PTZ cameras, and network cameras.",
+    "View and manage your shopping cart at Gericom Links Networks, located along Ronald Ngala Street in Nairobi. Secure checkout for CCTV, IP cameras, PTZ cameras, and networking equipment.",
   keywords: [
     "cart",
-    "Gericom Electronics",
+    "Gericom Links Networks",
     "shopping cart",
     "checkout",
-    "IP cameras Nairobi",
+    "CCTV Nairobi",
+    "IP cameras Kenya",
     "PTZ cameras Nairobi",
-    "network cameras Nairobi",
-    "Ronald Ngala Street",
+    "network equipment Nairobi",
   ],
+  alternates: {
+    canonical: "https://gericomlinksnetworks.co.ke/cart",
+  },
   openGraph: {
-    title: "Your Cart | Gericom Electronics Nairobi",
+    title: "Your Cart | Gericom Links Networks Nairobi",
     description:
-      "View and manage your shopping cart at Gericom Electronics in Nairobi, Kenya. Checkout securely for cameras and accessories.",
+      "View and manage your shopping cart at Gericom Links Networks in Nairobi, Kenya. Checkout securely for CCTV, IP cameras, PTZ cameras, and accessories.",
     url: "https://gericomlinksnetworks.co.ke/cart",
-    siteName: "Gericom Electronics",
+    siteName: "Gericom Links Networks",
     images: [
       {
-        url: "/og-image.png", // 👈 replace with your OG image file in /public
+        url: "/og-image.png",
         width: 1200,
         height: 630,
-        alt: "Gericom Electronics Nairobi - Shopping Cart",
+        alt: "Gericom Links Networks Cart",
       },
     ],
     locale: "en_KE",
@@ -35,9 +38,9 @@ export const metadata: Metadata = {
   },
   twitter: {
     card: "summary_large_image",
-    title: "Your Cart | Gericom Electronics Nairobi",
+    title: "Your Cart | Gericom Links Networks Nairobi",
     description:
-      "Manage your shopping cart and proceed to secure checkout at Gericom Electronics Nairobi.",
+      "Manage your shopping cart and proceed to secure checkout at Gericom Links Networks Nairobi.",
     images: ["/og-image.png"],
   },
 };
@@ -50,7 +53,7 @@ export default function CartPage() {
         Manage the products in your cart before proceeding to checkout.
       </p>
 
-      {/* ✅ Use the CartDrawer component but force it visible on this page */}
+      {/* ✅ Cart Drawer forced visible here */}
       <div className="border rounded-md shadow-sm p-4 bg-white">
         <CartDrawer />
       </div>
