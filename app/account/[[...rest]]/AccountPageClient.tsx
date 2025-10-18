@@ -62,12 +62,19 @@ export default function AccountPageClient() {
           password,
           firstName: name,
         });
-        await signUp.prepareEmailAddressVerification({ strategy: "email_code" });
+        await signUp.prepareEmailAddressVerification({
+          strategy: "email_code",
+        });
         setStatusMsg("📧 Verification email sent! Please check your inbox.");
       }
-    } catch (e: any) {
+    } catch (e: unknown) {
       console.error(e);
-      setErr(e.errors?.[0]?.message || "Something went wrong.");
+      if (e && typeof e === "object" && "errors" in e) {
+        const errObj = e as { errors?: { message?: string }[] };
+        setErr(errObj.errors?.[0]?.message || "Something went wrong.");
+      } else {
+        setErr("Something went wrong.");
+      }
     }
   };
 
@@ -88,8 +95,13 @@ export default function AccountPageClient() {
           redirectUrlComplete: "/",
         });
       }
-    } catch (e: any) {
-      setErr(e.errors?.[0]?.message || "Google authentication failed");
+    } catch (e: unknown) {
+      if (e && typeof e === "object" && "errors" in e) {
+        const errObj = e as { errors?: { message?: string }[] };
+        setErr(errObj.errors?.[0]?.message || "Google authentication failed");
+      } else {
+        setErr("Google authentication failed");
+      }
     }
   };
 
