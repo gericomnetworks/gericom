@@ -22,12 +22,7 @@ export default clerkMiddleware(async (auth, request) => {
 
 export const config = {
   matcher: [
-    /*
-     * Match all request paths except for the ones starting with:
-     * - _next/static (static files)
-     * - _next/image (image optimization files)
-     * - favicon.ico (favicon file)
-     */
-    '/((?!_next/static|_next/image|favicon.ico).*)',
+    // Protect everything except static files, Next.js internals, and API routes
+    "/((?!_next|api|static|favicon.ico|.*\\.(?:png|jpg|jpeg|svg|gif|webp|mp4)).*)",
   ],
 };
